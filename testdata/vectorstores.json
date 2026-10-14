@@ -1,0 +1,174 @@
+[
+  {
+    "id": 2,
+    "hashedId": "rMTAwMDAwMgx",
+    "createdAt": "2026-10-12T18:53:21.799043Z",
+    "updatedAt": "2026-10-12T18:53:21.799055Z",
+    "name": "example_knowledge_base",
+    "description": "A self-hosted Qdrant vector database of product documentation, for retrieval-augmented generation.",
+    "version": "1.0.0",
+    "tags": [
+      "example",
+      "rag",
+      "qdrant",
+      "self-hosted"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/vectorstore/builtin": "true"
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": true,
+    "connection": null,
+    "embeddingsProvider": "openai",
+    "apiKeySecret": null,
+    "documentCount": 0,
+    "snapshotCount": 0,
+    "manifestUrl": "/vectorstore/vectors/rMTAwMDAwMgx/",
+    "spec": {
+      "backend": "qdrant",
+      "hosting": "self_hosted",
+      "connection": null,
+      "isActive": true,
+      "index": {
+        "name": null,
+        "dimension": 1536,
+        "metric": "cosine",
+        "deletionProtection": false
+      },
+      "embeddings": {
+        "provider": "openai",
+        "model": "text-embedding-3-small",
+        "dimensions": null,
+        "chunkSize": 1000,
+        "chunkOverlap": 200,
+        "batchSize": 64
+      },
+      "selfHosted": {
+        "image": "qdrant/qdrant:v1.19.1",
+        "storage": "10Gi",
+        "storageClass": null,
+        "cpu": "500m",
+        "memory": "1Gi"
+      },
+      "pinecone": null,
+      "maintenance": {
+        "snapshots": true,
+        "snapshotIntervalHours": 24,
+        "snapshotRetention": 7
+      }
+    },
+    "backend": "qdrant",
+    "hosting": "self_hosted",
+    "isActive": true,
+    "dimension": 1536,
+    "metric": "cosine",
+    "deletionProtection": false,
+    "embeddingsModel": "text-embedding-3-small",
+    "status": "pending",
+    "statusMessage": "",
+    "indexName": "example-knowledge-base",
+    "endpointUrl": "",
+    "vectorCount": 0,
+    "stats": {},
+    "deployedAt": null,
+    "lastCheckedAt": null,
+    "lastSnapshotAt": null,
+    "lastMaintenanceAt": null
+  },
+  {
+    "id": 1,
+    "hashedId": "rMTAwMDAwMQx",
+    "createdAt": "2026-10-12T18:53:21.555554Z",
+    "updatedAt": "2026-10-12T18:53:21.555576Z",
+    "name": "example_policies",
+    "description": "A self-hosted Qdrant vector database of company policies and contracts, protected from deletion.",
+    "version": "1.0.0",
+    "tags": [
+      "example",
+      "rag",
+      "qdrant",
+      "self-hosted"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/vectorstore/builtin": "true"
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": true,
+    "connection": null,
+    "embeddingsProvider": "openai",
+    "apiKeySecret": null,
+    "documentCount": 0,
+    "snapshotCount": 0,
+    "manifestUrl": "/vectorstore/vectors/rMTAwMDAwMQx/",
+    "spec": {
+      "backend": "qdrant",
+      "hosting": "self_hosted",
+      "connection": null,
+      "isActive": true,
+      "index": {
+        "name": null,
+        "dimension": 1024,
+        "metric": "cosine",
+        "deletionProtection": true
+      },
+      "embeddings": {
+        "provider": "openai",
+        "model": "text-embedding-3-large",
+        "dimensions": 1024,
+        "chunkSize": 1500,
+        "chunkOverlap": 300,
+        "batchSize": 64
+      },
+      "selfHosted": {
+        "image": "qdrant/qdrant:v1.19.1",
+        "storage": "50Gi",
+        "storageClass": null,
+        "cpu": "1",
+        "memory": "4Gi"
+      },
+      "pinecone": null,
+      "maintenance": {
+        "snapshots": true,
+        "snapshotIntervalHours": 6,
+        "snapshotRetention": 28
+      }
+    },
+    "backend": "qdrant",
+    "hosting": "self_hosted",
+    "isActive": true,
+    "dimension": 1024,
+    "metric": "cosine",
+    "deletionProtection": true,
+    "embeddingsModel": "text-embedding-3-large",
+    "status": "pending",
+    "statusMessage": "",
+    "indexName": "example-policies",
+    "endpointUrl": "",
+    "vectorCount": 0,
+    "stats": {},
+    "deployedAt": null,
+    "lastCheckedAt": null,
+    "lastSnapshotAt": null,
+    "lastMaintenanceAt": null
+  }
+]

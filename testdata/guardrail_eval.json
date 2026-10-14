@@ -1,0 +1,24 @@
+{
+  "guardrail": "pii_leak_output",
+  "stage": "output",
+  "triggered": true,
+  "disposition": "redacted",
+  "text": "my email is [REDACTED]",
+  "message": null,
+  "error": null,
+  "durationMs": 0.06641699974352377,
+  "findings": [
+    {
+      "confidence": 1.0,
+      "rationale": "Detected: email.",
+      "matches": [
+        {
+          "start": 12,
+          "end": 28,
+          "text": "jane@example.com",
+          "label": "email"
+        }
+      ]
+    }
+  ]
+}

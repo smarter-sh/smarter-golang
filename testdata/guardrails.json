@@ -1,0 +1,110 @@
+[
+  {
+    "id": 17,
+    "hashedId": "rMTAwMDAxNwx",
+    "createdAt": "2026-10-12T18:52:57.877187Z",
+    "updatedAt": "2026-10-12T18:52:57.877197Z",
+    "name": "pii_leak_output",
+    "description": "Redacts personal data from the LLM's reply, in case the assistant repeats or reveals personal data from its tools, its context or the conversation.",
+    "version": "1.0.0",
+    "tags": [
+      "pii",
+      "privacy",
+      "data-leakage"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/guardrail/builtin": "true"
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": false,
+    "manifestUrl": "/guardrail/guardrails/rMTAwMDAxNwx/",
+    "ready": true,
+    "rfc1034CompliantName": "pii-leak-output",
+    "stage": "output",
+    "category": "pii",
+    "strategy": "detector",
+    "pattern": null,
+    "config": {
+      "detectors": [
+        "credit_card",
+        "us_ssn",
+        "email",
+        "phone_number",
+        "iban"
+      ]
+    },
+    "threshold": null,
+    "action": "redact",
+    "replacement": "[REDACTED]",
+    "message": null,
+    "severity": 4,
+    "mode": "enforce",
+    "failClosed": false,
+    "priority": 10,
+    "isActive": true
+  },
+  {
+    "id": 6,
+    "hashedId": "rMTAwMDAwNgx",
+    "createdAt": "2026-10-12T18:52:55.542366Z",
+    "updatedAt": "2026-10-12T18:52:55.542376Z",
+    "name": "pii_redaction_input",
+    "description": "Redacts personal data from the user's message before it is sent to the LLM: credit card numbers that pass the Luhn check, US social security numbers, email addresses, phone numbers and IBANs. Use it when prompts must not share customers' personal data with a third-party LLM provider.",
+    "version": "1.0.0",
+    "tags": [
+      "pii",
+      "privacy",
+      "gdpr"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/guardrail/builtin": "true"
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": false,
+    "manifestUrl": "/guardrail/guardrails/rMTAwMDAwNgx/",
+    "ready": true,
+    "rfc1034CompliantName": "pii-redaction-input",
+    "stage": "input",
+    "category": "pii",
+    "strategy": "detector",
+    "pattern": null,
+    "config": {
+      "detectors": [
+        "credit_card",
+        "us_ssn",
+        "email",
+        "phone_number",
+        "iban"
+      ]
+    },
+    "threshold": null,
+    "action": "redact",
+    "replacement": "[REDACTED]",
+    "message": null,
+    "severity": 4,
+    "mode": "enforce",
+    "failClosed": false,
+    "priority": 10,
+    "isActive": true
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "account": {
+      "accountNumber": "1234-5678-9012"
+    },
+    "createdAt": "2026-10-12T18:52:48.500881Z",
+    "updatedAt": "2026-10-12T18:52:50.353075Z",
+    "firstName": "account",
+    "lastName": "contact",
+    "email": "admin@example.com",
+    "phone": null,
+    "isPrimary": true,
+    "isTest": false,
+    "welcomed": true
+  },
+  {
+    "id": 2,
+    "account": {
+      "accountNumber": "1234-5678-9012"
+    },
+    "createdAt": "2026-10-12T18:52:50.549613Z",
+    "updatedAt": "2026-10-12T18:52:52.236151Z",
+    "firstName": "Staff",
+    "lastName": "User",
+    "email": "user@example.com",
+    "phone": null,
+    "isPrimary": false,
+    "isTest": false,
+    "welcomed": true
+  }
+]

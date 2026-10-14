@@ -1,0 +1,65 @@
+{
+  "data": {
+    "apiVersion": "smarter.sh/v1",
+    "kind": "LLMClient",
+    "name": null,
+    "metadata": {
+      "count": 24
+    },
+    "kwargs": {
+      "kwargs": {}
+    },
+    "data": {
+      "titles": [
+        {
+          "name": "name",
+          "type": "CharField"
+        },
+        {
+          "name": "url",
+          "type": "ReadOnlyField"
+        },
+        {
+          "name": "dnsVerificationStatus",
+          "type": "ChoiceField"
+        },
+        {
+          "name": "deployed",
+          "type": "BooleanField"
+        },
+        {
+          "name": "createdAt",
+          "type": "DateTimeField"
+        },
+        {
+          "name": "updatedAt",
+          "type": "DateTimeField"
+        }
+      ],
+      "items": [
+        {
+          "name": "calculator",
+          "url": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwNQx/",
+          "dnsVerificationStatus": "Not Verified",
+          "deployed": false,
+          "createdAt": "2026-10-12T18:54:03.688604Z",
+          "updatedAt": "2026-10-12T18:54:03.725397Z"
+        },
+        {
+          "name": "cloud_docs",
+          "url": "http://localhost:9357/workbench/llm-clients/rMTAwMDAxMgx/",
+          "dnsVerificationStatus": "Not Verified",
+          "deployed": false,
+          "createdAt": "2026-10-12T18:54:15.151675Z",
+          "updatedAt": "2026-10-12T18:54:15.179698Z"
+        }
+      ]
+    }
+  },
+  "message": "LLMClients got successfully",
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "get",
+    "thing": "LLMClient"
+  }
+}

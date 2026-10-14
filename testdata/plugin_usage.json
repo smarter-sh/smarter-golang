@@ -1,0 +1,55 @@
+[
+  {
+    "id": 4,
+    "created_at": "2026-10-13T20:04:42.713884Z",
+    "updated_at": "2026-10-13T20:04:42.713895Z",
+    "prompt": {
+      "id": 241,
+      "created_at": "2026-10-13T19:47:36.672353Z",
+      "updated_at": "2026-10-13T19:47:36.672363Z",
+      "name": "",
+      "description": "",
+      "version": "1.0.0",
+      "annotations": [],
+      "session_key": "0000000000000000000000000000000000000000000000000000000000000000",
+      "ip_address": "127.0.0.1",
+      "user_agent": "smarter-python/0.2.3",
+      "url": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/config/",
+      "user_profile": 1,
+      "llmclient": 5
+    },
+    "plugin": {
+      "id": 1,
+      "createdAt": "2026-10-12T18:53:21.914588Z",
+      "updatedAt": "2026-10-12T18:53:21.914599Z",
+      "name": "market_research",
+      "userProfile": {
+        "user": {
+          "username": "admin",
+          "email": "admin@example.com"
+        },
+        "account": {
+          "accountNumber": "1234-5678-9012"
+        }
+      },
+      "description": "Researches competitors, pricing, product launches and market trends from primary sources.",
+      "pluginClass": "websearch",
+      "version": "0.1.0",
+      "annotations": [
+        {
+          "smarter.sh/market-research/use-case": "competitive research"
+        }
+      ],
+      "tags": [
+        "market-research",
+        "websearch",
+        "competitive-intelligence"
+      ],
+      "manifestUrl": "/plugin/plugins/rMTAwMDAwMQx/",
+      "ready": true,
+      "kind": "WebsearchPlugin",
+      "canDelete": true
+    },
+    "input_text": "What is 17 * 23?"
+  }
+]

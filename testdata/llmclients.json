@@ -1,0 +1,245 @@
+[
+  {
+    "id": 1,
+    "hashedId": "rMTAwMDAwMQx",
+    "createdAt": "2026-10-12T18:53:34.911377Z",
+    "updatedAt": "2026-10-12T18:53:34.937917Z",
+    "name": "stackademy_sql",
+    "description": "Stackademy University course catalogue inquiries using the Stackademy SQL plugin.",
+    "version": "1.0.0",
+    "tags": [
+      "stackademy",
+      "sql",
+      "llmclient"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/llm-client/stackademy-sql/creator": "QA Team"
+      },
+      {
+        "smarter.sh/llm-client/stackademy-sql/purpose": "llmclient for Stackademy course catalogue inquiries"
+      },
+      {
+        "smarter.sh/llm-client/stackademy-sql/release-date": "2024-06-15"
+      },
+      {
+        "smarter.sh/llm-client/stackademy-sql/backward-compatibility": true
+      },
+      {
+        "smarter.sh/llm-client/stackademy-sql/note": "Uses SQL plugin to answer course catalogue questions.\nVery fast and accurate when the database is well-structured.\nLeverages cache for improved performance.\n"
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": true,
+    "functions": [],
+    "plugins": [
+      {
+        "id": 1,
+        "name": "stackademy_sql"
+      }
+    ],
+    "customDomains": [],
+    "apiKeys": [],
+    "rfc1034CompliantName": "stackademy-sql",
+    "defaultSystemRole": "The current date/time is Tuesday, 2026-10-13T12:53:46+0000\nYou are a helpful assistant. When given the opportunity to utilize function calling, you should always do so. This will allow you to provide the best possible responses to the user. DO NOT GUESS. IF\n  YOU DON'T KNOW THE ANSWER, RESPOND THAT YOU DON'T KNOW.\n",
+    "baseApiDomain": "api.local.smarter.sh",
+    "baseDefaultHost": "1234-5678-9012.api.local.smarter.sh",
+    "defaultHost": "stackademy-sql.1234-5678-9012.api.local.smarter.sh",
+    "defaultUrl": "http://stackademy-sql.1234-5678-9012.api.local.smarter.sh/",
+    "customHost": null,
+    "customUrl": null,
+    "sandboxHost": "localhost:9357",
+    "sandboxUrl": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwMQx/",
+    "manifestUrl": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwMQx/manifest/",
+    "hostname": "localhost:9357",
+    "url": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwMQx/",
+    "urlLlmclient": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwMQx/prompt/",
+    "urlChatConfig": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwMQx/config/",
+    "urlChatapp": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwMQx/prompt/",
+    "ready": true,
+    "isAuthenticationRequired": false,
+    "deployed": false,
+    "provider": "openai",
+    "defaultModel": "gpt-4o-mini",
+    "defaultTemperature": 1.0,
+    "defaultMaxTokens": 1024,
+    "appName": "Stackademy",
+    "appAssistant": "Stanley",
+    "appWelcomeMessage": "Welcome to Stackademy! How can I help you today?",
+    "appExamplePrompts": [
+      "Do you offer any courses on AI?",
+      "My budget is $1,000. What courses can I take?",
+      "I want to study programming. What do you suggest?"
+    ],
+    "appPlaceholder": "Ask me anything about Stackademy courses...",
+    "appInfoUrl": "https://stackademy.edu/online-courses",
+    "appFileAttachment": false,
+    "styles": {
+      "googleFont": "Nunito",
+      "fontSize": "15px",
+      "borderRadius": "16px",
+      "conversationHeader": {
+        "backgroundColor": "#14213d",
+        "color": "#ffffff",
+        "infoColor": "#fca311"
+      },
+      "messageList": {
+        "backgroundColor": "rgba(255, 255, 255, 0.85)",
+        "color": "#14213d"
+      },
+      "incomingMessage": {
+        "backgroundColor": "#e5e5e5",
+        "color": "#14213d",
+        "linkColor": "#0b57d0"
+      },
+      "outgoingMessage": {
+        "backgroundColor": "#fca311",
+        "color": "#14213d"
+      },
+      "messageInput": {
+        "backgroundColor": "#ffffff",
+        "editorBackgroundColor": "#f1f1f1",
+        "placeholderColor": "#6c757d"
+      },
+      "buttons": {
+        "color": "#fca311"
+      },
+      "typingIndicator": {
+        "color": "#fca311"
+      }
+    },
+    "allowedOrigins": [],
+    "dnsVerificationStatus": "Not Verified",
+    "tlsCertificateIssuanceStatus": "No Certificate",
+    "subdomain": null,
+    "customDomain": null
+  },
+  {
+    "id": 2,
+    "hashedId": "rMTAwMDAwMgx",
+    "createdAt": "2026-10-12T18:53:36.924931Z",
+    "updatedAt": "2026-10-12T18:53:36.945690Z",
+    "name": "stackademy_api",
+    "description": "Stackademy University course catalogue inquiries using the Stackademy API plugin.",
+    "version": "1.0.0",
+    "tags": [
+      "stackademy",
+      "api",
+      "llmclient"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/llm-client/stackademy-api/creator": "QA Team"
+      },
+      {
+        "smarter.sh/llm-client/stackademy-api/purpose": "llmclient for Stackademy course1 catalogue inquiries"
+      },
+      {
+        "smarter.sh/llm-client/stackademy-api/release-date": "2024-06-15"
+      },
+      {
+        "smarter.sh/llm-client/stackademy-api/backward-compatibility": true
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": true,
+    "functions": [],
+    "plugins": [
+      {
+        "id": 2,
+        "name": "stackademy_api"
+      }
+    ],
+    "customDomains": [],
+    "apiKeys": [],
+    "rfc1034CompliantName": "stackademy-api",
+    "defaultSystemRole": "The current date/time is Tuesday, 2026-10-13T12:53:46+0000\nYou are a helpful assistant. When given the opportunity to utilize function calling, you should always do so. This will allow you to provide the best possible responses to the user.\n",
+    "baseApiDomain": "api.local.smarter.sh",
+    "baseDefaultHost": "1234-5678-9012.api.local.smarter.sh",
+    "defaultHost": "stackademy-api.1234-5678-9012.api.local.smarter.sh",
+    "defaultUrl": "http://stackademy-api.1234-5678-9012.api.local.smarter.sh/",
+    "customHost": null,
+    "customUrl": null,
+    "sandboxHost": "localhost:9357",
+    "sandboxUrl": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwMgx/",
+    "manifestUrl": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwMgx/manifest/",
+    "hostname": "localhost:9357",
+    "url": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwMgx/",
+    "urlLlmclient": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwMgx/prompt/",
+    "urlChatConfig": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwMgx/config/",
+    "urlChatapp": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwMgx/prompt/",
+    "ready": true,
+    "isAuthenticationRequired": false,
+    "deployed": false,
+    "provider": "openai",
+    "defaultModel": "gpt-4o-mini",
+    "defaultTemperature": 1.0,
+    "defaultMaxTokens": 512,
+    "appName": "Stackademy",
+    "appAssistant": "Stanley",
+    "appWelcomeMessage": "Welcome to Stackademy! How can I help you today?",
+    "appExamplePrompts": [
+      "Do you offer any courses on AI?",
+      "My budget is $1,000. What courses can I take?",
+      "What is the capital of France?"
+    ],
+    "appPlaceholder": "Ask me anything about Stackademy courses...",
+    "appInfoUrl": "https://smarter.sh",
+    "appFileAttachment": false,
+    "styles": {
+      "googleFont": "Nunito",
+      "fontSize": "15px",
+      "borderRadius": "16px",
+      "conversationHeader": {
+        "backgroundColor": "#14213d",
+        "color": "#ffffff",
+        "infoColor": "#fca311"
+      },
+      "messageList": {
+        "backgroundColor": "rgba(255, 255, 255, 0.85)",
+        "color": "#14213d"
+      },
+      "incomingMessage": {
+        "backgroundColor": "#e5e5e5",
+        "color": "#14213d",
+        "linkColor": "#0b57d0"
+      },
+      "outgoingMessage": {
+        "backgroundColor": "#fca311",
+        "color": "#14213d"
+      },
+      "messageInput": {
+        "backgroundColor": "#ffffff",
+        "editorBackgroundColor": "#f1f1f1",
+        "placeholderColor": "#6c757d"
+      },
+      "buttons": {
+        "color": "#fca311"
+      },
+      "typingIndicator": {
+        "color": "#fca311"
+      }
+    },
+    "allowedOrigins": [],
+    "dnsVerificationStatus": "Not Verified",
+    "tlsCertificateIssuanceStatus": "No Certificate",
+    "subdomain": null,
+    "customDomain": null
+  }
+]

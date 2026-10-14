@@ -1,0 +1,18 @@
+{
+  "error": {
+    "errorClass": "APIV1CLIViewBadRequestError",
+    "stacktrace": "Traceback (most recent call last): ...",
+    "description": "Smarter api v1 command-line interface error: bad request: Could not find broker for <-- Missing --> manifest.",
+    "status": 400,
+    "args": "url=http://localhost:9357/api/v1/cli/get/Nope/",
+    "cause": "Python Exception",
+    "context": "thing=None, command=get",
+    "thing": "None",
+    "command": "get"
+  },
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "get",
+    "thing": "None"
+  }
+}

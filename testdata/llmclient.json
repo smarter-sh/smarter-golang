@@ -1,0 +1,120 @@
+{
+  "id": 5,
+  "hashedId": "rMTAwMDAwNQx",
+  "createdAt": "2026-10-12T18:54:03.688604Z",
+  "updatedAt": "2026-10-12T18:54:03.725397Z",
+  "name": "calculator",
+  "description": "An llmclient that scientific calculator functions.",
+  "version": "0.1.0",
+  "tags": [
+    "calculator",
+    "capstone-project"
+  ],
+  "annotations": [
+    {
+      "smarter.sh/tests/focus-level": "high"
+    },
+    {
+      "smarter.sh/tests/owner": "Example Owner"
+    }
+  ],
+  "userProfile": {
+    "user": {
+      "username": "admin",
+      "email": "admin@example.com"
+    },
+    "account": {
+      "accountNumber": "1234-5678-9012"
+    }
+  },
+  "canDelete": false,
+  "functions": [
+    {
+      "id": 1,
+      "createdAt": "2026-10-12T18:54:03.761883Z",
+      "updatedAt": "2026-10-12T18:54:03.761892Z",
+      "name": "calculator",
+      "llmclient": 5
+    }
+  ],
+  "plugins": [],
+  "customDomains": [],
+  "apiKeys": [],
+  "rfc1034CompliantName": "calculator",
+  "defaultSystemRole": "The current date/time is Tuesday, 2026-10-13T13:01:31+0000\nYou are a helpful calculator. You perform all of your operations using the calculator tool call function that is provided to you on all prompts. You always use the calculator function to perform calculations. You NEVER perform  calculations yourself. If you are unable to provide the necessary calculator parameters, then ask the user for clarification.\nYour replies are displayed in a chat window that renders markdown. Show the expression in inline code and the result in bold, such as `(3 + 5) * 2` = **16**. For a calculation with several steps, show each step in a numbered list. Write math as plain text and inline code, rather than LaTeX. Keep replies short.",
+  "baseApiDomain": "api.local.smarter.sh",
+  "baseDefaultHost": "1234-5678-9012.api.local.smarter.sh",
+  "defaultHost": "calculator.1234-5678-9012.api.local.smarter.sh",
+  "defaultUrl": "http://calculator.1234-5678-9012.api.local.smarter.sh/",
+  "customHost": null,
+  "customUrl": null,
+  "sandboxHost": "localhost:9357",
+  "sandboxUrl": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwNQx/",
+  "manifestUrl": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwNQx/manifest/",
+  "hostname": "localhost:9357",
+  "url": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwNQx/",
+  "urlLlmclient": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/prompt/",
+  "urlChatConfig": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/config/",
+  "urlChatapp": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwNQx/prompt/",
+  "ready": true,
+  "isAuthenticationRequired": false,
+  "deployed": false,
+  "provider": "openai",
+  "defaultModel": "gpt-4o-mini",
+  "defaultTemperature": 1.0,
+  "defaultMaxTokens": 4096,
+  "appName": "Calculator Bot",
+  "appAssistant": "Cleo The Calculator",
+  "appWelcomeMessage": "Welcome to the Calculator Bot! How can I help you today?",
+  "appExamplePrompts": [
+    "What is (3 + 5) * 2?",
+    "Calculate 7.5 / (2.5 - 0.5) + 4.",
+    "What is sin(pi / 2) + cos(0)?",
+    "Evaluate 2 * (3 + 4) - sqrt(49) + tan(pi / 4)."
+  ],
+  "appPlaceholder": "Give me something to calculate...",
+  "appInfoUrl": "https://smarter.sh",
+  "appFileAttachment": false,
+  "styles": {
+    "appLogoUrl": "https://cdn.smarter.sh/images/logo/smarter-crop.png",
+    "appBackgroundImageUrl": "https://cdn.smarter.sh/images/llmclients/calculator/background.svg",
+    "appBackgroundImageSize": "auto",
+    "assistantAvatarUrl": "https://cdn.smarter.sh/images/llmclients/calculator/assistant.png",
+    "googleFont": "Space Mono",
+    "fontSize": "15px",
+    "borderRadius": "6px",
+    "conversationHeader": {
+      "backgroundColor": "#1f2a1f",
+      "color": "#b8f5a0",
+      "infoColor": "#7fbf6a"
+    },
+    "messageList": {
+      "backgroundColor": "rgba(232, 237, 220, 0.9)",
+      "color": "#1f2a1f"
+    },
+    "incomingMessage": {
+      "backgroundColor": "#d7e4c0",
+      "color": "#1f2a1f",
+      "borderColor": "#9fb98a"
+    },
+    "outgoingMessage": {
+      "backgroundColor": "#f28c28",
+      "color": "#1f1300"
+    },
+    "messageInput": {
+      "editorBackgroundColor": "#d7e4c0",
+      "placeholderColor": "#5f7a52"
+    },
+    "buttons": {
+      "color": "#f28c28"
+    },
+    "typingIndicator": {
+      "color": "#3f6b35"
+    }
+  },
+  "allowedOrigins": [],
+  "dnsVerificationStatus": "Not Verified",
+  "tlsCertificateIssuanceStatus": "No Certificate",
+  "subdomain": null,
+  "customDomain": null
+}

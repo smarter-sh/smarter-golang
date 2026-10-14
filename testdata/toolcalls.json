@@ -1,0 +1,271 @@
+[
+  {
+    "id": 3,
+    "prompt": {
+      "id": 44,
+      "created_at": "2026-10-13T12:54:01.977062Z",
+      "updated_at": "2026-10-13T12:54:01.977075Z",
+      "name": "",
+      "description": "",
+      "version": "1.0.0",
+      "annotations": [],
+      "session_key": "9b9bfb224fae2af29d475911a484238d49ef6a99b99c445d5e8106b1bf144630",
+      "ip_address": "127.0.0.1",
+      "user_agent": "curl/8.7.1",
+      "url": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/config/",
+      "user_profile": 1,
+      "llmclient": 5
+    },
+    "created_at": "2026-10-13T12:54:12.101828Z",
+    "updated_at": "2026-10-13T12:54:12.101841Z",
+    "function_name": "calculator",
+    "function_args": "{'expression': '17 * 23'}",
+    "request": [
+      {
+        "api_url": "https://api.openai.com/v1/",
+        "api_key": "****abcd",
+        "model": "gpt-4o-mini",
+        "messages": [
+          {
+            "role": "system",
+            "content": "The current date/time is Tuesday, 2026-10-13T12:54:09+0000\nThe current date/time is Tuesday, 2026-10-13T12:54:09+0000\nYou are a helpful calculator. You perform all of your operations using the calculator tool call function that is provided to you on all prompts. You always use the calculator function to perform calculations. You NEVER perform  calculations yourself. If you are unable to provide the necessary calculator parameters, then ask the user for clarification.\nYour replies are displayed in a chat window that renders markdown. Show the expression in inline code and the result in bold, such as `(3 + 5) * 2` = **16**. For a calculation with several steps, show each step in a numbered list. Write math as plain text and inline code, rather than LaTeX. Keep replies short.\n\nYour responses are displayed in a chat window that renders GitHub flavored Markdown: headings, bold, italics, strikethrough, lists, tables, block quotes, inline code, fenced code blocks, links and images. Use Markdown when it makes a response clearer, and name the language of each fenced code block. It also typesets math written in LaTeX: \\( ... \\) for inline math, and \\[ ... \\] or $$ ... $$ for a displayed equation. A single dollar sign is not math, so never use $ ... $ for math. It draws a fenced code block whose language is mermaid as a Mermaid diagram, such as a flowchart, sequence diagram, class diagram, state diagram or entity relationship diagram. Draw one when a process, architecture or set of relationships is easier to understand as a picture, and keep its syntax simple: quote labels that contain punctuation. The chat window does not render HTML, so do not use it. To show an image, use Markdown image syntax, ![description](https://...), but only with an image url that the user gave you or that a tool returned. NEVER invent an image url, because a broken image looks worse than no image."
+          },
+          {
+            "role": "user",
+            "content": "What is 17 times 23? use the calculator"
+          }
+        ],
+        "temperature": 1.0,
+        "max_completion_tokens": 4096,
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "calculator",
+              "description": "\n                Evaluate a mathematical expression string, supporting parentheses and any combination of the\n                following math functions: add, subtract, multiply, divide, sin, cos, tan, asin, acos, atan, degrees, radians, expression.\n                The expression can include numbers, operators (+, -, *, /, **, %), and function calls.\n                Example input: '2 + 3 * (4 - 1)' or 'sin(pi / 2) + log(10)'.\n                ",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "expression": {
+                    "type": "string",
+                    "description": "A mathematical expression string to evaluate, supporting parentheses and math functions."
+                  }
+                },
+                "required": [
+                  "expression"
+                ]
+              }
+            }
+          }
+        ],
+        "tool_choice": "auto"
+      }
+    ],
+    "response": [
+      {
+        "id": "chatcmpl-EYWJ98EEjr3pwUs8jNOPNF8ghcNOO",
+        "choices": [
+          {
+            "finish_reason": "tool_calls",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": null,
+              "refusal": null,
+              "role": "assistant",
+              "annotations": [],
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [
+                {
+                  "id": "call_abc123",
+                  "function": {
+                    "arguments": "{\"expression\":\"17 * 23\"}",
+                    "name": "calculator"
+                  },
+                  "type": "function"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1791896051,
+        "model": "gpt-4o-mini",
+        "object": "chat.completion",
+        "moderation": null,
+        "service_tier": "default",
+        "system_fingerprint": null,
+        "usage": {
+          "completion_tokens": 20,
+          "prompt_tokens": 670,
+          "total_tokens": 690,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          }
+        }
+      }
+    ],
+    "plugin": null
+  },
+  {
+    "id": 4,
+    "prompt": {
+      "id": 44,
+      "created_at": "2026-10-13T12:54:01.977062Z",
+      "updated_at": "2026-10-13T12:54:01.977075Z",
+      "name": "",
+      "description": "",
+      "version": "1.0.0",
+      "annotations": [],
+      "session_key": "9b9bfb224fae2af29d475911a484238d49ef6a99b99c445d5e8106b1bf144630",
+      "ip_address": "127.0.0.1",
+      "user_agent": "curl/8.7.1",
+      "url": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/config/",
+      "user_profile": 1,
+      "llmclient": 5
+    },
+    "created_at": "2026-10-13T12:54:15.772387Z",
+    "updated_at": "2026-10-13T12:54:15.772407Z",
+    "function_name": "calculator",
+    "function_args": "{'expression': '2 ** 10'}",
+    "request": [
+      {
+        "api_url": "https://api.openai.com/v1/",
+        "api_key": "****abcd",
+        "model": "gpt-4o-mini",
+        "messages": [
+          {
+            "role": "system",
+            "content": "The current date/time is Tuesday, 2026-10-13T12:54:09+0000\nThe current date/time is Tuesday, 2026-10-13T12:54:09+0000\nYou are a helpful calculator. You perform all of your operations using the calculator tool call function that is provided to you on all prompts. You always use the calculator function to perform calculations. You NEVER perform  calculations yourself. If you are unable to provide the necessary calculator parameters, then ask the user for clarification.\nYour replies are displayed in a chat window that renders markdown. Show the expression in inline code and the result in bold, such as `(3 + 5) * 2` = **16**. For a calculation with several steps, show each step in a numbered list. Write math as plain text and inline code, rather than LaTeX. Keep replies short.\n\nYour responses are displayed in a chat window that renders GitHub flavored Markdown: headings, bold, italics, strikethrough, lists, tables, block quotes, inline code, fenced code blocks, links and images. Use Markdown when it makes a response clearer, and name the language of each fenced code block. It also typesets math written in LaTeX: \\( ... \\) for inline math, and \\[ ... \\] or $$ ... $$ for a displayed equation. A single dollar sign is not math, so never use $ ... $ for math. It draws a fenced code block whose language is mermaid as a Mermaid diagram, such as a flowchart, sequence diagram, class diagram, state diagram or entity relationship diagram. Draw one when a process, architecture or set of relationships is easier to understand as a picture, and keep its syntax simple: quote labels that contain punctuation. The chat window does not render HTML, so do not use it. To show an image, use Markdown image syntax, ![description](https://...), but only with an image url that the user gave you or that a tool returned. NEVER invent an image url, because a broken image looks worse than no image."
+          },
+          {
+            "role": "user",
+            "content": "What is 17 times 23? use the calculator"
+          },
+          {
+            "content": null,
+            "refusal": null,
+            "role": "assistant",
+            "annotations": [],
+            "audio": null,
+            "function_call": null,
+            "tool_calls": [
+              {
+                "id": "call_abc123",
+                "function": {
+                  "arguments": "{\"expression\":\"17 * 23\"}",
+                  "name": "calculator"
+                },
+                "type": "function"
+              }
+            ]
+          },
+          {
+            "tool_call_id": "call_abc123",
+            "name": "calculator",
+            "role": "tool",
+            "content": "[\n  {\n    \"result\": 391\n  }\n]"
+          },
+          {
+            "content": "`17 * 23` = **391**",
+            "refusal": null,
+            "role": "assistant",
+            "annotations": [],
+            "audio": null,
+            "function_call": null,
+            "tool_calls": null
+          },
+          {
+            "role": "user",
+            "content": "And 2 to the 10th power?"
+          }
+        ],
+        "temperature": 1.0,
+        "max_completion_tokens": 4096,
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "calculator",
+              "description": "\n                Evaluate a mathematical expression string, supporting parentheses and any combination of the\n                following math functions: add, subtract, multiply, divide, sin, cos, tan, asin, acos, atan, degrees, radians, expression.\n                The expression can include numbers, operators (+, -, *, /, **, %), and function calls.\n                Example input: '2 + 3 * (4 - 1)' or 'sin(pi / 2) + log(10)'.\n                ",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "expression": {
+                    "type": "string",
+                    "description": "A mathematical expression string to evaluate, supporting parentheses and math functions."
+                  }
+                },
+                "required": [
+                  "expression"
+                ]
+              }
+            }
+          }
+        ],
+        "tool_choice": "auto"
+      }
+    ],
+    "response": [
+      {
+        "id": "chatcmpl-EYWJC4biNXMKx3SHNGwOmn9wm6bOs",
+        "choices": [
+          {
+            "finish_reason": "tool_calls",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": null,
+              "refusal": null,
+              "role": "assistant",
+              "annotations": [],
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [
+                {
+                  "id": "call_abc123",
+                  "function": {
+                    "arguments": "{\"expression\":\"2 ** 10\"}",
+                    "name": "calculator"
+                  },
+                  "type": "function"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1791896054,
+        "model": "gpt-4o-mini",
+        "object": "chat.completion",
+        "moderation": null,
+        "service_tier": "default",
+        "system_fingerprint": null,
+        "usage": {
+          "completion_tokens": 20,
+          "prompt_tokens": 743,
+          "total_tokens": 763,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          }
+        }
+      }
+    ],
+    "plugin": null
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "error": {
+    "errorClass": "SAMBrokerErrorNotReady",
+    "stacktrace": "Traceback (most recent call last): ...",
+    "description": "LLMClient doesnotexist not found",
+    "status": 503,
+    "args": "url=http://localhost:9357/api/v1/cli/describe/LLMClient/?name=doesnotexist",
+    "cause": "Python Exception",
+    "context": "thing=LLMClient, command=describe",
+    "thing": "LLMClient",
+    "command": "describe"
+  },
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "describe",
+    "thing": "LLMClient"
+  }
+}

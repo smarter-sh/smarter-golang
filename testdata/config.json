@@ -1,0 +1,316 @@
+{
+  "data": {
+    "session_key": "9b9bfb224fae2af29d475911a484238d49ef6a99b99c445d5e8106b1bf144630",
+    "sandbox_mode": false,
+    "debug_mode": true,
+    "meta_data": {
+      "ready": true,
+      "is_deployed": false,
+      "account": null,
+      "am_ready": true,
+      "api_host": "localhost:9357",
+      "api_subdomain": "localhost:9357",
+      "api_token": "********abcd",
+      "auth_header": "Token ****",
+      "cache_key": "84acc9cddbaf2e3b1fd7831f5ccc07fc62dad8bc0f3f4d4215ab5bd2aec877e5",
+      "data": {},
+      "domain": "localhost:9357",
+      "environment_api_domain": "api.localhost:9357",
+      "ip_address": "127.0.0.1",
+      "is_authentication_required": false,
+      "is_config": true,
+      "is_custom_domain": false,
+      "is_dashboard": false,
+      "is_default_domain": false,
+      "is_environment_root_domain": false,
+      "is_helper_ready": true,
+      "is_llmclient": true,
+      "is_llmclient_cli_api_url": false,
+      "is_llmclient_named_url": false,
+      "is_llmclient_sandbox_url": false,
+      "is_llmclient_smarter_api_url": true,
+      "is_smarter_api": true,
+      "is_workbench": false,
+      "llmclient": {
+        "id": 5,
+        "hashed_id": "rMTAwMDAwNQx",
+        "created_at": "2026-10-12T18:54:03.688604Z",
+        "updated_at": "2026-10-12T18:54:03.725397Z",
+        "name": "calculator",
+        "description": "An llmclient that scientific calculator functions.",
+        "version": "0.1.0",
+        "tags": [
+          "calculator",
+          "capstone-project"
+        ],
+        "annotations": [
+          {
+            "smarter.sh/tests/focus_level": "high"
+          },
+          {
+            "smarter.sh/tests/owner": "Example Owner"
+          }
+        ],
+        "user_profile": {
+          "user": {
+            "username": "admin",
+            "email": "admin@example.com"
+          },
+          "account": {
+            "account_number": "1234-5678-9012"
+          }
+        },
+        "can_delete": false,
+        "functions": [
+          {
+            "id": 1,
+            "created_at": "2026-10-12T18:54:03.761883Z",
+            "updated_at": "2026-10-12T18:54:03.761892Z",
+            "name": "calculator",
+            "llmclient": 5
+          }
+        ],
+        "plugins": [],
+        "custom_domains": [],
+        "api_keys": [],
+        "rfc1034_compliant_name": "calculator",
+        "default_system_role": "The current date/time is Tuesday, 2026-10-13T12:54:02+0000\nYou are a helpful calculator. You perform all of your operations using the calculator tool call function that is provided to you on all prompts. You always use the calculator function to perform calculations. You NEVER perform  calculations yourself. If you are unable to provide the necessary calculator parameters, then ask the user for clarification.\nYour replies are displayed in a chat window that renders markdown. Show the expression in inline code and the result in bold, such as `(3 + 5) * 2` = **16**. For a calculation with several steps, show each step in a numbered list. Write math as plain text and inline code, rather than LaTeX. Keep replies short.",
+        "base_api_domain": "api.local.smarter.sh",
+        "base_default_host": "1234-5678-9012.api.local.smarter.sh",
+        "default_host": "calculator.1234-5678-9012.api.local.smarter.sh",
+        "default_url": "http://calculator.1234-5678-9012.api.local.smarter.sh/",
+        "custom_host": null,
+        "custom_url": null,
+        "sandbox_host": "localhost:9357",
+        "sandbox_url": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwNQx/",
+        "manifest_url": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwNQx/manifest/",
+        "hostname": "localhost:9357",
+        "url": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwNQx/",
+        "url_llmclient": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/prompt/",
+        "url_chat_config": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/config/",
+        "url_chatapp": "http://localhost:9357/workbench/llm-clients/rMTAwMDAwNQx/prompt/",
+        "ready": true,
+        "is_authentication_required": false,
+        "deployed": false,
+        "provider": "openai",
+        "default_model": "gpt-4o-mini",
+        "default_temperature": 1.0,
+        "default_max_tokens": 4096,
+        "app_name": "Calculator Bot",
+        "app_assistant": "Cleo The Calculator",
+        "app_welcome_message": "Welcome to the Calculator Bot! How can I help you today?",
+        "app_example_prompts": [
+          "What is (3 + 5) * 2?",
+          "Calculate 7.5 / (2.5 - 0.5) + 4.",
+          "What is sin(pi / 2) + cos(0)?",
+          "Evaluate 2 * (3 + 4) - sqrt(49) + tan(pi / 4)."
+        ],
+        "app_placeholder": "Give me something to calculate...",
+        "app_info_url": "https://smarter.sh",
+        "app_file_attachment": false,
+        "styles": {
+          "app_logo_url": "https://cdn.smarter.sh/images/logo/smarter-crop.png",
+          "app_background_image_url": "https://cdn.smarter.sh/images/llmclients/calculator/background.svg",
+          "app_background_image_size": "auto",
+          "assistant_avatar_url": "https://cdn.smarter.sh/images/llmclients/calculator/assistant.png",
+          "google_font": "Space Mono",
+          "font_size": "15px",
+          "border_radius": "6px",
+          "conversation_header": {
+            "background_color": "#1f2a1f",
+            "color": "#b8f5a0",
+            "info_color": "#7fbf6a"
+          },
+          "message_list": {
+            "background_color": "rgba(232, 237, 220, 0.9)",
+            "color": "#1f2a1f"
+          },
+          "incoming_message": {
+            "background_color": "#d7e4c0",
+            "color": "#1f2a1f",
+            "border_color": "#9fb98a"
+          },
+          "outgoing_message": {
+            "background_color": "#f28c28",
+            "color": "#1f1300"
+          },
+          "message_input": {
+            "editor_background_color": "#d7e4c0",
+            "placeholder_color": "#5f7a52"
+          },
+          "buttons": {
+            "color": "#f28c28"
+          },
+          "typing_indicator": {
+            "color": "#3f6b35"
+          }
+        },
+        "allowed_origins": [],
+        "dns_verification_status": "Not Verified",
+        "tls_certificate_issuance_status": "No Certificate",
+        "subdomain": null,
+        "custom_domain": null
+      },
+      "llmclient_custom_domain": null,
+      "llmclient_id": 5,
+      "llmclient_name": null,
+      "name": "calculator",
+      "params": {},
+      "parsed_url": "ParseResult(scheme='http', netloc='localhost:9357', path='/api/v1/llm-clients/rMTAwMDAwNQx/config/', params='', query='', fragment='')",
+      "path": "/api/v1/llm-clients/rMTAwMDAwNQx/config/",
+      "qualified_request": true,
+      "request": true,
+      "rfc1034_compliant_name": "calculator",
+      "root_domain": "localhost",
+      "session_key": "27d2b42f50168b016bbff4337cd5201c7c6a47de714a509184d3fc87efc005f9",
+      "srm_ready": true,
+      "subdomain": null,
+      "timestamp": "2026-10-13T12:54:01.981048",
+      "uid": null,
+      "unique_client_string": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/config/curl/8.7.1127.0.0.1",
+      "url": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/config/",
+      "url_path_parts": [
+        "api",
+        "v1",
+        "llm-clients",
+        "rMTAwMDAwNQx",
+        "config"
+      ],
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "user_profile": {
+        "user": {
+          "username": "admin",
+          "email": "admin@example.com"
+        },
+        "account": {
+          "account_number": "1234-5678-9012"
+        }
+      },
+      "user_agent": "curl/8.7.1"
+    },
+    "contract": 2,
+    "llmclient": {
+      "id": 5,
+      "name": "calculator",
+      "version": "0.1.0",
+      "deployed": false,
+      "provider": "openai",
+      "default_model": "gpt-4o-mini",
+      "default_system_role": "The current date/time is Tuesday, 2026-10-13T12:54:02+0000\nYou are a helpful calculator. You perform all of your operations using the calculator tool call function that is provided to you on all prompts. You always use the calculator function to perform calculations. You NEVER perform  calculations yourself. If you are unable to provide the necessary calculator parameters, then ask the user for clarification.\nYour replies are displayed in a chat window that renders markdown. Show the expression in inline code and the result in bold, such as `(3 + 5) * 2` = **16**. For a calculation with several steps, show each step in a numbered list. Write math as plain text and inline code, rather than LaTeX. Keep replies short.",
+      "app_name": "Calculator Bot",
+      "app_assistant": "Cleo The Calculator",
+      "app_welcome_message": "Welcome to the Calculator Bot! How can I help you today?",
+      "app_example_prompts": [
+        "What is (3 + 5) * 2?",
+        "Calculate 7.5 / (2.5 - 0.5) + 4.",
+        "What is sin(pi / 2) + cos(0)?",
+        "Evaluate 2 * (3 + 4) - sqrt(49) + tan(pi / 4)."
+      ],
+      "app_placeholder": "Give me something to calculate...",
+      "app_info_url": "https://smarter.sh",
+      "app_file_attachment": false,
+      "styles": {
+        "app_logo_url": "https://cdn.smarter.sh/images/logo/smarter-crop.png",
+        "app_background_image_url": "https://cdn.smarter.sh/images/llmclients/calculator/background.svg",
+        "app_background_image_size": "auto",
+        "assistant_avatar_url": "https://cdn.smarter.sh/images/llmclients/calculator/assistant.png",
+        "google_font": "Space Mono",
+        "font_size": "15px",
+        "border_radius": "6px",
+        "conversation_header": {
+          "background_color": "#1f2a1f",
+          "color": "#b8f5a0",
+          "info_color": "#7fbf6a"
+        },
+        "message_list": {
+          "background_color": "rgba(232, 237, 220, 0.9)",
+          "color": "#1f2a1f"
+        },
+        "incoming_message": {
+          "background_color": "#d7e4c0",
+          "color": "#1f2a1f",
+          "border_color": "#9fb98a"
+        },
+        "outgoing_message": {
+          "background_color": "#f28c28",
+          "color": "#1f1300"
+        },
+        "message_input": {
+          "editor_background_color": "#d7e4c0",
+          "placeholder_color": "#5f7a52"
+        },
+        "buttons": {
+          "color": "#f28c28"
+        },
+        "typing_indicator": {
+          "color": "#3f6b35"
+        }
+      },
+      "url_llmclient": "http://localhost:9357/api/v1/llm-clients/rMTAwMDAwNQx/prompt/",
+      "user_profile": {
+        "user": {
+          "username": "admin",
+          "email": "admin@example.com"
+        },
+        "account": {
+          "account_number": "1234-5678-9012"
+        }
+      },
+      "annotations": [
+        {
+          "smarter.sh/tests/focus_level": "high"
+        },
+        {
+          "smarter.sh/tests/owner": "Example Owner"
+        }
+      ],
+      "created_at": "2026-10-12T18:54:03.688604Z",
+      "updated_at": "2026-10-12T18:54:03.725397Z",
+      "description": "An llmclient that scientific calculator functions.",
+      "default_temperature": 1.0,
+      "default_max_tokens": 4096,
+      "allowed_origins": [],
+      "dns_verification_status": "Not Verified",
+      "tls_certificate_issuance_status": "No Certificate",
+      "subdomain": null,
+      "custom_domain": null
+    },
+    "history": {
+      "chat_history": [],
+      "prompt_tool_call_history": [],
+      "prompt_plugin_usage_history": [],
+      "plugin_selector_history": [],
+      "llmclient_request_history": []
+    },
+    "plugins": {
+      "meta_data": {
+        "total_plugins": 0,
+        "plugins_returned": 0
+      },
+      "plugins": []
+    },
+    "functions": {
+      "meta_data": {
+        "total_functions": 1,
+        "functions_returned": 1
+      },
+      "functions": [
+        {
+          "id": 1,
+          "created_at": "2026-10-12T18:54:03.761883Z",
+          "updated_at": "2026-10-12T18:54:03.761892Z",
+          "llmclient": 5,
+          "name": "calculator"
+        }
+      ]
+    }
+  },
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "chat_config",
+    "thing": "ChatConfig"
+  }
+}

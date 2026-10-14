@@ -1,0 +1,7 @@
+{
+  "vectorstore": "example_knowledge_base",
+  "status": "pending",
+  "message": "",
+  "vectorCount": 0,
+  "stats": {}
+}

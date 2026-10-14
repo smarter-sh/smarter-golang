@@ -1,0 +1,121 @@
+[
+  {
+    "id": 1,
+    "hashedId": "rMTAwMDAwMQx",
+    "createdAt": "2026-10-12T18:52:58.684260Z",
+    "updatedAt": "2026-10-12T18:52:58.684271Z",
+    "name": "aws_knowledge",
+    "description": "Search and read AWS documentation, and check the regional availability of AWS services.",
+    "version": "1.0.0",
+    "tags": [
+      "documentation",
+      "aws",
+      "cloud"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/mcpclient/documentation": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server"
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": false,
+    "credentials": null,
+    "manifestUrl": "/mcpclient/mcpclients/rMTAwMDAwMQx/",
+    "ready": true,
+    "rfc1034CompliantName": "aws-knowledge",
+    "transport": "http",
+    "endpointUrl": "https://knowledge-mcp.global.api.aws",
+    "command": null,
+    "headers": {},
+    "timeout": 30,
+    "authType": "none",
+    "apiKeyHeader": "X-API-Key",
+    "allowedTools": [
+      "aws___search_documentation",
+      "aws___read_documentation",
+      "aws___list_regions",
+      "aws___get_regional_availability"
+    ],
+    "allowedResources": [],
+    "includeInstructions": true,
+    "cacheTtl": 3600,
+    "isActive": true,
+    "status": "connected",
+    "priority": 100,
+    "protocolVersion": "2025-03-26",
+    "serverName": "AWSKnowledgeMCP",
+    "serverVersion": "1.0.0",
+    "tools": [
+      "aws___read_documentation",
+      "aws___search_documentation",
+      "aws___list_regions",
+      "aws___get_regional_availability"
+    ],
+    "lastConnectedAt": "2026-10-13T12:52:57.510273Z",
+    "lastError": null
+  },
+  {
+    "id": 2,
+    "hashedId": "rMTAwMDAwMgx",
+    "createdAt": "2026-10-12T18:52:58.886343Z",
+    "updatedAt": "2026-10-12T18:52:58.886353Z",
+    "name": "cloudflare_docs",
+    "description": "Search Cloudflare's developer documentation.",
+    "version": "1.0.0",
+    "tags": [
+      "documentation",
+      "cloudflare"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/mcpclient/documentation": "https://github.com/cloudflare/mcp-server-cloudflare"
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": false,
+    "credentials": null,
+    "manifestUrl": "/mcpclient/mcpclients/rMTAwMDAwMgx/",
+    "ready": true,
+    "rfc1034CompliantName": "cloudflare-docs",
+    "transport": "http",
+    "endpointUrl": "https://docs.mcp.cloudflare.com/mcp",
+    "command": null,
+    "headers": {},
+    "timeout": 30,
+    "authType": "none",
+    "apiKeyHeader": "X-API-Key",
+    "allowedTools": [
+      "search_cloudflare_documentation"
+    ],
+    "allowedResources": [],
+    "includeInstructions": true,
+    "cacheTtl": 3600,
+    "isActive": true,
+    "status": "connected",
+    "priority": 100,
+    "protocolVersion": "2025-11-25",
+    "serverName": "docs-ai-search",
+    "serverVersion": "0.4.13",
+    "tools": [
+      "search_cloudflare_documentation"
+    ],
+    "lastConnectedAt": "2026-10-13T12:52:57.349231Z",
+    "lastError": null
+  }
+]

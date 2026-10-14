@@ -1,0 +1,18 @@
+{
+  "objects": [],
+  "pagination": {
+    "page": 1,
+    "pageSize": 25,
+    "numPages": 1,
+    "count": 0,
+    "search": "",
+    "ordering": "",
+    "sortFields": [
+      "command",
+      "createdAt",
+      "statusCode",
+      "thing",
+      "user"
+    ]
+  }
+}

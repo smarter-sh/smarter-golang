@@ -1,0 +1,9 @@
+# this is a pypi package
+astroid
+# 'broked' is an intentionally misspelled word used as an example
+# in the "Grammar Genius" sample app.
+broked
+assertIn
+THIRDPARTY
+# Smarter vocabulary
+smarter
