@@ -23,7 +23,7 @@ jobs:
         go-version: ["1.26", "1.27"]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -34,7 +34,7 @@ jobs:
         run: go vet ./...
 
       - name: Lint
-        uses: golangci/golangci-lint-action@v8
+        uses: golangci/golangci-lint-action@v9
         with:
           version: v2.14.0
 
@@ -49,7 +49,7 @@ jobs:
       # one upload is enough: the coverage is the same on every Go version.
       - name: Upload coverage to Codecov
         if: matrix.go-version == '1.27'
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           files: ./coverage.out
           flags: go

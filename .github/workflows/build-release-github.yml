@@ -64,7 +64,7 @@ jobs:
       prerelease: ${{ steps.vars.outputs.prerelease }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -117,7 +117,7 @@ jobs:
         go: ["1.26", "1.27"]
     steps:
       - name: Check out the tag
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.version.outputs.tag }}
           persist-credentials: false
