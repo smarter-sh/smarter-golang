@@ -2,7 +2,7 @@
 
 Architectural Design Records (ADRs) are short documents that capture a single architectural or design decision, its context, and its consequences. Less is more: keep them brief.
 
-These are the ADRs of the Smarter Go SDK. They follow the Smarter Python SDK's [ADRs](https://github.com/smarter-sh/smarter-python/tree/main/doc/adr), which is the reference implementation of every Smarter SDK, and through them the Smarter platform's own [ADRs](https://github.com/smarter-sh/smarter/tree/main/docs/source/adr). ADRs 001 to 019 keep the Python SDK's numbers and titles, so that the same decision has the same number in every SDK, and each one says how it adapts the Python decision to Go. ADRs from 020 on are decisions that only a Go SDK has to make.
+These are the ADRs of the Smarter Go SDK. They follow the Smarter Python SDK's [ADRs](https://github.com/smarter-sh/smarter-python/tree/main/doc/adr), which is the reference implementation of every Smarter SDK, and through them the Smarter platform's own [ADRs](https://github.com/smarter-sh/smarter/tree/main/docs/source/adr). ADRs 001 to 019 keep the Python SDK's numbers and titles, so that the same decision has the same number in every SDK, and each one says how it adapts the Python decision to Go. ADRs 020 and 021 are decisions that only a Go SDK has to make. A decision that every SDK and the smarter cli share, made later, takes the next number free in every repository: ADR-022 is the first.
 
 The [smarter cli](https://github.com/smarter-sh/smarter-cli) is also written in Go. Where the cli has already made a decision that a Go library shares (the configuration file, the Go toolchain, the lint hooks), these ADRs follow it.
 
@@ -44,3 +44,4 @@ See: [Michael Nygard's ADRs](https://cognitect.com/blog/2011/11/15/documenting-a
 - [ADR-019: Supported Go Versions](019-go-versions.md)
 - [ADR-020: One Package, Functional Options](020-package-layout.md)
 - [ADR-021: Names: Go Identifiers, the Wire's JSON Tags](021-naming.md)
+- [ADR-022: A Pinned Copy of the Platform's OpenAPI Document](022-pinned-openapi.md)

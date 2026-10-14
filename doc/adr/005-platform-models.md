@@ -39,3 +39,4 @@ The platform's Pydantic models are the source of truth of its api: the SAM model
 - [ADR-000: Introduction](000-intro.md)
 - [ADR-004: Go Structs, Forward Compatible](004-go-models.md)
 - [ADR-009: Testing](009-testing.md)
+- [ADR-022: A Pinned Copy of the Platform's OpenAPI Document](022-pinned-openapi.md)
