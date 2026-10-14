@@ -29,10 +29,16 @@ messages.
 
 ## How to run
 
-From the repository root:
+pre-commit lives in a Python virtual environment, `.venv/`, which `make init`
+(or `make python-init`) creates from `requirements/local.txt`, and which also
+installs the pre-commit and commit-msg hooks. If `.venv/` is missing, or
+`.git/hooks/pre-commit` points at a Python that no longer exists, run
+`make python-init`. The Go hooks also need `goimports` and `golangci-lint` on
+`PATH`. From the repository root:
 
 ```console
 gofmt -l . && go vet ./... && golangci-lint run
+source .venv/bin/activate
 git diff --name-only | xargs pre-commit run --files
 git ls-files --others --exclude-standard | xargs pre-commit run --files   # new files
 ```

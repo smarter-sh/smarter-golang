@@ -65,7 +65,7 @@ go vet ./... && golangci-lint run
 SMARTER_BASE_URL=http://localhost:9357 SMARTER_API_KEY=... make test-live
 make contracts                              # copy the platform's contracts, SAM schemas and openapi.json from ../smarter
 make sam-models                             # make contracts, then regenerate sam/
-git diff --name-only | xargs pre-commit run --files
+source .venv/bin/activate && git diff --name-only | xargs pre-commit run --files
 ```
 
 Monthly, sync the SDK with the platform, the Python SDK and the cli, and update

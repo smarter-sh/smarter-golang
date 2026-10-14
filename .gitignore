@@ -17,3 +17,6 @@ Thumbs.db
 # typical secrets files
 .env
 .env.*
+
+# Python virtual environment, for pre-commit (make python-init). A dot directory, which ./... skips.
+.venv/

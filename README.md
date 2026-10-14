@@ -180,6 +180,13 @@ make vet         # go vet and golangci-lint
 SMARTER_BASE_URL=http://localhost:9357 SMARTER_API_KEY=... make test-live
 ```
 
+`make init` creates a Python virtual environment in `.venv/` with
+[pre-commit](https://pre-commit.com/) (Python 3.13), and installs the
+pre-commit and commit-msg hooks, which lint each commit and check its message.
+`make python-init` does only that part. The Go hooks also need
+[goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports) and
+[golangci-lint](https://golangci-lint.run/) on your `PATH`.
+
 The agent skills in [skills/](./skills/) describe how this repository is
 developed, tested and documented, for people and for AI coding agents.
 
