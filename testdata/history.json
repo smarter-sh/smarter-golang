@@ -1,0 +1,17 @@
+[
+  {
+    "id": 43,
+    "created_at": "2026-10-13T12:53:46.163986Z",
+    "updated_at": "2026-10-13T12:53:46.163997Z",
+    "name": "",
+    "description": "",
+    "version": "1.0.0",
+    "annotations": [],
+    "session_key": "31045c78d364f908126d6a81e4a09ecc0a81daf834c57817b669b70287ba4f91",
+    "ip_address": "127.0.0.1",
+    "user_agent": "curl/8.7.1",
+    "url": "http://localhost:9357/api/v1/cli/prompt/config/calculator/?uid=sdkprobe",
+    "user_profile": 1,
+    "llmclient": 5
+  }
+]

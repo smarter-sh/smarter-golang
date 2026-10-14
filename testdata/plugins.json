@@ -1,0 +1,60 @@
+[
+  {
+    "id": 355,
+    "createdAt": "2026-10-12T19:23:02.530302Z",
+    "updatedAt": "2026-10-12T19:23:02.530314Z",
+    "name": "xyz_fml_policies",
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "description": "Get additional documentation about the Family and Medical Leave Act FMLA policies for the fictional XYZ Corp.  These are taken from the SHRM (Society of Human Resource Managers) suggested FMLA policy.",
+    "pluginClass": "static",
+    "version": "0.1.0",
+    "annotations": [],
+    "tags": [
+      "Family and Medical Leave Act",
+      "Family Leave",
+      "FMLA",
+      "Medical Leave"
+    ],
+    "manifestUrl": "/plugin/plugins/rMTAwMDM1NQx/",
+    "ready": true,
+    "kind": "Plugin",
+    "canDelete": false
+  },
+  {
+    "id": 354,
+    "createdAt": "2026-10-12T19:23:02.089362Z",
+    "updatedAt": "2026-10-12T19:23:02.089373Z",
+    "name": "smu_transfer_application",
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "description": "Information for prospective students about applying to SMU in Dallas as a transfer student",
+    "pluginClass": "static",
+    "version": "0.1.0",
+    "annotations": [],
+    "tags": [
+      "Dallas",
+      "College Transfer",
+      "College Application",
+      "SMU"
+    ],
+    "manifestUrl": "/plugin/plugins/rMTAwMDM1NAx/",
+    "ready": true,
+    "kind": "Plugin",
+    "canDelete": false
+  }
+]

@@ -1,0 +1,22 @@
+# build and test output
+/bin/
+coverage.out
+*.test
+
+# release tooling
+node_modules/
+
+# os files
+.DS_Store
+Thumbs.db
+
+# editors
+.idea/
+*.swp
+
+# typical secrets files
+.env
+.env.*
+
+# Python virtual environment, for pre-commit (make python-init). A dot directory, which ./... skips.
+.venv/

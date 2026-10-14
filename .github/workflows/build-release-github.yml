@@ -1,0 +1,256 @@
+---
+###############################################################################
+# Build and publish a release of the Go SDK
+# https://github.com/smarter-sh/smarter-golang/releases
+# https://pkg.go.dev/github.com/smarter-sh/smarter-golang
+#
+# The smarter cli's build-release-github.yml, for a library. A Go module has
+# no binaries: its version is a git tag (ADR-010, ADR-015), which
+# semantic-release creates in pushMain.yml, along with a GitHub Release and the
+# commit that writes the version into version.go. This workflow publishes that
+# tag:
+#
+#   1. builds, vets and tests the tagged commit on Linux, macOS and Windows,
+#      with every supported Go release (ADR-019), and checks that version.go
+#      says the tag's version,
+#   2. makes sure that the tag has a GitHub Release,
+#   3. asks the Go module proxy (proxy.golang.org) to fetch the tag, which also
+#      records its checksum in the checksum database (sum.golang.org), and asks
+#      pkg.go.dev to index it, so that the api reference shows the release,
+#   4. imports the published version into a new module, from the proxy, and
+#      checks that smarter.Version reports it.
+#
+# It runs when semantic-release publishes a GitHub Release, and by hand
+# (Actions > Build-Release GitHub > Run workflow), e.g. to publish a tag again
+# or one that a failed run left behind. By hand, it publishes the version that
+# you give, or else the version in version.go.
+#
+# Never delete or move a tag that this workflow has published: the module proxy
+# caches every version forever. Retract a bad one with a `retract` directive in
+# go.mod, in a new release.
+#
+# Secrets: none beyond the default GITHUB_TOKEN. semantic-release uses the PAT
+# secret in pushMain.yml, so the release that it creates triggers this workflow.
+###############################################################################
+name: Build-Release GitHub
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The version to publish, e.g. 0.2.0 or v0.2.0. Empty: the version in version.go."
+        required: false
+        type: string
+
+env:
+  module: github.com/smarter-sh/smarter-golang
+
+concurrency:
+  group: build-release-${{ github.event.release.tag_name || inputs.version || github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  version:
+    name: Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.vars.outputs.version }}
+      tag: ${{ steps.vars.outputs.tag }}
+      prerelease: ${{ steps.vars.outputs.prerelease }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Get version
+        id: vars
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          version="${RELEASE_TAG:-$INPUT_VERSION}"
+          if [[ -z "$version" ]]; then
+            version=$(sed -n 's/^const Version = "\(.*\)"$/\1/p' version.go)
+          fi
+          version="${version#v}"
+          if [[ ! "$version" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::'$version' is not a semantic version"
+            exit 1
+          fi
+          if [[ "$version" == "0.0.0" ]]; then
+            echo "::error::version.go says 0.0.0: nothing has been released yet"
+            exit 1
+          fi
+          # a v2 or later module needs a /vN module path (ADR-015)
+          major="${version%%.*}"
+          if (( major >= 2 )) && ! grep -q "^module ${module}/v${major}\$" go.mod; then
+            echo "::error::v${version} needs the module path ${module}/v${major} in go.mod"
+            exit 1
+          fi
+          if ! git rev-parse -q --verify "refs/tags/v${version}" > /dev/null; then
+            echo "::error::the tag v${version} does not exist"
+            exit 1
+          fi
+          prerelease=false
+          [[ "$version" == *-* ]] && prerelease=true
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${version}" >> "$GITHUB_OUTPUT"
+          echo "prerelease=${prerelease}" >> "$GITHUB_OUTPUT"
+          echo "Publishing ${module}@v${version} (prerelease: ${prerelease})"
+
+  build:
+    name: Build (${{ matrix.os }}, Go ${{ matrix.go }})
+    needs: version
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        go: ["1.26", "1.27"]
+    steps:
+      - name: Check out the tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.version.outputs.tag }}
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Check that version.go says the tag's version
+        shell: bash
+        run: |
+          grep -q "^const Version = \"${{ needs.version.outputs.version }}\"\$" version.go || {
+            echo "::error::version.go does not say ${{ needs.version.outputs.version }}:"
+            cat version.go
+            exit 1
+          }
+
+      - name: Verify the module's dependencies
+        run: go mod verify
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Vet
+        run: go vet ./...
+
+      # the race detector needs cgo, which the Windows runners don't set up for Go.
+      - name: Test
+        shell: bash
+        run: |
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            go test ./...
+          else
+            go test -race ./...
+          fi
+
+  github-release:
+    name: GitHub Release
+    needs: [version, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      # semantic-release has usually created it already. Never delete and recreate it, as the cli's
+      # workflow does: the tag is the module's version, and must not move.
+      - name: Create the GitHub Release, if it is missing
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.version.outputs.tag }}
+          PRERELEASE: ${{ needs.version.outputs.prerelease }}
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "The GitHub Release $TAG exists"
+          else
+            flags=()
+            [[ "$PRERELEASE" == "true" ]] && flags+=(--prerelease)
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
+              --title "Release $TAG" --generate-notes "${flags[@]}"
+          fi
+
+  publish:
+    name: Go module proxy and pkg.go.dev
+    needs: [version, github-release]
+    runs-on: ubuntu-latest
+    env:
+      GOPROXY: https://proxy.golang.org
+      TAG: ${{ needs.version.outputs.tag }}
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27"
+          cache: false
+
+      # The proxy fetches the tag from GitHub on the first request for it; a tag that was pushed
+      # seconds ago may not be visible yet, so retry. `go mod download` also checks the module's
+      # checksum against sum.golang.org.
+      - name: Publish to the Go module proxy
+        run: |
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            if go mod download -json "${module}@${TAG}"; then
+              exit 0
+            fi
+            echo "The proxy does not have ${module}@${TAG} yet (attempt ${attempt}); retrying in 30 seconds"
+            sleep 30
+          done
+          echo "::error::the Go module proxy did not fetch ${module}@${TAG}"
+          exit 1
+
+      # pkg.go.dev also finds new versions in the proxy's index by itself, within minutes. This only
+      # makes it sooner, so a failure here doesn't fail the release.
+      - name: Ask pkg.go.dev to index the release
+        continue-on-error: true
+        run: |
+          curl -fsS -X POST "https://pkg.go.dev/fetch/${module}@${TAG}" -o /dev/null -w "pkg.go.dev: HTTP %{http_code}\n"
+
+      - name: Import the release into a new module
+        run: |
+          mkdir -p "$RUNNER_TEMP/consumer" && cd "$RUNNER_TEMP/consumer"
+          go mod init example.com/consumer
+          go get "${module}@${TAG}"
+          cat > main.go <<EOF
+          package main
+
+          import (
+          	"fmt"
+
+          	smarter "${module}"
+          )
+
+          func main() {
+          	fmt.Print(smarter.Version)
+          }
+          EOF
+          got=$(go run .)
+          if [[ "$got" != "$VERSION" ]]; then
+            echo "::error::smarter.Version is '$got', not '$VERSION'"
+            exit 1
+          fi
+          echo "smarter.Version is $got"
+
+      - name: Summary
+        run: |
+          {
+            echo "## Published ${module}@${TAG}"
+            echo
+            echo "- GitHub Release: https://github.com/${GITHUB_REPOSITORY}/releases/tag/${TAG}"
+            echo "- Go module proxy: https://proxy.golang.org/${module}/@v/${TAG}.info"
+            echo "- pkg.go.dev: https://pkg.go.dev/${module}@${TAG}"
+            echo
+            echo '```console'
+            echo "go get ${module}@${TAG}"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

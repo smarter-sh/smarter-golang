@@ -1,0 +1,142 @@
+{
+  "data": {
+    "contract": 2,
+    "status": 200,
+    "messages": [
+      {
+        "role": "smarter",
+        "content": "Prompt configuration: llm=openai, url=https://api.openai.com/v1/prompt/completions api_key=****abcd model=gpt-4o-mini, temperature=1.0, max_completion_tokens=4096, tool_choice=auto.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "smarter_is_new": true
+      },
+      {
+        "role": "smarter",
+        "content": "Tool presented: calculator(expression: A mathematical expression string to evaluate, supporting parentheses and math functions.) - \n                Evaluate a mathematical expression string, supporting parentheses and any combination of the\n                following math functions: add, subtract, multiply, divide, sin, cos, tan, asin, acos, atan, degrees, radians, expression.\n                The expression can include numbers, operators (+, -, *, /, **, %), and function calls.\n                Example input: '2 + 3 * (4 - 1)' or 'sin(pi / 2) + log(10)'.\n                 \n\nTool definition:\n--------------------\n{\n    \"type\": \"function\",\n    \"function\": {\n        \"name\": \"calculator\",\n        \"description\": \"\\n                Evaluate a mathematical expression string, supporting parentheses and any combination of the\\n                following math functions: add, subtract, multiply, divide, sin, cos, tan, asin, acos, atan, degrees, radians, expression.\\n                The expression can include numbers, operators (+, -, *, /, **, %), and function calls.\\n                Example input: '2 + 3 * (4 - 1)' or 'sin(pi / 2) + log(10)'.\\n                \",\n        \"parameters\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"expression\": {\n                    \"type\": \"string\",\n                    \"description\": \"A mathematical expression string to evaluate, supporting parentheses and math functions.\"\n                }\n            },\n            \"required\": [\n                \"expression\"\n            ]\n        }\n    }\n}",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "smarter_is_new": true
+      },
+      {
+        "role": "smarter",
+        "content": "openai prompt charges: 670 prompt tokens, 20 completion tokens = 690 total tokens charged.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "smarter_is_new": true
+      },
+      {
+        "role": "assistant",
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_abc123",
+            "type": "function",
+            "function": {
+              "name": "calculator",
+              "arguments": "{\"expression\":\"17 * 23\"}"
+            }
+          }
+        ],
+        "tool_call_id": null,
+        "name": null,
+        "refusal": null,
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "smarter_is_new": true
+      },
+      {
+        "role": "smarter",
+        "content": "openai called this tool: calculator({\"expression\":\"17 * 23\"})\n\nTool call:\n--------------------\n{\n    \"id\": \"call_abc123\",\n    \"function\": {\n        \"arguments\": \"{\\\"expression\\\":\\\"17 * 23\\\"}\",\n        \"name\": \"calculator\"\n    },\n    \"type\": \"function\"\n}",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "smarter_is_new": true
+      },
+      {
+        "role": "tool",
+        "content": "[\n  {\n    \"result\": 391\n  }\n]",
+        "tool_calls": null,
+        "tool_call_id": "call_abc123",
+        "name": "calculator",
+        "smarter_is_new": true
+      },
+      {
+        "role": "assistant",
+        "content": "`17 * 23` = **391**",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "refusal": null,
+        "annotations": [],
+        "audio": null,
+        "function_call": null,
+        "smarter_is_new": true
+      },
+      {
+        "role": "smarter",
+        "content": "openai prompt charges: 494 prompt tokens, 13 completion tokens = 507 total tokens charged.",
+        "tool_calls": null,
+        "tool_call_id": null,
+        "name": null,
+        "smarter_is_new": true
+      }
+    ],
+    "completion": {
+      "id": "chatcmpl-EYWJAD9MiMAA0Zs8X5nQT2SNmOD96",
+      "object": "chat.completion",
+      "created": 1791896052,
+      "model": "gpt-4o-mini",
+      "choices": [
+        {
+          "index": 0,
+          "finish_reason": "stop",
+          "message": {
+            "role": "assistant",
+            "content": "`17 * 23` = **391**",
+            "tool_calls": null,
+            "tool_call_id": null,
+            "name": null,
+            "refusal": null,
+            "annotations": [],
+            "audio": null,
+            "function_call": null
+          },
+          "logprobs": null
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 494,
+        "completion_tokens": 13,
+        "total_tokens": 507,
+        "prompt_tokens_details": {
+          "reasoning_tokens": null,
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "cached_tokens": null,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "system_fingerprint": null,
+      "service_tier": "default"
+    },
+    "plugins": [],
+    "tools": [
+      "calculator"
+    ]
+  },
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "prompt",
+    "thing": "LLMClient"
+  }
+}

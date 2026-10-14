@@ -1,0 +1,141 @@
+{
+  "proxies": [
+    {
+      "name": "anthropic",
+      "description": "Passthrough access to Anthropic's Messages API, for Claude.",
+      "provider": "anthropic",
+      "url": "http://localhost:9357/api/v1/proxy/anthropic/",
+      "upstreamUrl": "https://api.anthropic.com/",
+      "allowedPaths": [
+        "v1/messages",
+        "v1/messages/count_tokens",
+        "v1/models",
+        "v1/models/*"
+      ],
+      "isActive": true
+    },
+    {
+      "name": "cohere",
+      "description": "Passthrough access to the Cohere API's chat, embed, rerank and models endpoints.",
+      "provider": "cohere",
+      "url": "http://localhost:9357/api/v1/proxy/cohere/",
+      "upstreamUrl": "https://api.cohere.com/",
+      "allowedPaths": [
+        "v2/chat",
+        "v2/embed",
+        "v2/rerank",
+        "v1/chat",
+        "v1/embed",
+        "v1/rerank",
+        "v1/models",
+        "v1/models/*"
+      ],
+      "isActive": true
+    },
+    {
+      "name": "fireworks",
+      "description": "Passthrough access to the Fireworks AI API's OpenAI-compatible chat completions, completions, embeddings and models.",
+      "provider": "fireworks",
+      "url": "http://localhost:9357/api/v1/proxy/fireworks/",
+      "upstreamUrl": "https://api.fireworks.ai/inference/v1/",
+      "allowedPaths": [
+        "chat/completions",
+        "completions",
+        "embeddings",
+        "models"
+      ],
+      "isActive": true
+    },
+    {
+      "name": "googleai",
+      "description": "Passthrough access to the Google Gemini API's native generateContent, embedContent and models endpoints.",
+      "provider": "googleai",
+      "url": "http://localhost:9357/api/v1/proxy/googleai/",
+      "upstreamUrl": "https://generativelanguage.googleapis.com/",
+      "allowedPaths": [
+        "v1beta/models",
+        "v1beta/models/*",
+        "v1/models",
+        "v1/models/*"
+      ],
+      "isActive": true
+    },
+    {
+      "name": "googleai_openai",
+      "description": "Passthrough access to the Google Gemini API's OpenAI-compatible chat completions, embeddings and models.",
+      "provider": "googleai",
+      "url": "http://localhost:9357/api/v1/proxy/googleai_openai/",
+      "upstreamUrl": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "allowedPaths": [
+        "chat/completions",
+        "embeddings",
+        "models",
+        "models/*"
+      ],
+      "isActive": true
+    },
+    {
+      "name": "metaai",
+      "description": "Passthrough access to Meta's Llama API chat completions, moderations and models, native and OpenAI-compatible.",
+      "provider": "metaai",
+      "url": "http://localhost:9357/api/v1/proxy/metaai/",
+      "upstreamUrl": "https://api.llama.com/",
+      "allowedPaths": [
+        "v1/chat/completions",
+        "v1/moderations",
+        "v1/models",
+        "v1/models/*",
+        "compat/v1/chat/completions",
+        "compat/v1/models"
+      ],
+      "isActive": true
+    },
+    {
+      "name": "mistral",
+      "description": "Passthrough access to the Mistral AI API's chat completions, code completions, embeddings and models.",
+      "provider": "mistral",
+      "url": "http://localhost:9357/api/v1/proxy/mistral/",
+      "upstreamUrl": "https://api.mistral.ai/",
+      "allowedPaths": [
+        "v1/chat/completions",
+        "v1/fim/completions",
+        "v1/embeddings",
+        "v1/moderations",
+        "v1/models",
+        "v1/models/*"
+      ],
+      "isActive": true
+    },
+    {
+      "name": "openai",
+      "description": "Passthrough access to the OpenAI API's chat completions, responses, embeddings and models.",
+      "provider": "openai",
+      "url": "http://localhost:9357/api/v1/proxy/openai/",
+      "upstreamUrl": "https://api.openai.com/v1/",
+      "allowedPaths": [
+        "chat/completions",
+        "completions",
+        "responses",
+        "embeddings",
+        "moderations",
+        "models",
+        "models/*"
+      ],
+      "isActive": true
+    },
+    {
+      "name": "togetherai",
+      "description": "Passthrough access to the Together AI API's OpenAI-compatible chat completions, completions, embeddings and models.",
+      "provider": "togetherai",
+      "url": "http://localhost:9357/api/v1/proxy/togetherai/",
+      "upstreamUrl": "https://api.together.xyz/v1/",
+      "allowedPaths": [
+        "chat/completions",
+        "completions",
+        "embeddings",
+        "models"
+      ],
+      "isActive": true
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "Singular": "Plugin",
+      "Plural": "Plugins",
+      "APIKind": "Plugin",
+      "Display": "Plugin",
+      "DisplayPlural": "Plugins",
+      "Deployable": false
+    },
+    {
+      "Singular": "ApiPlugin",
+      "Plural": "ApiPlugins",
+      "APIKind": "ApiPlugin",
+      "Display": "ApiPlugin",
+      "DisplayPlural": "ApiPlugins",
+      "Deployable": false
+    },
+    {
+      "Singular": "SkillPlugin",
+      "Plural": "SkillPlugins",
+      "APIKind": "SkillPlugin",
+      "Display": "SkillPlugin",
+      "DisplayPlural": "SkillPlugins",
+      "Deployable": false
+    },
+    {
+      "Singular": "LLMClient",
+      "Plural": "LLMClients",
+      "APIKind": "LLMClient",
+      "Display": "LLMClient",
+      "DisplayPlural": "LLMClients",
+      "Deployable": false
+    }
+  ],
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "version",
+    "thing": "None"
+  }
+}

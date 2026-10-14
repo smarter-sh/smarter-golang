@@ -1,0 +1,70 @@
+{
+  "data": {
+    "apiVersion": "smarter.sh/v1",
+    "kind": "Guardrail",
+    "metadata": {
+      "name": "example_guardrail",
+      "description": "Redacts credit card numbers and social security numbers from the user's message.",
+      "version": "1.0.0",
+      "tags": [
+        "example",
+        "pii"
+      ],
+      "annotations": [
+        {
+          "smarter.sh/guardrail/purpose": "example"
+        }
+      ]
+    },
+    "spec": {
+      "config": {
+        "stage": "input",
+        "category": "pii",
+        "strategy": "detector",
+        "pattern": null,
+        "flags": [
+          "IGNORECASE"
+        ],
+        "keywords": [],
+        "caseSensitive": false,
+        "wholeWord": true,
+        "detectors": [
+          "credit_card",
+          "us_ssn"
+        ],
+        "referenceTexts": [],
+        "categories": [],
+        "judgePrompt": null,
+        "threshold": null,
+        "model": null,
+        "provider": null,
+        "action": "redact",
+        "replacement": "[REDACTED {label}]",
+        "message": null,
+        "severity": 4,
+        "mode": "enforce",
+        "failClosed": false,
+        "priority": 10,
+        "isActive": true
+      }
+    },
+    "status": {
+      "recordLocator": "abc123def456",
+      "created": "2026-10-13T13:06:24.396",
+      "modified": "2026-10-13T13:06:24.396",
+      "dependencies": null,
+      "accountNumber": "1234-5678-9012",
+      "username": "admin",
+      "triggered": null,
+      "blocked": null,
+      "errors": null,
+      "lastTriggered": null
+    }
+  },
+  "message": "Guardrail example manifest successfully generated",
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "example_manifest",
+    "thing": "Guardrail"
+  }
+}

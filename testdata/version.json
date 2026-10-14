@@ -1,0 +1,28 @@
+{
+  "data": {
+    "api": {
+      "version": "9999.9999.9999.dev9999",
+      "python": {
+        "botocore": "1.43.107",
+        "celery": "5.6.3",
+        "django": "6.0.8",
+        "levenshtein": "0.27.5",
+        "google_genai": "2.26.0",
+        "llamaai": "unknown",
+        "openai": "2.54.0",
+        "pandas": null,
+        "pydantic": "2.13.5",
+        "python": "3.14.8",
+        "rest_framework": "3.18.1"
+      }
+    },
+    "cli": {
+      "version": "0.4.0"
+    }
+  },
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "version",
+    "thing": "None"
+  }
+}

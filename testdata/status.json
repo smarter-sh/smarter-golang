@@ -1,0 +1,19 @@
+{
+  "data": {
+    "infrastructures": {
+      "kubernetes": {
+        "status": "ACTIVE",
+        "version": "1.33"
+      }
+    },
+    "compute": {
+      "machine": "x86_64",
+      "system": "Linux"
+    }
+  },
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "status",
+    "thing": "None"
+  }
+}

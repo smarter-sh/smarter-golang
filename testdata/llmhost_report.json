@@ -1,0 +1,43 @@
+{
+  "totals": {
+    "llmhosts": 24,
+    "deployed": 0,
+    "active": 0,
+    "errors": 0,
+    "gpus": 0,
+    "costPerHour": "0",
+    "estimatedCost": "0"
+  },
+  "byStatus": {
+    "inactive": 24
+  },
+  "byEngine": {
+    "tei": 3,
+    "ollama": 2,
+    "vllm": 15,
+    "llama_cpp": 2,
+    "tgi": 1,
+    "sglang": 1
+  },
+  "llmhosts": [
+    {
+      "name": "all_minilm_l6_v2",
+      "owner": "admin",
+      "status": "inactive",
+      "engine": "tei",
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "task": "embedding",
+      "replicas": 1,
+      "readyReplicas": 0,
+      "compute": "cpu_small",
+      "gpus": 0,
+      "gpuType": null,
+      "endpoint": null,
+      "publicUrl": null,
+      "deployedAt": null,
+      "uptimeHours": null,
+      "costPerHour": "0.1768",
+      "estimatedCost": null
+    }
+  ]
+}

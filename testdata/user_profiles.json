@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "hashedId": "rMTAwMDAwMQx",
+    "createdAt": "2026-10-12T18:52:48.494150Z",
+    "updatedAt": "2026-10-12T18:52:48.494162Z",
+    "name": "",
+    "description": "",
+    "version": "1.0.0",
+    "tags": [],
+    "annotations": [],
+    "user": {
+      "id": 1,
+      "username": "admin",
+      "firstName": "",
+      "lastName": "",
+      "email": "admin@example.com",
+      "isStaff": true,
+      "isSuperuser": true
+    },
+    "account": {
+      "accountNumber": "1234-5678-9012"
+    },
+    "profileImageUrl": null,
+    "isTest": false
+  }
+]

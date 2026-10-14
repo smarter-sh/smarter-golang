@@ -1,0 +1,8 @@
+{
+  "message": "Guardrail sdk_probe_guardrail deleted successfully",
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "delete",
+    "thing": "Guardrail"
+  }
+}

@@ -1,0 +1,247 @@
+[
+  {
+    "id": 1,
+    "hashedId": "rMTAwMDAwMQx",
+    "createdAt": "2026-10-12T18:53:04.068762Z",
+    "updatedAt": "2026-10-12T18:53:04.068786Z",
+    "name": "all_minilm_l6_v2",
+    "description": "sentence-transformers all-MiniLM-L6-v2, a small embedding model, served by Text Embeddings Inference on CPU.",
+    "version": "1.0.0",
+    "tags": [
+      "embedding",
+      "sentence-transformers",
+      "tei",
+      "cpu"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/llmhost/builtin": "true"
+      },
+      {
+        "smarter.sh/llmhost/model-card": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": true,
+    "manifestUrl": "/llmhost/llmhosts/rMTAwMDAwMQx/",
+    "spec": {
+      "model": {
+        "source": "huggingface",
+        "repository": "sentence-transformers/all-MiniLM-L6-v2",
+        "revision": "main",
+        "task": "embedding",
+        "license": "apache-2.0",
+        "architecture": "bert",
+        "parameterCount": 22713216,
+        "contextWindow": 256,
+        "embeddingDimensions": 384,
+        "quantization": "fp32",
+        "capabilities": {
+          "streaming": false,
+          "functionCalling": false,
+          "vision": false,
+          "reasoning": false
+        }
+      },
+      "engine": {
+        "name": "tei",
+        "apiFormat": "openai_compatible",
+        "maxConcurrentRequests": 512,
+        "trustRemoteCode": false,
+        "args": [],
+        "env": {}
+      },
+      "compute": "cpu_small",
+      "resources": {
+        "gpuCount": 0,
+        "gpuResource": "nvidia.com/gpu",
+        "cpu": "3",
+        "memory": "2Gi",
+        "shmSize": "1Gi",
+        "nodeSelector": {},
+        "tolerations": []
+      },
+      "storage": {
+        "size": "2Gi",
+        "accessMode": "ReadWriteOnce",
+        "retain": true
+      },
+      "network": {
+        "ingress": false,
+        "allowUnauthenticated": false
+      },
+      "scaling": {
+        "replicas": 1
+      },
+      "healthCheck": {
+        "startupTimeoutSeconds": 3600,
+        "periodSeconds": 10
+      }
+    },
+    "modelSource": "huggingface",
+    "modelRepository": "sentence-transformers/all-MiniLM-L6-v2",
+    "modelRevision": "main",
+    "modelTask": "embedding",
+    "servedModelName": "all_minilm_l6_v2",
+    "license": "apache-2.0",
+    "modelArchitecture": "bert",
+    "parameterCount": 22713216,
+    "contextWindow": 256,
+    "quantization": "fp32",
+    "embeddingDimensions": 384,
+    "supportsStreaming": false,
+    "supportsFunctionCalling": false,
+    "supportsVision": false,
+    "supportsReasoning": false,
+    "inferenceEngine": "tei",
+    "apiFormat": "openai_compatible",
+    "gpuType": "",
+    "gpuCount": 0,
+    "vramRequiredGb": null,
+    "replicas": 1,
+    "costPerHour": "0.1768",
+    "status": "inactive",
+    "statusMessage": "",
+    "isActive": true,
+    "readyReplicas": 0,
+    "endpointUrl": "",
+    "publicUrl": "",
+    "healthCheckUrl": "",
+    "lastHealthCheckAt": null,
+    "lastHealthOk": null,
+    "deployedAt": null,
+    "apiKeySecret": null,
+    "compute": 2
+  },
+  {
+    "id": 2,
+    "hashedId": "rMTAwMDAwMgx",
+    "createdAt": "2026-10-12T18:53:04.368163Z",
+    "updatedAt": "2026-10-12T18:53:04.368174Z",
+    "name": "bge_m3",
+    "description": "BAAI bge-m3, a multilingual embedding model, served by Text Embeddings Inference on one NVIDIA L4.",
+    "version": "1.0.0",
+    "tags": [
+      "embedding",
+      "baai",
+      "tei",
+      "multilingual"
+    ],
+    "annotations": [
+      {
+        "smarter.sh/llmhost/builtin": "true"
+      },
+      {
+        "smarter.sh/llmhost/model-card": "https://huggingface.co/BAAI/bge-m3"
+      }
+    ],
+    "userProfile": {
+      "user": {
+        "username": "admin",
+        "email": "admin@example.com"
+      },
+      "account": {
+        "accountNumber": "1234-5678-9012"
+      }
+    },
+    "canDelete": true,
+    "manifestUrl": "/llmhost/llmhosts/rMTAwMDAwMgx/",
+    "spec": {
+      "model": {
+        "source": "huggingface",
+        "repository": "BAAI/bge-m3",
+        "revision": "main",
+        "task": "embedding",
+        "license": "mit",
+        "architecture": "xlm-roberta",
+        "parameterCount": 567754752,
+        "contextWindow": 8192,
+        "embeddingDimensions": 1024,
+        "quantization": "fp32",
+        "capabilities": {
+          "streaming": false,
+          "functionCalling": false,
+          "vision": false,
+          "reasoning": false
+        }
+      },
+      "engine": {
+        "name": "tei",
+        "apiFormat": "openai_compatible",
+        "maxConcurrentRequests": 512,
+        "trustRemoteCode": false,
+        "args": [],
+        "env": {}
+      },
+      "compute": "gpu_l4_1x",
+      "resources": {
+        "gpuCount": 1,
+        "gpuResource": "nvidia.com/gpu",
+        "vramRequiredGb": 3,
+        "cpu": "4",
+        "memory": "8Gi",
+        "shmSize": "8Gi",
+        "nodeSelector": {},
+        "tolerations": []
+      },
+      "storage": {
+        "size": "10Gi",
+        "accessMode": "ReadWriteOnce",
+        "retain": true
+      },
+      "network": {
+        "ingress": false,
+        "allowUnauthenticated": false
+      },
+      "scaling": {
+        "replicas": 1
+      },
+      "healthCheck": {
+        "startupTimeoutSeconds": 3600,
+        "periodSeconds": 10
+      }
+    },
+    "modelSource": "huggingface",
+    "modelRepository": "BAAI/bge-m3",
+    "modelRevision": "main",
+    "modelTask": "embedding",
+    "servedModelName": "bge_m3",
+    "license": "mit",
+    "modelArchitecture": "xlm-roberta",
+    "parameterCount": 567754752,
+    "contextWindow": 8192,
+    "quantization": "fp32",
+    "embeddingDimensions": 1024,
+    "supportsStreaming": false,
+    "supportsFunctionCalling": false,
+    "supportsVision": false,
+    "supportsReasoning": false,
+    "inferenceEngine": "tei",
+    "apiFormat": "openai_compatible",
+    "gpuType": "L4",
+    "gpuCount": 1,
+    "vramRequiredGb": 3,
+    "replicas": 1,
+    "costPerHour": "0.9776",
+    "status": "inactive",
+    "statusMessage": "",
+    "isActive": true,
+    "readyReplicas": 0,
+    "endpointUrl": "",
+    "publicUrl": "",
+    "healthCheckUrl": "",
+    "lastHealthCheckAt": null,
+    "lastHealthOk": null,
+    "deployedAt": null,
+    "apiKeySecret": null,
+    "compute": 5
+  }
+]

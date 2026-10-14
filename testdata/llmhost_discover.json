@@ -1,0 +1,28 @@
+{
+  "models": [
+    {
+      "catalog": "huggingface",
+      "source": "huggingface",
+      "repository": "sentence-transformers/all-MiniLM-L6-v2",
+      "task": "embedding",
+      "description": null,
+      "license": "apache-2.0",
+      "gated": false,
+      "architecture": null,
+      "parameter_count": null,
+      "context_window": null,
+      "quantization": "none",
+      "downloads": 220348634,
+      "likes": 6331,
+      "tags": [
+        "sentence-transformers",
+        "pytorch",
+        "tf",
+        "rust",
+        "onnx"
+      ],
+      "files": [],
+      "manifest": null
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "firstName": "",
+    "lastName": "",
+    "email": "admin@example.com",
+    "isStaff": true,
+    "isSuperuser": true
+  },
+  {
+    "id": 2,
+    "username": "staff_user",
+    "firstName": "Staff",
+    "lastName": "User",
+    "email": "user@example.com",
+    "isStaff": true,
+    "isSuperuser": false
+  }
+]

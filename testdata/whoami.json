@@ -1,0 +1,44 @@
+{
+  "data": {
+    "user": {
+      "id": 1,
+      "username": "admin",
+      "firstName": "",
+      "lastName": "",
+      "email": "admin@example.com",
+      "isStaff": true,
+      "isSuperuser": true
+    },
+    "account": {
+      "id": 1,
+      "hashedId": "rMTAwMDAwMQx",
+      "createdAt": "2026-10-12T18:52:48.287370Z",
+      "updatedAt": "2026-10-12T18:57:14.558954Z",
+      "name": "smarter Admin Account",
+      "description": "automatically-generated smarter Admin account",
+      "version": "1.0.0",
+      "tags": [],
+      "annotations": [],
+      "accountNumber": "1234-5678-9012",
+      "isDefaultAccount": true,
+      "companyName": "Example Company",
+      "phoneNumber": "+1 (555) 555-0100",
+      "address1": "1 Example Street",
+      "address2": null,
+      "city": "Example City",
+      "state": "CA",
+      "postalCode": "00000",
+      "country": "USA",
+      "language": "EN",
+      "timezone": "UTC",
+      "currency": "USD",
+      "isActive": true
+    },
+    "environment": "local"
+  },
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "whoami",
+    "thing": "None"
+  }
+}

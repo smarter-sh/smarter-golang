@@ -1,0 +1,30 @@
+{
+  "llmhost": "all_minilm_l6_v2",
+  "resources": [
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "llmhost-1-all-minilm-l6-v2-models",
+        "namespace": "smarter-local",
+        "labels": {
+          "app.kubernetes.io/name": "llmhost-1-all-minilm-l6-v2",
+          "app.kubernetes.io/component": "llmhost",
+          "app.kubernetes.io/managed-by": "smarter",
+          "smarter.sh/llmhost": "llmhost-1-all-minilm-l6-v2",
+          "smarter.sh/account-number": "1234-5678-9012"
+        }
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "2Gi"
+          }
+        }
+      }
+    }
+  ]
+}

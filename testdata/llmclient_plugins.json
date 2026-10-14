@@ -1,0 +1,49 @@
+[
+  {
+    "id": 1,
+    "pluginMeta": {
+      "id": 21,
+      "createdAt": "2026-10-12T18:53:34.254448Z",
+      "updatedAt": "2026-10-12T18:53:34.424905Z",
+      "name": "stackademy_sql",
+      "userProfile": {
+        "user": {
+          "username": "admin",
+          "email": "admin@example.com"
+        },
+        "account": {
+          "accountNumber": "1234-5678-9012"
+        }
+      },
+      "description": "Online course catalogue inquiries for fictional Stackademy University that only offers computer science degrees programs.",
+      "pluginClass": "sql",
+      "version": "0.1.0",
+      "annotations": [
+        {
+          "smarter.sh/stackademy-sql/display-name": "Stackademy SQL"
+        },
+        {
+          "smarter.sh/stackademy-sql/icon": "https://example.com/stackademy-sql-icon.png"
+        },
+        {
+          "smarter.sh/stackademy-sql/documentation-url": "https://docs.stackademy.com/sql"
+        },
+        {
+          "smarter.sh/stackademy-sql/contact-email": "no-reply@example.com"
+        }
+      ],
+      "tags": [
+        "db",
+        "sql",
+        "database"
+      ],
+      "manifestUrl": "/plugin/plugins/rMTAwMDAyMQx/",
+      "ready": true,
+      "kind": "SqlPlugin",
+      "canDelete": false
+    },
+    "createdAt": "2026-10-12T18:53:34.964604Z",
+    "updatedAt": "2026-10-12T18:53:34.964613Z",
+    "llmclient": 1
+  }
+]

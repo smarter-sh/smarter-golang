@@ -1,0 +1,57 @@
+---
+#------------------------------------------------------------------------------
+# Vet, lint and run the unit tests on every supported Go version.
+#
+# The unit tests never reach a Smarter platform: a RoundTripper answers every
+# request. The live tests (live_test.go) are skipped, because SMARTER_TEST_LIVE
+# is not set.
+#------------------------------------------------------------------------------
+name: Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, alpha, beta]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version: ["1.26", "1.27"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: v2.14.0
+
+      - name: Check that sam/ is what samgen generates
+        run: |
+          go run ./internal/cmd/samgen > /dev/null
+          git diff --exit-code -- sam/
+
+      - name: Run the unit tests, with coverage
+        run: make coverage
+
+      # one upload is enough: the coverage is the same on every Go version.
+      - name: Upload coverage to Codecov
+        if: matrix.go-version == '1.27'
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage.out
+          flags: go
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}

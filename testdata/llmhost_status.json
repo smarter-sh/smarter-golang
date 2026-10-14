@@ -1,0 +1,12 @@
+{
+  "llmhost": "all_minilm_l6_v2",
+  "status": "inactive",
+  "message": "Not deployed.",
+  "replicas": 0,
+  "readyReplicas": 0,
+  "healthy": null,
+  "endpoint": null,
+  "publicUrl": null,
+  "pods": [],
+  "checkedAt": "2026-10-13T13:01:32.419383+00:00"
+}

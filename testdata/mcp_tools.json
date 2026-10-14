@@ -1,0 +1,49 @@
+{
+  "name": "aws_knowledge",
+  "status": "connected",
+  "protocolVersion": "2025-03-26",
+  "serverName": "AWSKnowledgeMCP",
+  "serverVersion": "1.0.0",
+  "lastConnected": "2026-10-13T12:52:57.510273+00:00",
+  "lastError": null,
+  "tools": [
+    {
+      "name": "aws___read_documentation",
+      "title": null,
+      "description": "Fetch full AWS doc pages as markdown. `search_documentation` already returns verbatim page chunks, so don't re-read a URL whose chunk you already have to \"confirm\" or \"round out\" an answer -- the chun",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "Doc URL with allow-listed prefix; use exact URL from search."
+                },
+                "max_length": {
+                  "type": "integer",
+                  "description": "Chars returned (default 10000)."
+                },
+                "start_index": {
+                  "type": "integer",
+                  "description": "Char offset (default 0). Use prior `end_index` to continue, or TOC offset to jump."
+                }
+              },
+              "required": [
+                "url"
+              ]
+            },
+            "description": "List of `{url, max_length?, start_index?}`. Batch 2-5."
+          }
+        },
+        "required": []
+      },
+      "readOnly": true,
+      "destructive": false
+    }
+  ],
+  "instructions": ""
+}

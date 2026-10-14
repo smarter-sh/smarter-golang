@@ -1,0 +1,12 @@
+{
+  "data": {
+    "valid": true,
+    "errors": []
+  },
+  "message": "Manifest is valid",
+  "api": "smarter.sh/v1",
+  "metadata": {
+    "command": "validate",
+    "thing": "Guardrail"
+  }
+}
