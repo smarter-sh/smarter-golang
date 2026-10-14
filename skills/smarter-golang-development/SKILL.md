@@ -112,6 +112,7 @@ reference is pkg.go.dev. See `smarter-sphinx-docs` and `smarter-godoc`.
    name, and says what the Python SDK's docstring says. See `smarter-godoc`.
 10. **A library never exits.** No `panic` on a caller's input, no `log.Fatal`,
     no `os.Exit`: return an error.
+11. **smarter Sphinx docs** should build the SDK's pages in the smarter/docs/source/smarter-framework/. See `smarter-sphinx-docs`.
 
 ## Architecture, and why
 
