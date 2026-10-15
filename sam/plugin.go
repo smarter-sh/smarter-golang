@@ -4,7 +4,7 @@ package sam
 
 // Plugin is a manifest of the Plugin kind.
 //
-// Smarter API Manifest - Plugin
+// Smarter API Manifest - Plugin.
 type Plugin struct {
 	// apiVersion[String]: Required. The API version of the AbstractSAMBase.
 	APIVersion string `json:"apiVersion"`
@@ -18,7 +18,7 @@ type Plugin struct {
 	Status *PluginCommonStatus `json:"status,omitempty"`
 }
 
-// PluginStaticSpec: Smarter API Plugin Manifest Plugin.spec
+// PluginStaticSpec: Smarter API Plugin Manifest Plugin.spec.
 type PluginStaticSpec struct {
 	// Plugin.spec.data[obj]: the json data returned by the Plugin. This should be one of the following kinds: ['api', 'static', 'skill', 'static', 'sql', 'websearch', 'imagesearch']
 	Data PluginStaticSpecData `json:"data"`
@@ -28,7 +28,7 @@ type PluginStaticSpec struct {
 	Selector PluginCommonSpecSelector `json:"selector"`
 }
 
-// PluginStaticSpecData: Smarter API Plugin Manifest Plugin.spec.data
+// PluginStaticSpecData: Smarter API Plugin Manifest Plugin.spec.data.
 type PluginStaticSpecData struct {
 	// Plugin.spec.data.staticData[obj]: The static data returned by the Plugin when the class is 'static'. LLM's are adept at understanding the context of json data structures. Try to provide granular and specific data elements.
 	StaticData map[string]any `json:"staticData,omitempty"`

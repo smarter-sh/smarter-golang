@@ -38,6 +38,15 @@
     }
   ],
   "plugins": [],
+  "mcpclients": [],
+  "guardrails": [],
+  "tools": [
+    {
+      "id": 1,
+      "name": "calculator",
+      "kind": "Function"
+    }
+  ],
   "customDomains": [],
   "apiKeys": [],
   "rfc1034CompliantName": "calculator",
