@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/smarter-sh/smarter-golang/compare/v0.1.1...v0.2.0) (2026-10-15)
+
+
+### Features
+
+* **llmclients:** add mcpclients, guardrails and tools to llmclient ([294e33a](https://github.com/smarter-sh/smarter-golang/commit/294e33a31b780c612c9c613ea9bd4de4d3d72654))
+
 ## [0.1.1](https://github.com/smarter-sh/smarter-golang/compare/v0.1.0...v0.1.1) (2026-10-15)
 
 
