@@ -38,7 +38,7 @@ type UserMetadata struct {
 	Version string `json:"version,omitempty"`
 }
 
-// UserSpec: Smarter API User Manifest User.spec
+// UserSpec: Smarter API User Manifest User.spec.
 type UserSpec struct {
 	// User.spec.config[object]. The configuration for the User.
 	Config UserSpecConfig `json:"config"`
@@ -60,7 +60,7 @@ type UserStatus struct {
 	Username string `json:"username"`
 }
 
-// UserSpecConfig: Smarter API User Manifest User.spec.config
+// UserSpecConfig: Smarter API User Manifest User.spec.config.
 type UserSpecConfig struct {
 	// User.spec.configuration.email[str]. The email address of the User.
 	Email string `json:"email"`

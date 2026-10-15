@@ -42,8 +42,8 @@ type LLMClientSpec struct {
 	APIKey string `json:"apiKey,omitempty"`
 	// LLMClient.spec.config[object]. The configuration for the LLMClient.
 	Config LLMClientSpecConfig `json:"config"`
-	// LLMClient.spec.functions[list]. Optional. The built-in Smarter Functions to add to the LLMClient. Example: ['get_current_weather']. These are built-in backing functions written in Python that are fully compatible with OpenAI API-compatible function calling. These are not the same as OpenAI functions. See https://docs.smarter.sh/ for more information.
-	Functions []string `json:"functions,omitempty"`
+	// LLMClient.spec.extensions[list]. Optional. The slugs of the Extensions whose tools the LLMClient offers the LLM. Example: ['weather', 'calculator']. Extensions are Python packages that a platform administrator installs; each must be installed, enabled and available to your account. See https://docs.smarter.sh/ for more information.
+	Extensions []string `json:"extensions,omitempty"`
 	// LLMClient.spec.guardrails[list]. Optional. The names of the Guardrails that protect the LLMClient's prompts. Example: ['pii_redaction_input', 'prompt_injection_keyword_input']. Each must be a Guardrail that you own, or that is shared with you, such as Smarter's built-in guardrails. Input guardrails run on the user's message before it is sent to the LLM, and output guardrails on the LLM's reply before it is returned to the user, in order of their priority. Experimental.
 	Guardrails []string `json:"guardrails,omitempty"`
 	// LLMClient.spec.mcpClients[list]. Optional. The names of the MCPClients whose MCP servers' tools the LLMClient offers the LLM. Example: ['deepwiki']. Each must be an MCPClient that you own, or that is shared with you. Experimental.
@@ -137,7 +137,7 @@ type LLMClientSpecConfigPrompt struct {
 	DefaultModel string `json:"defaultModel,omitempty"`
 	// LLMClient.spec.configuration.prompt.default_system_role[str]. Optional. The default system prompt to use for the llmclient. This defaults to the following value:
 	// You are a helpful llmclient. When given the opportunity to utilize function calling, you should always do so. This will allow you to provide the best possible responses to the user. If you are unable to provide a response, you should prompt the user for more information. If you are still unable to provide a response, you should inform the user that you are unable to help them at this time..
-	// The system prompt is the first message in the conversation and is used to set the context for the llmclient. It is important to keep this prompt short, as it is included in the token count for each message. The maximum length of the system prompt is 2048 characters.
+	// The system prompt is the first message in the conversation and is used to set the context for the llmclient. It is sent with every prompt, so its tokens count towards every turn's cost. The maximum length of the system prompt is 32768 characters.
 	DefaultSystemRole string `json:"defaultSystemRole,omitempty"`
 	// LLMClient.spec.configuration.prompt.default_temperature[float]. Optional. The default temperature to use for the llmclient. This defaults to 1.0.
 	// The temperature is a floating point value between 0 and 1 that controls the randomness of the llmclient's responses. A value of 0 means that the llmclient will always choose the most likely response, while a value of 1 means that the llmclient will choose a random response. Low values work better for information retrieval tasks, while high values work better for creative tasks.
@@ -198,11 +198,14 @@ type LLMClientCustomDomain struct {
 	DomainName string `json:"domain_name"`
 }
 
-// LLMClientStylesButtons: “spec.config.styles.buttons“: the send and attach buttons, and the header's buttons.
+// LLMClientStylesButtons: “spec.config.styles.buttons“: the send and attach buttons, on the message input.
+//
+// The header's buttons take the header's text color, “conversationHeader.color“, so that
+// they contrast with the header, whose background is usually the opposite of the input's.
 //
 // chatscope's “Button“, class “.cs-button“.
 type LLMClientStylesButtons struct {
-	// LLMClient.styles.buttons.color[str]. Optional. The color of the buttons' icons. chatscope's $button-color. Example: '#6ea9d7'.
+	// LLMClient.styles.buttons.color[str]. Optional. The color of the send and attach buttons' icons, on the message input. The header's buttons use conversationHeader.color, or this color if it is not set. chatscope's $button-color. Example: '#6ea9d7'.
 	Color string `json:"color,omitempty"`
 }
 
@@ -215,7 +218,7 @@ type LLMClientStylesConversationHeader struct {
 	BackgroundColor string `json:"backgroundColor,omitempty"`
 	// LLMClient.styles.conversationHeader.borderColor[str]. Optional. The color of the line under the header. chatscope's $conversation-header-border-bottom. Example: '#ff5733'.
 	BorderColor string `json:"borderColor,omitempty"`
-	// LLMClient.styles.conversationHeader.color[str]. Optional. The color of the LLMClient's name. chatscope's $conversation-header-user-name-color. Example: '#ffffff'.
+	// LLMClient.styles.conversationHeader.color[str]. Optional. The color of the LLMClient's name, and of the header's buttons: new chat, show or hide the Console, sandbox or production, and Docs. Choose a color that contrasts with backgroundColor. chatscope's $conversation-header-user-name-color. Example: '#ffffff'.
 	Color string `json:"color,omitempty"`
 	// LLMClient.styles.conversationHeader.infoColor[str]. Optional. The color of the line under the name, which names the LLM provider and model. chatscope's $conversation-header-info-color. Example: '#c0c4e0'.
 	InfoColor string `json:"infoColor,omitempty"`

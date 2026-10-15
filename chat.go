@@ -273,12 +273,18 @@ type PromptChatAPILLMClientPlugin struct {
 	PluginMeta PromptChatAPIPluginMeta `json:"plugin_meta"`
 }
 
-// PromptChatAPILLMClientFunction is a built-in function of the LLMClient.
-type PromptChatAPILLMClientFunction struct {
+// PromptChatAPILLMClientExtension is an extension of the LLMClient, whose tools it offers the LLM.
+type PromptChatAPILLMClientExtension struct {
 	PromptChatAPIOrmModel
 	LLMClient int `json:"llmclient"`
-	// Name is get_current_weather, date_calculator or calculator.
-	Name string `json:"name,omitempty"`
+	// Extension is the Extension's id.
+	Extension int `json:"extension"`
+	// Name is the Extension's slug, e.g. weather.
+	Name string `json:"name"`
+	// Version is the Extension's installed version, e.g. 1.0.0.
+	Version string `json:"version,omitempty"`
+	// Enabled reports whether the Extension is enabled, so that its tools are offered.
+	Enabled bool `json:"enabled"`
 }
 
 // PromptChatAPIPromptRequest is the prompt api's request body.
@@ -341,12 +347,12 @@ type PromptChatAPIMetaData struct {
 	IsDeployed *bool `json:"is_deployed,omitempty"`
 }
 
-// PromptChatAPIListMetaData holds the counts of a list of the LLMClient's plugins or functions.
+// PromptChatAPIListMetaData holds the counts of a list of the LLMClient's plugins or extensions.
 type PromptChatAPIListMetaData struct {
-	TotalPlugins      *int `json:"total_plugins,omitempty"`
-	PluginsReturned   *int `json:"plugins_returned,omitempty"`
-	TotalFunctions    *int `json:"total_functions,omitempty"`
-	FunctionsReturned *int `json:"functions_returned,omitempty"`
+	TotalPlugins       *int `json:"total_plugins,omitempty"`
+	PluginsReturned    *int `json:"plugins_returned,omitempty"`
+	TotalExtensions    *int `json:"total_extensions,omitempty"`
+	ExtensionsReturned *int `json:"extensions_returned,omitempty"`
 }
 
 // PromptChatAPIPluginList holds the LLMClient's plugins.
@@ -355,14 +361,14 @@ type PromptChatAPIPluginList struct {
 	Plugins  []PromptChatAPILLMClientPlugin `json:"plugins"`
 }
 
-// PromptChatAPIFunctionList holds the LLMClient's built-in functions.
-type PromptChatAPIFunctionList struct {
-	MetaData  PromptChatAPIListMetaData        `json:"meta_data"`
-	Functions []PromptChatAPILLMClientFunction `json:"functions"`
+// PromptChatAPIExtensionList holds the LLMClient's extensions.
+type PromptChatAPIExtensionList struct {
+	MetaData   PromptChatAPIListMetaData         `json:"meta_data"`
+	Extensions []PromptChatAPILLMClientExtension `json:"extensions"`
 }
 
 // PromptChatAPIConfig is an LLMClient's chat configuration: the LLMClient, the chat session's key
-// and history, and its plugins and functions. A new session's configuration has an empty history.
+// and history, and its plugins and extensions. A new session's configuration has an empty history.
 // Pass its SessionKey to the prompt api to continue the session.
 type PromptChatAPIConfig struct {
 	Contract int `json:"contract,omitempty"`
@@ -371,12 +377,12 @@ type PromptChatAPIConfig struct {
 	// SandboxMode is true for a workbench url.
 	SandboxMode bool `json:"sandbox_mode"`
 	// DebugMode is the platform's ENABLE_REACTAPP_DEBUG_MODE waffle switch.
-	DebugMode bool                       `json:"debug_mode"`
-	MetaData  PromptChatAPIMetaData      `json:"meta_data"`
-	LLMClient PromptChatAPILLMClient     `json:"llmclient"`
-	History   PromptChatAPIHistory       `json:"history"`
-	Plugins   PromptChatAPIPluginList    `json:"plugins"`
-	Functions *PromptChatAPIFunctionList `json:"functions,omitempty"`
+	DebugMode  bool                        `json:"debug_mode"`
+	MetaData   PromptChatAPIMetaData       `json:"meta_data"`
+	LLMClient  PromptChatAPILLMClient      `json:"llmclient"`
+	History    PromptChatAPIHistory        `json:"history"`
+	Plugins    PromptChatAPIPluginList     `json:"plugins"`
+	Extensions *PromptChatAPIExtensionList `json:"extensions,omitempty"`
 }
 
 // PromptChatAPIConfigRequest is the configuration api's request body.

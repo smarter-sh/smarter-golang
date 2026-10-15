@@ -264,12 +264,12 @@ func TestLivePrompt(t *testing.T) {
 		t.Errorf("got %q", response.Text())
 	}
 	if !slices.ContainsFunc(llmclient.Tools, func(tool smarter.LLMClientTool) bool {
-		return tool.Name == "calculator" && tool.Kind == "Function"
+		return tool.Name == "calculator" && tool.Kind == "Extension"
 	}) {
 		t.Errorf("no calculator function in %v", llmclient.Tools)
 	}
 	id := smarter.IntID(llmclient.ID)
-	_, err = client.LLMClients.Functions(ctx, id)
+	_, err = client.LLMClients.Extensions(ctx, id)
 	check(t, err)
 	_, err = client.LLMClients.Plugins(ctx, id)
 	check(t, err)

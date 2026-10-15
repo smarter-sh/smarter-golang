@@ -135,9 +135,9 @@ func (s *LLMClientsService) Plugins(ctx context.Context, id ID) ([]LLMClientPlug
 	return llmclientList[LLMClientPlugin](ctx, s, id, "plugins/")
 }
 
-// Functions returns an LLMClient's built-in functions, e.g. calculator.
-func (s *LLMClientsService) Functions(ctx context.Context, id ID) ([]LLMClientFunction, error) {
-	return llmclientList[LLMClientFunction](ctx, s, id, "functions")
+// Extensions returns the extensions whose tools an LLMClient offers the LLM, e.g. calculator.
+func (s *LLMClientsService) Extensions(ctx context.Context, id ID) ([]LLMClientExtension, error) {
+	return llmclientList[LLMClientExtension](ctx, s, id, "extensions")
 }
 
 // APIKeys returns the api keys that may call an LLMClient that requires authentication.

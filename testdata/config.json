@@ -61,12 +61,13 @@
           }
         },
         "can_delete": false,
-        "functions": [
+        "extensions": [
           {
             "id": 1,
             "created_at": "2026-10-12T18:54:03.761883Z",
             "updated_at": "2026-10-12T18:54:03.761892Z",
             "name": "calculator",
+            "extension": 1,
             "llmclient": 5
           }
         ],
@@ -292,18 +293,21 @@
       },
       "plugins": []
     },
-    "functions": {
+    "extensions": {
       "meta_data": {
-        "total_functions": 1,
-        "functions_returned": 1
+        "total_extensions": 1,
+        "extensions_returned": 1
       },
-      "functions": [
+      "extensions": [
         {
           "id": 1,
           "created_at": "2026-10-12T18:54:03.761883Z",
           "updated_at": "2026-10-12T18:54:03.761892Z",
           "llmclient": 5,
-          "name": "calculator"
+          "extension": 1,
+          "name": "calculator",
+          "version": "1.0.0",
+          "enabled": true
         }
       ]
     }
