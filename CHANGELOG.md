@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/smarter-sh/smarter-golang/compare/v0.2.0...v0.2.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **contracts:** sync with smarter v0.27.1, functions become extensions ([ff1b166](https://github.com/smarter-sh/smarter-golang/commit/ff1b166af43ad7ac9aae60f063567d023053b387))
+
 # [0.2.0](https://github.com/smarter-sh/smarter-golang/compare/v0.1.1...v0.2.0) (2026-10-15)
 
 
