@@ -46,6 +46,15 @@
         "name": "stackademy_sql"
       }
     ],
+    "mcpclients": [],
+    "guardrails": [],
+    "tools": [
+      {
+        "id": 1,
+        "name": "stackademy_sql",
+        "kind": "Plugin"
+      }
+    ],
     "customDomains": [],
     "apiKeys": [],
     "rfc1034CompliantName": "stackademy-sql",
@@ -164,6 +173,15 @@
       {
         "id": 2,
         "name": "stackademy_api"
+      }
+    ],
+    "mcpclients": [],
+    "guardrails": [],
+    "tools": [
+      {
+        "id": 2,
+        "name": "stackademy_api",
+        "kind": "Plugin"
       }
     ],
     "customDomains": [],

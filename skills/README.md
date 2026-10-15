@@ -27,17 +27,18 @@ Start with `smarter-golang-development`. It sets out the rules that apply to
 every change, the SDK's architecture, and which narrower skill to load for each
 kind of task.
 
-| Skill                        | Use it when                                                                      |
-| ---------------------------- | -------------------------------------------------------------------------------- |
-| `smarter-golang-development` | You're making any change. Start here.                                            |
-| `smarter-golang-testing`     | You're writing or running the unit or live tests, or raising coverage.           |
-| `smarter-api-testing`        | You're probing the platform's api by hand, e.g. to build a fixture.              |
-| `smarter-godoc`              | You're writing doc comments or examples, which are the reference on pkg.go.dev.  |
-| `smarter-golang-types`       | You're writing types, especially with `any`, pointers or assertions.             |
-| `smarter-sphinx-docs`        | You're editing the SDK's pages in the platform's `docs/source`.                  |
-| `smarter-code-quality`       | You're about to finish a change and need to run the hooks.                       |
-| `smarter-git-commits`        | You've been asked to write a commit message.                                     |
-| `monthly-maintenance`        | It's time to sync the SDK with the platform and the Python SDK, and update deps. |
+| Skill                        | Use it when                                                                         |
+| ---------------------------- | ----------------------------------------------------------------------------------- |
+| `smarter-golang-development` | You're making any change. Start here.                                               |
+| `smarter-golang-testing`     | You're writing or running the unit or live tests, or raising coverage.              |
+| `smarter-api-testing`        | You're probing the platform's api by hand, e.g. to build a fixture.                 |
+| `smarter-godoc`              | You're writing doc comments or examples, which are the reference on pkg.go.dev.     |
+| `smarter-golang-types`       | You're writing types, especially with `any`, pointers or assertions.                |
+| `smarter-sphinx-docs`        | You're editing the SDK's pages in the platform's `docs/source`.                     |
+| `smarter-code-quality`       | You're about to finish a change and need to run the hooks.                          |
+| `smarter-git-commits`        | You've been asked to write a commit message.                                        |
+| `monthly-maintenance`        | It's time to sync the SDK with the platform and the Python SDK, and update deps.    |
+| `smarter-contract-sync`      | The platform's api contract changed, and this repository's copy must follow it now. |
 
 The bundled scripts are ordinary shell scripts that you can run yourself from
 the repository root:

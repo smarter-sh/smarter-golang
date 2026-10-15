@@ -4,7 +4,7 @@ package sam
 
 // SQLPlugin is a manifest of the SqlPlugin kind.
 //
-// Smarter API Manifest - Sql Connection Model
+// Smarter API Manifest - Sql Connection Model.
 type SQLPlugin struct {
 	// apiVersion[String]: Required. The API version of the AbstractSAMBase.
 	APIVersion string `json:"apiVersion"`
@@ -18,7 +18,7 @@ type SQLPlugin struct {
 	Status *PluginCommonStatus `json:"status,omitempty"`
 }
 
-// SQLPluginSpec: Smarter API SqlData Connection Manifest SqlConnection.spec
+// SQLPluginSpec: Smarter API SqlData Connection Manifest SqlConnection.spec.
 type SQLPluginSpec struct {
 	// SqlPlugin.spec.selector[obj]: the name of an existing SqlConnector to use for the SqlPlugin
 	Connection string `json:"connection"`

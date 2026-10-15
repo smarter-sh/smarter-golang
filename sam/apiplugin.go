@@ -4,7 +4,7 @@ package sam
 
 // APIPlugin is a manifest of the ApiPlugin kind.
 //
-// Smarter API Manifest - ApiPlugin Model
+// Smarter API Manifest - ApiPlugin Model.
 type APIPlugin struct {
 	// apiVersion[String]: Required. The API version of the AbstractSAMBase.
 	APIVersion string `json:"apiVersion"`
