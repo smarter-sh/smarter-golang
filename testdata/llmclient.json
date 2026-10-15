@@ -28,12 +28,13 @@
     }
   },
   "canDelete": false,
-  "functions": [
+  "extensions": [
     {
       "id": 1,
       "createdAt": "2026-10-12T18:54:03.761883Z",
       "updatedAt": "2026-10-12T18:54:03.761892Z",
       "name": "calculator",
+      "extension": 1,
       "llmclient": 5
     }
   ],
@@ -44,7 +45,7 @@
     {
       "id": 1,
       "name": "calculator",
-      "kind": "Function"
+      "kind": "Extension"
     }
   ],
   "customDomains": [],

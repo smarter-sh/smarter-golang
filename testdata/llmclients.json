@@ -39,7 +39,7 @@
       }
     },
     "canDelete": true,
-    "functions": [],
+    "extensions": [],
     "plugins": [
       {
         "id": 1,
@@ -168,7 +168,7 @@
       }
     },
     "canDelete": true,
-    "functions": [],
+    "extensions": [],
     "plugins": [
       {
         "id": 2,

@@ -249,21 +249,25 @@ type LLMClientGuardrailRef struct {
 	Name string `json:"name,omitempty"`
 }
 
-// LLMClientTool is something that an LLMClient adds to a prompt: a built-in function, plugin, MCPClient
-// or guardrail.
+// LLMClientTool is something that an LLMClient adds to a prompt: an extension, plugin, MCPClient or
+// guardrail.
 type LLMClientTool struct {
-	// ID is the id of the link row: the LLMClient's function, plugin, MCPClient or guardrail.
+	// ID is the id of the link row: the LLMClient's extension, plugin, MCPClient or guardrail.
 	ID int `json:"id"`
-	// Name is the function's name, or the linked resource's.
+	// Name is the extension's slug, or the linked resource's name.
 	Name string `json:"name"`
-	// Kind is Function, or the linked resource's manifest kind: Plugin, MCPClient or Guardrail.
+	// Kind is Extension, or the linked resource's manifest kind: Plugin, MCPClient or Guardrail.
 	Kind string `json:"kind"`
 }
 
-// LLMClientFunction is a built-in function of an LLMClient, e.g. calculator.
-type LLMClientFunction struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name,omitempty"`
+// LLMClientExtension is an extension of an LLMClient, whose tools the LLMClient offers the LLM, e.g.
+// calculator.
+type LLMClientExtension struct {
+	ID int `json:"id"`
+	// Name is the extension's slug, e.g. weather.
+	Name string `json:"name,omitempty"`
+	// Extension is the Extension's id.
+	Extension *int   `json:"extension,omitempty"`
 	LLMClient *int   `json:"llmclient,omitempty"`
 	CreatedAt string `json:"createdAt,omitempty"`
 	UpdatedAt string `json:"updatedAt,omitempty"`
@@ -326,11 +330,11 @@ type LLMClient struct {
 	URLChatConfig string `json:"urlChatConfig,omitempty"`
 	// IsAuthenticationRequired reports whether prompting the LLMClient requires an api key.
 	IsAuthenticationRequired *bool                   `json:"isAuthenticationRequired,omitempty"`
-	Functions                []LLMClientFunction     `json:"functions,omitempty"`
+	Extensions               []LLMClientExtension    `json:"extensions,omitempty"`
 	Plugins                  []LLMClientPluginRef    `json:"plugins,omitempty"`
 	MCPClients               []LLMClientMCPClientRef `json:"mcpclients,omitempty"`
 	Guardrails               []LLMClientGuardrailRef `json:"guardrails,omitempty"`
-	// Tools is everything that the LLMClient adds to a prompt: its functions, plugins, MCPClients and
+	// Tools is everything that the LLMClient adds to a prompt: its extensions, plugins, MCPClients and
 	// guardrails, in that order.
 	Tools         []LLMClientTool         `json:"tools,omitempty"`
 	APIKeys       []LLMClientAPIKey       `json:"apiKeys,omitempty"`
