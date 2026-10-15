@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/smarter-sh/smarter-golang/compare/v0.1.0...v0.1.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **contracts:** sync with smarter v0.25.1 and regenerate sam models ([34c8962](https://github.com/smarter-sh/smarter-golang/commit/34c89626e73f81344f51597c87c998c7089991b1))
+
 # [0.1.0](https://github.com/smarter-sh/smarter-golang/compare/v0.0.0...v0.1.0) (2026-10-14)
 
 

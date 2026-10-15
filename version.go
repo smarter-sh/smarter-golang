@@ -4,4 +4,4 @@
 package smarter
 
 // Version is the SDK's version.
-const Version = "0.1.0"
+const Version = "0.1.1"
