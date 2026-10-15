@@ -237,6 +237,29 @@ type LLMClientPluginRef struct {
 	Name string `json:"name,omitempty"`
 }
 
+// LLMClientMCPClientRef is an MCPClient of an LLMClient, by the link's id and the MCPClient's name.
+type LLMClientMCPClientRef struct {
+	ID   int    `json:"id"`
+	Name string `json:"name,omitempty"`
+}
+
+// LLMClientGuardrailRef is a guardrail of an LLMClient, by the link's id and the guardrail's name.
+type LLMClientGuardrailRef struct {
+	ID   int    `json:"id"`
+	Name string `json:"name,omitempty"`
+}
+
+// LLMClientTool is something that an LLMClient adds to a prompt: a built-in function, plugin, MCPClient
+// or guardrail.
+type LLMClientTool struct {
+	// ID is the id of the link row: the LLMClient's function, plugin, MCPClient or guardrail.
+	ID int `json:"id"`
+	// Name is the function's name, or the linked resource's.
+	Name string `json:"name"`
+	// Kind is Function, or the linked resource's manifest kind: Plugin, MCPClient or Guardrail.
+	Kind string `json:"kind"`
+}
+
 // LLMClientFunction is a built-in function of an LLMClient, e.g. calculator.
 type LLMClientFunction struct {
 	ID        int    `json:"id"`
@@ -305,8 +328,13 @@ type LLMClient struct {
 	IsAuthenticationRequired *bool                   `json:"isAuthenticationRequired,omitempty"`
 	Functions                []LLMClientFunction     `json:"functions,omitempty"`
 	Plugins                  []LLMClientPluginRef    `json:"plugins,omitempty"`
-	APIKeys                  []LLMClientAPIKey       `json:"apiKeys,omitempty"`
-	CustomDomains            []LLMClientCustomDomain `json:"customDomains,omitempty"`
+	MCPClients               []LLMClientMCPClientRef `json:"mcpclients,omitempty"`
+	Guardrails               []LLMClientGuardrailRef `json:"guardrails,omitempty"`
+	// Tools is everything that the LLMClient adds to a prompt: its functions, plugins, MCPClients and
+	// guardrails, in that order.
+	Tools         []LLMClientTool         `json:"tools,omitempty"`
+	APIKeys       []LLMClientAPIKey       `json:"apiKeys,omitempty"`
+	CustomDomains []LLMClientCustomDomain `json:"customDomains,omitempty"`
 }
 
 // LLMHost is an open-weight model that the platform serves on its own Kubernetes cluster: the model,

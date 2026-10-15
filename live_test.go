@@ -263,6 +263,11 @@ func TestLivePrompt(t *testing.T) {
 	if !strings.Contains(strings.ReplaceAll(response.Text(), ",", ""), "391") {
 		t.Errorf("got %q", response.Text())
 	}
+	if !slices.ContainsFunc(llmclient.Tools, func(tool smarter.LLMClientTool) bool {
+		return tool.Name == "calculator" && tool.Kind == "Function"
+	}) {
+		t.Errorf("no calculator function in %v", llmclient.Tools)
+	}
 	id := smarter.IntID(llmclient.ID)
 	_, err = client.LLMClients.Functions(ctx, id)
 	check(t, err)
