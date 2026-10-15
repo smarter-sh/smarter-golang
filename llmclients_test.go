@@ -54,6 +54,25 @@ func TestLLMClientsReads(t *testing.T) {
 	}
 }
 
+func TestLLMClientsTools(t *testing.T) {
+	p := newMockPlatform(t)
+	ctx := context.Background()
+	p.route("GET", "llm-clients/", reply{fixture: "llmclients"})
+	p.route("GET", "llm-clients/5/", reply{fixture: "llmclient"})
+	llmclient, err := p.client.LLMClients.Retrieve(ctx, smarter.IntID(5))
+	check(t, err)
+	equal(t, len(llmclient.MCPClients), 0)
+	equal(t, len(llmclient.Guardrails), 0)
+	equal(t, len(llmclient.Tools), 1)
+	equal(t, llmclient.Tools[0], smarter.LLMClientTool{ID: 1, Name: "calculator", Kind: "Function"})
+	llmclients, err := p.client.LLMClients.List(ctx)
+	check(t, err)
+	for _, item := range llmclients {
+		equal(t, len(item.Tools), 1)
+		equal(t, item.Tools[0].Kind, "Plugin")
+	}
+}
+
 func TestLLMClientsChildren(t *testing.T) {
 	p := newMockPlatform(t)
 	ctx := context.Background()
