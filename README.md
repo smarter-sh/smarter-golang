@@ -145,6 +145,11 @@ for stream.Next() {
 response, err := stream.Response()
 ```
 
+`client.LLMClients.Config` returns an LLMClient's chat configuration and a
+session. It has what a chat needs; pass
+`&smarter.PromptParams{Verbose: true}` for the complete configuration, with the
+LLMClient's plugin and extension lists and the session's tool calls.
+
 ### Errors
 
 ```go
