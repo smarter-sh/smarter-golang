@@ -1,3 +1,11 @@
+## [0.2.2](https://github.com/smarter-sh/smarter-golang/compare/v0.2.1...v0.2.2) (2026-10-22)
+
+
+### Bug Fixes
+
+* **contracts:** sync with smarter v0.36.6 ([4bfad5e](https://github.com/smarter-sh/smarter-golang/commit/4bfad5efc9a7b25e3b74ebe778557d1fa91b26f0))
+* **llmclients:** let Config request the verbose chat configuration ([cbd9626](https://github.com/smarter-sh/smarter-golang/commit/cbd96265e263f34171986eeb74ce1bf20c513e8d))
+
 ## [0.2.1](https://github.com/smarter-sh/smarter-golang/compare/v0.2.0...v0.2.1) (2026-10-15)
 
 
