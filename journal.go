@@ -96,6 +96,10 @@ type JournalPagination struct {
 	Search     string   `json:"search,omitempty"`
 	Ordering   string   `json:"ordering,omitempty"`
 	SortFields []string `json:"sortFields,omitempty"`
+	// Filter is the named filter that narrows the list, e.g. pending, or "" for none.
+	Filter string `json:"filter,omitempty"`
+	// Filters are the named filters that the list offers.
+	Filters []string `json:"filters,omitempty"`
 }
 
 // JournalPage is one page of the journal's entries.

@@ -85,10 +85,14 @@ type User struct {
 // UserProfile is a user's membership of an account, which owns the resources that the user creates in it.
 type UserProfile struct {
 	Resource
-	User            User       `json:"user"`
-	Account         AccountRef `json:"account"`
-	ProfileImageURL string     `json:"profileImageUrl,omitempty"`
-	IsTest          *bool      `json:"isTest,omitempty"`
+	User    User       `json:"user"`
+	Account AccountRef `json:"account"`
+	// ProfileImage is the url of the image that the user uploaded, which takes precedence over
+	// ProfileImageURL.
+	ProfileImage string `json:"profileImage,omitempty"`
+	// ProfileImageURL is the image that the oauth provider supplied.
+	ProfileImageURL string `json:"profileImageUrl,omitempty"`
+	IsTest          *bool  `json:"isTest,omitempty"`
 }
 
 // AccountContact is a contact of an account, who receives its notices.
