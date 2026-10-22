@@ -182,6 +182,19 @@
           "default": null,
           "description": "The look of the chat: the manifest's spec.config.styles, with snake_case keys."
         },
+        "total_tools": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The number of the LLMClient's extensions, plugins and MCPClients.",
+          "title": "Total Tools"
+        },
         "url_chatbot": {
           "description": "The url of the LLMClient's prompt api.",
           "title": "Url Chatbot",
@@ -613,7 +626,7 @@
     },
     "PromptChatApiExtensionList": {
       "additionalProperties": true,
-      "description": "The LLMClient's extensions.\n\nThe list itself is returned only in the complete configuration.",
+      "description": "The LLMClient's extensions.\n\nThe list itself is returned only in the complete configuration, with ``?verbose=true``.",
       "properties": {
         "extensions": {
           "items": {
@@ -760,7 +773,7 @@
     },
     "PromptChatApiHistory": {
       "additionalProperties": false,
-      "description": "The chat session's history, in version 2.\n\nOnly ``chat_history`` is public.",
+      "description": "The chat session's history, in version 2.\n\nOnly ``chat_history`` is public. ``prompt_tool_call_history`` is in the complete configuration with\n``?verbose=true``, and the other histories are returned only to the cli.",
       "properties": {
         "chat_history": {
           "description": "The session's messages, which restore the chat thread.",
@@ -1180,6 +1193,19 @@
           ],
           "default": null,
           "description": "The look of the chat: the manifest's spec.config.styles, with snake_case keys."
+        },
+        "total_tools": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The number of the LLMClient's extensions, plugins and MCPClients.",
+          "title": "Total Tools"
         },
         "url_llmclient": {
           "description": "The url of the LLMClient's prompt api.",
@@ -1845,8 +1871,34 @@
     },
     "PromptChatApiMetaData": {
       "additionalProperties": true,
-      "description": "The LLMClient's state.",
+      "description": "The LLMClient's state.\n\nThe complete configuration, with ``?verbose=true``, adds the rest of ``LLMClientHelper.to_json()``.",
       "properties": {
+        "is_authentication_required": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "True if the LLMClient requires a Smarter api key, or a logged-in user.",
+          "title": "Is Authentication Required"
+        },
+        "is_custom_domain": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "True if the request's host is a custom domain.",
+          "title": "Is Custom Domain"
+        },
         "is_deployed": {
           "anyOf": [
             {
@@ -1889,7 +1941,7 @@
     },
     "PromptChatApiPluginList": {
       "additionalProperties": true,
-      "description": "The LLMClient's plugins.\n\nThe list itself is returned only in the complete configuration.",
+      "description": "The LLMClient's plugins.\n\nThe list itself is returned only in the complete configuration, with ``?verbose=true``.",
       "properties": {
         "meta_data": {
           "$ref": "#/$defs/PromptChatApiListMetaData"

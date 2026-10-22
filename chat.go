@@ -244,6 +244,8 @@ type PromptChatAPILLMClient struct {
 	AppInfoURL        string               `json:"app_info_url,omitempty"`
 	AppFileAttachment *bool                `json:"app_file_attachment,omitempty"`
 	Styles            *PromptChatAPIStyles `json:"styles,omitempty"`
+	// TotalTools is the number of the LLMClient's extensions, plugins and MCPClients.
+	TotalTools *int `json:"total_tools,omitempty"`
 }
 
 // PromptChatAPIOrmModel holds the fields of a Django row that the contract returns.
@@ -340,11 +342,17 @@ type PromptChatAPIHistory struct {
 	LLMClientRequestHistory  []PromptChatAPILLMClientRequest  `json:"llmclient_request_history,omitempty"`
 }
 
-// PromptChatAPIMetaData is the LLMClient's state.
+// PromptChatAPIMetaData is the LLMClient's state. The complete configuration, which
+// [PromptParams.Verbose] requests, adds the rest of the platform's description of the LLMClient,
+// which this struct ignores.
 type PromptChatAPIMetaData struct {
 	Ready      *bool `json:"ready,omitempty"`
 	IsValid    *bool `json:"is_valid,omitempty"`
 	IsDeployed *bool `json:"is_deployed,omitempty"`
+	// IsAuthenticationRequired is true if the LLMClient requires a Smarter api key, or a logged-in user.
+	IsAuthenticationRequired *bool `json:"is_authentication_required,omitempty"`
+	// IsCustomDomain is true if the request's host is a custom domain.
+	IsCustomDomain *bool `json:"is_custom_domain,omitempty"`
 }
 
 // PromptChatAPIListMetaData holds the counts of a list of the LLMClient's plugins or extensions.

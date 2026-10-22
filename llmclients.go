@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"net/url"
 )
 
 // LLMClientsService holds the operations of LLMClients: /api/v1/llm-clients/, and the manifest api's
@@ -19,6 +20,12 @@ type PromptParams struct {
 	// SessionKey is the chat session's key, from [LLMClientsService.Config], to keep the prompt's
 	// history in that session, or "" for none.
 	SessionKey string
+	// Verbose asks [LLMClientsService.Config] and [LLMClientsService.Chat] for the complete
+	// configuration: the session's tool calls (History.PromptToolCallHistory), the complete MetaData,
+	// and the lists of the LLMClient's plugins and extensions. Without it, the configuration has what a
+	// chat needs, and only the counts of the plugins and extensions. A deployed LLMClient's own host
+	// ignores it, and so do Prompt and Stream.
+	Verbose bool
 }
 
 // Text returns a prompt of one user message, for [LLMClientsService.Prompt] and
@@ -55,13 +62,16 @@ func sessionKeyOf(params *PromptParams) *string {
 
 // Config returns an LLMClient's chat configuration, and a chat session: an existing session, with its
 // history, when params has its SessionKey, or a new one. The configuration's SessionKey identifies it.
+// Its plugin and extension lists, and the session's tool calls, are returned only when params has
+// Verbose.
 func (s *LLMClientsService) Config(ctx context.Context, id ID, params *PromptParams) (*PromptChatAPIConfig, error) {
 	path, err := s.path(id, "config/")
 	if err != nil {
 		return nil, err
 	}
+	q := query{}.flag("verbose", params != nil && params.Verbose)
 	var response PromptChatAPIConfigResponse
-	if err := s.c.http.do(ctx, &request{method: http.MethodPost, path: path, body: promptBody{SessionKey: sessionKeyOf(params)}}, &response); err != nil {
+	if err := s.c.http.do(ctx, &request{method: http.MethodPost, path: path, query: url.Values(q), body: promptBody{SessionKey: sessionKeyOf(params)}}, &response); err != nil {
 		return nil, err
 	}
 	return &response.Data, nil

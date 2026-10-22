@@ -256,10 +256,13 @@
           },
           "user_avatar_url": "user_avatar_url"
         },
+        "total_tools": 0,
         "url_llmclient": "url_llmclient",
         "version": "version"
       },
       "meta_data": {
+        "is_authentication_required": false,
+        "is_custom_domain": false,
         "is_deployed": false,
         "is_valid": false,
         "ready": false
@@ -407,6 +410,7 @@
           },
           "user_avatar_url": "user_avatar_url"
         },
+        "total_tools": 0,
         "url_chatbot": "url_chatbot",
         "version": "version"
       },
@@ -534,6 +538,8 @@
         ]
       },
       "meta_data": {
+        "is_authentication_required": false,
+        "is_custom_domain": false,
         "is_deployed": false,
         "is_valid": false,
         "ready": false
