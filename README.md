@@ -6,7 +6,8 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/smarter-sh/smarter-golang.svg)](https://pkg.go.dev/github.com/smarter-sh/smarter-golang)
 [![Docs](https://img.shields.io/badge/Read%20the%20Docs-smarter.sh-blue?logo=readthedocs)](https://docs.smarter.sh/en/latest/smarter-framework/smarter-golang.html)
 [![Website](https://img.shields.io/badge/official%20web%20site-smarter.sh-blue?logo=google-chrome)](https://smarter.sh)
-[![License: GNU AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)<br>
+[![License: GNU AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Slack](https://img.shields.io/badge/Slack-The%20Smarter%20Project-4A154B?logo=slack&logoColor=white)](https://join.slack.com/t/thesmarterproject/shared_invite/zt-4f0t6v46q-e2c5Of4hS4fBr_XwfQARCw)<br>
 
 `github.com/smarter-sh/smarter-golang` is the official Go SDK of the
 [Smarter platform](https://github.com/smarter-sh/smarter). It is to Smarter
