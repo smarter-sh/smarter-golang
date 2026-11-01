@@ -20,12 +20,8 @@ type Orchestrator struct {
 
 // OrchestratorMetadata: Smarter API Orchestrator Manifest - Metadata class.
 type OrchestratorMetadata struct {
-	// The manifest annotations. Used for storing arbitrary metadata as
-	// key-value pairs. Example: [{'smarter.sh/test-manifest/project-name': 'Scooby dooby do'}]. The
-	// key should be a valid url-friendly string. The value accepts
-	// multi-line string values (YAML block scalars) and various scalar types including
-	// str, int, float, bool, datetime.date, datetime.datetime, decimal.Decimal, uuid.UUID, bytes, list, dict.
-	Annotations []map[string]any `json:"annotations,omitempty"`
+	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
+	Annotations map[string]string `json:"annotations,omitempty"`
 	// The description for this resource. Be brief. Keep it under 255 characters.
 	Description string `json:"description,omitempty"`
 	// The camelCase name of the manifest resource
@@ -66,10 +62,12 @@ type OrchestratorStatus struct {
 type OrchestratorSpecConfig struct {
 	// LLMClients (Harnesses) that participate in this Orchestrator.
 	Harnesses []OrchestratorHarnessConfig `json:"harnesses"`
-	IsActive  *bool                       `json:"isActive,omitempty"`
+	// Whether the Orchestrator is active.
+	IsActive *bool `json:"isActive,omitempty"`
 	// Upper bound on orchestration loop iterations.
-	MaxIterations *int                  `json:"maxIterations,omitempty"`
-	Strategy      OrchestrationStrategy `json:"strategy,omitempty"`
+	MaxIterations *int `json:"maxIterations,omitempty"`
+	// How the Orchestrator coordinates its LLMClients: sequential, parallel, supervisor, router, voting or debate. Supervisor needs a harness with role planner, router one with role router, and voting and debate at least two harnesses.
+	Strategy OrchestrationStrategy `json:"strategy,omitempty"`
 }
 
 // OrchestratorHarnessConfig: A single LLMClient (Harness) membership within the Orchestrator.
@@ -81,11 +79,13 @@ type OrchestratorHarnessConfig struct {
 	// Per-membership overrides (e.g. temperature, system prompt fragment, tool allowlist).
 	Config map[string]any `json:"config,omitempty"`
 	// Relative ordering for sequential/supervisor strategies.
-	ExecutionOrder *int  `json:"executionOrder,omitempty"`
-	IsActive       *bool `json:"isActive,omitempty"`
+	ExecutionOrder *int `json:"executionOrder,omitempty"`
+	// Whether this LLMClient's membership in the Orchestrator is active.
+	IsActive *bool `json:"isActive,omitempty"`
 	// Name of an existing LLMClient to attach as a Harness.
-	LLMClientName string      `json:"llmClientName"`
-	Role          HarnessRole `json:"role,omitempty"`
+	LLMClientName string `json:"llmClientName"`
+	// The part this LLMClient plays in the Orchestrator: planner, executor, critic, router, summarizer or tool_caller. The supervisor strategy needs a planner, and the router strategy a router.
+	Role HarnessRole `json:"role,omitempty"`
 }
 
 // Coordination pattern the Orchestrator applies across its member LLMClients.

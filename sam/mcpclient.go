@@ -20,12 +20,8 @@ type MCPClient struct {
 
 // MCPClientMetadata: Smarter API MCPClient Manifest - Metadata class.
 type MCPClientMetadata struct {
-	// The manifest annotations. Used for storing arbitrary metadata as
-	// key-value pairs. Example: [{'smarter.sh/test-manifest/project-name': 'Scooby dooby do'}]. The
-	// key should be a valid url-friendly string. The value accepts
-	// multi-line string values (YAML block scalars) and various scalar types including
-	// str, int, float, bool, datetime.date, datetime.datetime, decimal.Decimal, uuid.UUID, bytes, list, dict.
-	Annotations []map[string]any `json:"annotations,omitempty"`
+	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
+	Annotations map[string]string `json:"annotations,omitempty"`
 	// The description for this resource. Be brief. Keep it under 255 characters.
 	Description string `json:"description,omitempty"`
 	// The camelCase name of the manifest resource
@@ -84,7 +80,7 @@ type MCPClientSpecConfig struct {
 	APIKeyHeader string `json:"apiKeyHeader,omitempty"`
 	// MCPClient.spec.config.authType[str]: how to authenticate with the MCP server. One of: ['none', 'api_key', 'bearer_token', 'oauth2']. oauth2 sends an OAuth access token, obtained elsewhere, as a bearer token.
 	AuthType string `json:"authType,omitempty"`
-	// MCPClient.spec.config.cacheTtl[int]: seconds to cache the MCP server's tools, instructions and capabilities. 0 disables caching.
+	// MCPClient.spec.config.cacheTtl[int]: seconds to cache the MCP server's tools, instructions and capabilities, and the results of its read-only tools and resource reads. 0 disables caching.
 	CacheTTL *int `json:"cacheTtl,omitempty"`
 	// MCPClient.spec.config.credentials[str]: the name of the Smarter Secret containing the credential. Required unless authType is none.
 	Credentials string `json:"credentials,omitempty"`

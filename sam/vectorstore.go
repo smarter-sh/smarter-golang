@@ -20,12 +20,8 @@ type Vectorstore struct {
 
 // VectorstoreMetadata: Smarter API Vectorstore Manifest - Metadata class.
 type VectorstoreMetadata struct {
-	// The manifest annotations. Used for storing arbitrary metadata as
-	// key-value pairs. Example: [{'smarter.sh/test-manifest/project-name': 'Scooby dooby do'}]. The
-	// key should be a valid url-friendly string. The value accepts
-	// multi-line string values (YAML block scalars) and various scalar types including
-	// str, int, float, bool, datetime.date, datetime.datetime, decimal.Decimal, uuid.UUID, bytes, list, dict.
-	Annotations []map[string]any `json:"annotations,omitempty"`
+	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
+	Annotations map[string]string `json:"annotations,omitempty"`
 	// The description for this resource. Be brief. Keep it under 255 characters.
 	Description string `json:"description,omitempty"`
 	// The camelCase name of the manifest resource
@@ -70,16 +66,20 @@ type VectorstoreStatus struct {
 	Created string `json:"created"`
 	// dependencies[List]: The resources that depend on this resource, and that must be deleted, or stop referring to it, before it can be deleted. Lists only the resources that you can read. Read only.
 	Dependencies []Dependency `json:"dependencies,omitempty"`
-	DeployedAt   string       `json:"deployedAt,omitempty"`
+	// Vectorstore.status.deployedAt: when it was deployed. Read only.
+	DeployedAt string `json:"deployedAt,omitempty"`
 	// Vectorstore.status.documentCount: its documents.
 	DocumentCount *int `json:"documentCount,omitempty"`
 	// Vectorstore.status.endpoint: where it is reached.
 	Endpoint string `json:"endpoint,omitempty"`
 	// Vectorstore.status.indexName: the Pinecone index, or Qdrant collection.
-	IndexName         string `json:"indexName,omitempty"`
-	LastCheckedAt     string `json:"lastCheckedAt,omitempty"`
+	IndexName string `json:"indexName,omitempty"`
+	// Vectorstore.status.lastCheckedAt: when its status was last checked. Read only.
+	LastCheckedAt string `json:"lastCheckedAt,omitempty"`
+	// Vectorstore.status.lastMaintenanceAt: when its maintenance last ran. Read only.
 	LastMaintenanceAt string `json:"lastMaintenanceAt,omitempty"`
-	LastSnapshotAt    string `json:"lastSnapshotAt,omitempty"`
+	// Vectorstore.status.lastSnapshotAt: when its last snapshot was taken. Read only.
+	LastSnapshotAt string `json:"lastSnapshotAt,omitempty"`
 	// Vectorstore.status.message: why, if it failed.
 	Message string `json:"message,omitempty"`
 	// The date in which this resource was most recently changed. Read only.
