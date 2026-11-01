@@ -18,20 +18,12 @@
       "description": "Online course catalogue inquiries for fictional Stackademy University that only offers computer science degrees programs.",
       "pluginClass": "sql",
       "version": "0.1.0",
-      "annotations": [
-        {
-          "smarter.sh/stackademy-sql/display-name": "Stackademy SQL"
-        },
-        {
-          "smarter.sh/stackademy-sql/icon": "https://example.com/stackademy-sql-icon.png"
-        },
-        {
-          "smarter.sh/stackademy-sql/documentation-url": "https://docs.stackademy.com/sql"
-        },
-        {
-          "smarter.sh/stackademy-sql/contact-email": "no-reply@example.com"
-        }
-      ],
+      "annotations": {
+        "smarter.sh/stackademy-sql/display-name": "Stackademy SQL",
+        "smarter.sh/stackademy-sql/icon": "https://example.com/stackademy-sql-icon.png",
+        "smarter.sh/stackademy-sql/documentation-url": "https://docs.stackademy.com/sql",
+        "smarter.sh/stackademy-sql/contact-email": "no-reply@example.com"
+      },
       "tags": [
         "db",
         "sql",

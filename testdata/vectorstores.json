@@ -13,11 +13,9 @@
       "qdrant",
       "self-hosted"
     ],
-    "annotations": [
-      {
-        "smarter.sh/vectorstore/builtin": "true"
-      }
-    ],
+    "annotations": {
+      "smarter.sh/vectorstore/builtin": "true"
+    },
     "userProfile": {
       "user": {
         "username": "admin",
@@ -99,11 +97,9 @@
       "qdrant",
       "self-hosted"
     ],
-    "annotations": [
-      {
-        "smarter.sh/vectorstore/builtin": "true"
-      }
-    ],
+    "annotations": {
+      "smarter.sh/vectorstore/builtin": "true"
+    },
     "userProfile": {
       "user": {
         "username": "admin",

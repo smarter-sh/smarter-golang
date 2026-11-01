@@ -10,14 +10,10 @@
         "calculator",
         "capstone-project"
       ],
-      "annotations": [
-        {
-          "smarter.sh/tests/focus-level": "high"
-        },
-        {
-          "smarter.sh/tests/owner": "Example Owner"
-        }
-      ]
+      "annotations": {
+        "smarter.sh/tests/focus-level": "high",
+        "smarter.sh/tests/owner": "Example Owner"
+      }
     },
     "spec": {
       "config": {

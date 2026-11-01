@@ -10,7 +10,7 @@
       "name": "",
       "description": "",
       "version": "1.0.0",
-      "annotations": [],
+      "annotations": {},
       "session_key": "0000000000000000000000000000000000000000000000000000000000000000",
       "ip_address": "127.0.0.1",
       "user_agent": "smarter-python/0.2.3",
@@ -35,11 +35,9 @@
       "description": "Researches competitors, pricing, product launches and market trends from primary sources.",
       "pluginClass": "websearch",
       "version": "0.1.0",
-      "annotations": [
-        {
-          "smarter.sh/market-research/use-case": "competitive research"
-        }
-      ],
+      "annotations": {
+        "smarter.sh/market-research/use-case": "competitive research"
+      },
       "tags": [
         "market-research",
         "websearch",

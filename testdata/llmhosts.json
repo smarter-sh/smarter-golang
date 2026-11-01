@@ -13,14 +13,10 @@
       "tei",
       "cpu"
     ],
-    "annotations": [
-      {
-        "smarter.sh/llmhost/builtin": "true"
-      },
-      {
-        "smarter.sh/llmhost/model-card": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
-      }
-    ],
+    "annotations": {
+      "smarter.sh/llmhost/builtin": "true",
+      "smarter.sh/llmhost/model-card": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
+    },
     "userProfile": {
       "user": {
         "username": "admin",
@@ -135,14 +131,10 @@
       "tei",
       "multilingual"
     ],
-    "annotations": [
-      {
-        "smarter.sh/llmhost/builtin": "true"
-      },
-      {
-        "smarter.sh/llmhost/model-card": "https://huggingface.co/BAAI/bge-m3"
-      }
-    ],
+    "annotations": {
+      "smarter.sh/llmhost/builtin": "true",
+      "smarter.sh/llmhost/model-card": "https://huggingface.co/BAAI/bge-m3"
+    },
     "userProfile": {
       "user": {
         "username": "admin",

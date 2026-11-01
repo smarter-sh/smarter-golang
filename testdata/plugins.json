@@ -16,7 +16,7 @@
     "description": "Get additional documentation about the Family and Medical Leave Act FMLA policies for the fictional XYZ Corp.  These are taken from the SHRM (Society of Human Resource Managers) suggested FMLA policy.",
     "pluginClass": "static",
     "version": "0.1.0",
-    "annotations": [],
+    "annotations": {},
     "tags": [
       "Family and Medical Leave Act",
       "Family Leave",
@@ -45,7 +45,7 @@
     "description": "Information for prospective students about applying to SMU in Dallas as a transfer student",
     "pluginClass": "static",
     "version": "0.1.0",
-    "annotations": [],
+    "annotations": {},
     "tags": [
       "Dallas",
       "College Transfer",

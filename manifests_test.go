@@ -64,20 +64,20 @@ func TestManifestsValidate(t *testing.T) {
 func TestManifestsGet(t *testing.T) {
 	p := newMockPlatform(t)
 	p.route("POST", "cli/get/LLMClient/", reply{fixture: "get_llmclient"})
-	result, err := p.client.Manifests.Get(context.Background(), "LLMClient", "")
+	result, err := p.client.Manifests.Get(context.Background(), "LLMClient", "", nil)
 	check(t, err)
 	equal(t, len(result.Data.Items), 2)
 	name := result.Names()[0]
-	filtered, err := p.client.Manifests.Get(context.Background(), "LLMClient", name)
+	filtered, err := p.client.Manifests.Get(context.Background(), "LLMClient", name, nil)
 	check(t, err)
 	jsonEqual(t, filtered.Names(), []string{name})
 	equal(t, filtered.Metadata.Count, 1)
 	equal(t, p.last().URL.Query().Get("name"), name)
 	p.route("POST", "cli/get/LLMClient/", reply{json: map[string]any{"api": "smarter.sh/v1"}})
-	empty, err := p.client.Manifests.Get(context.Background(), "LLMClient", "")
+	empty, err := p.client.Manifests.Get(context.Background(), "LLMClient", "", nil)
 	check(t, err)
 	equal(t, len(empty.Data.Items), 0)
-	if _, err := p.client.Manifests.Get(context.Background(), "a/b", ""); !errors.Is(err, smarter.ErrSmarter) {
+	if _, err := p.client.Manifests.Get(context.Background(), "a/b", "", nil); !errors.Is(err, smarter.ErrSmarter) {
 		t.Errorf("got %v", err)
 	}
 }

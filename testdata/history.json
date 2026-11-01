@@ -6,7 +6,7 @@
     "name": "",
     "description": "",
     "version": "1.0.0",
-    "annotations": [],
+    "annotations": {},
     "session_key": "31045c78d364f908126d6a81e4a09ecc0a81daf834c57817b669b70287ba4f91",
     "ip_address": "127.0.0.1",
     "user_agent": "curl/8.7.1",

@@ -74,11 +74,36 @@ func (s *ManifestsService) command(ctx context.Context, verb, kind, name string,
 	return s.c.http.do(ctx, &request{method: http.MethodPost, path: cliPath + verb + "/" + segment + "/", query: q}, out)
 }
 
+// GetParams are the optional arguments of [ManifestsService.Get].
+type GetParams struct {
+	// Annotation selects only the resources that match every one of these requirements, in the
+	// syntax of Kubernetes label selectors: key (the resource has the key), !key (it hasn't),
+	// key=value and key!=value. As in Kubernetes, key!=value also matches resources without the key.
+	// Blank requirements are ignored.
+	Annotation []string
+}
+
 // Get returns the resources of one kind, as a table: Data.Items are its rows, and Names() the
-// resources' names. With a name, only the resource of that name.
-func (s *ManifestsService) Get(ctx context.Context, kind, name string) (*ManifestList, error) {
+// resources' names. With a name, only the resource of that name. params may be nil, e.g.
+//
+//	client.Manifests.Get(ctx, "LLMClient", "", &smarter.GetParams{
+//		Annotation: []string{"acme.com/crm-account-id=A-10042", "!acme.com/archived"},
+//	})
+//
+// The error matches [ErrBadRequest] if the annotation selector is invalid.
+func (s *ManifestsService) Get(ctx context.Context, kind, name string, params *GetParams) (*ManifestList, error) {
+	segment, err := kindSegment(kind)
+	if err != nil {
+		return nil, err
+	}
+	q := url.Values(query{}.str("name", name))
+	if params != nil {
+		for _, requirement := range annotationSelector(params.Annotation) {
+			q.Add("annotation", requirement)
+		}
+	}
 	var response JournaledResponse[ManifestList]
-	if err := s.command(ctx, "get", kind, name, &response); err != nil {
+	if err := s.c.http.do(ctx, &request{method: http.MethodPost, path: cliPath + "get/" + segment + "/", query: q}, &response); err != nil {
 		return nil, err
 	}
 	result := response.Data
