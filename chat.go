@@ -262,8 +262,8 @@ type PromptChatAPIPluginMeta struct {
 	Description string   `json:"description,omitempty"`
 	Version     string   `json:"version,omitempty"`
 	Tags        []string `json:"tags,omitempty"`
-	// Annotations are a list of JSON objects, or a JSON object.
-	Annotations JSONValue `json:"annotations,omitempty"`
+	// Annotations are the plugin's annotations. See [Annotations].
+	Annotations Annotations `json:"annotations,omitempty"`
 	// PluginClass is api, skill, sql, static, websearch or imagesearch.
 	PluginClass string `json:"plugin_class"`
 }

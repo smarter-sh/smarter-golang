@@ -12,11 +12,9 @@
       "privacy",
       "data-leakage"
     ],
-    "annotations": [
-      {
-        "smarter.sh/guardrail/builtin": "true"
-      }
-    ],
+    "annotations": {
+      "smarter.sh/guardrail/builtin": "true"
+    },
     "userProfile": {
       "user": {
         "username": "admin",
@@ -66,11 +64,9 @@
       "privacy",
       "gdpr"
     ],
-    "annotations": [
-      {
-        "smarter.sh/guardrail/builtin": "true"
-      }
-    ],
+    "annotations": {
+      "smarter.sh/guardrail/builtin": "true"
+    },
     "userProfile": {
       "user": {
         "username": "admin",

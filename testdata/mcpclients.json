@@ -12,11 +12,9 @@
       "aws",
       "cloud"
     ],
-    "annotations": [
-      {
-        "smarter.sh/mcpclient/documentation": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server"
-      }
-    ],
+    "annotations": {
+      "smarter.sh/mcpclient/documentation": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server"
+    },
     "userProfile": {
       "user": {
         "username": "admin",
@@ -74,11 +72,9 @@
       "documentation",
       "cloudflare"
     ],
-    "annotations": [
-      {
-        "smarter.sh/mcpclient/documentation": "https://github.com/cloudflare/mcp-server-cloudflare"
-      }
-    ],
+    "annotations": {
+      "smarter.sh/mcpclient/documentation": "https://github.com/cloudflare/mcp-server-cloudflare"
+    },
     "userProfile": {
       "user": {
         "username": "admin",

@@ -18,7 +18,7 @@
       "description": "automatically-generated smarter Admin account",
       "version": "1.0.0",
       "tags": [],
-      "annotations": [],
+      "annotations": {},
       "accountNumber": "1234-5678-9012",
       "isDefaultAccount": true,
       "companyName": "Example Company",

@@ -26,19 +26,23 @@ type Owner struct {
 // Resource holds the fields that every Smarter resource shares, as the REST api returns them: the
 // same metadata as a manifest's metadata. Each resource's struct embeds it.
 type Resource struct {
-	ID          int          `json:"id"`
-	HashedID    string       `json:"hashedId,omitempty"`
-	Name        string       `json:"name"`
-	Description string       `json:"description,omitempty"`
-	Version     string       `json:"version,omitempty"`
-	Tags        []string     `json:"tags,omitempty"`
-	Annotations []JSONObject `json:"annotations,omitempty"`
-	CreatedAt   string       `json:"createdAt,omitempty"`
-	UpdatedAt   string       `json:"updatedAt,omitempty"`
-	UserProfile *Owner       `json:"userProfile,omitempty"`
-	CanDelete   *bool        `json:"canDelete,omitempty"`
-	ManifestURL string       `json:"manifestUrl,omitempty"`
-	Ready       *bool        `json:"ready,omitempty"`
+	ID          int      `json:"id"`
+	HashedID    string   `json:"hashedId,omitempty"`
+	Name        string   `json:"name"`
+	Description string   `json:"description,omitempty"`
+	Version     string   `json:"version,omitempty"`
+	Tags        []string `json:"tags,omitempty"`
+	// Annotations are Kubernetes-style annotations: string keys mapped to string values. See [Annotations].
+	Annotations Annotations `json:"annotations,omitempty"`
+	CreatedAt   string      `json:"createdAt,omitempty"`
+	UpdatedAt   string      `json:"updatedAt,omitempty"`
+	UserProfile *Owner      `json:"userProfile,omitempty"`
+	CanDelete   *bool       `json:"canDelete,omitempty"`
+	ManifestURL string      `json:"manifestUrl,omitempty"`
+	// DetailURL is the url of the resource's detail in the web console: its manifest, the resources
+	// that it uses, and those that use it.
+	DetailURL string `json:"detailUrl,omitempty"`
+	Ready     *bool  `json:"ready,omitempty"`
 }
 
 // ResourceName returns the resource's name.
@@ -617,6 +621,8 @@ type Provider struct {
 	Description string `json:"description,omitempty"`
 	BaseURL     string `json:"baseUrl,omitempty"`
 	IsActive    *bool  `json:"isActive,omitempty"`
+	// DetailURL is the url of the provider's detail in the web console.
+	DetailURL string `json:"detailUrl,omitempty"`
 }
 
 // ProviderModel is a model of an LLM provider.

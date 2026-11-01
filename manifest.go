@@ -24,8 +24,10 @@ type ManifestMetadata struct {
 	// Version is the resource's semantic version, e.g. 1.0.0.
 	Version string   `json:"version,omitempty"`
 	Tags    []string `json:"tags,omitempty"`
-	// Annotations are key-value pairs, as a list of single-key objects.
-	Annotations []JSONObject `json:"annotations,omitempty"`
+	// Annotations are Kubernetes-style annotations: string keys mapped to string values, e.g.
+	// {"acme.com/crm-account-id": "A-10042"}. The list of one-key maps of older manifests is also
+	// accepted. See [Annotations].
+	Annotations Annotations `json:"annotations,omitempty"`
 	// Extra holds the fields that the SDK doesn't declare.
 	Extra map[string]json.RawMessage `json:"-"`
 }
@@ -133,11 +135,36 @@ func ParseManifest(data []byte) (*Manifest, error) {
 
 // ManifestFromObject converts a manifest's decoded JSON (or YAML) object into a [Manifest].
 func ManifestFromObject(object JSONObject) (*Manifest, error) {
-	data, err := json.Marshal(object)
+	data, err := json.Marshal(withAnnotationStrings(object))
 	if err != nil {
 		return nil, &ValueError{Message: "the manifest can't be encoded: " + err.Error(), Err: err}
 	}
 	return ParseManifest(data)
+}
+
+// withAnnotationStrings returns the object, with its metadata's annotations as a map of strings,
+// converted while their values still have their YAML types, e.g. a date. It leaves the caller's
+// object unchanged, and annotations that aren't valid for ParseManifest to reject.
+func withAnnotationStrings(object JSONObject) JSONObject {
+	metadata, ok := object["metadata"].(map[string]any)
+	if !ok || metadata["annotations"] == nil {
+		return object
+	}
+	annotations, err := NormalizeAnnotations(metadata["annotations"])
+	if err != nil {
+		return object
+	}
+	copied := make(JSONObject, len(object))
+	for key, value := range object {
+		copied[key] = value
+	}
+	copiedMetadata := make(map[string]any, len(metadata))
+	for key, value := range metadata {
+		copiedMetadata[key] = value
+	}
+	copiedMetadata["annotations"] = annotations
+	copied["metadata"] = copiedMetadata
+	return copied
 }
 
 // ManifestFromYAML parses a manifest from YAML (or JSON) text.
@@ -146,10 +173,11 @@ func ManifestFromYAML(text string) (*Manifest, error) {
 	if err := yaml.Unmarshal([]byte(text), &document); err != nil {
 		return nil, &ValueError{Message: "the manifest is not valid YAML: " + err.Error(), Err: err}
 	}
-	if _, ok := document.(map[string]any); !ok {
+	object, ok := document.(map[string]any)
+	if !ok {
 		return nil, &ValueError{Message: "a manifest must be a YAML object with apiVersion, kind, metadata and spec"}
 	}
-	data, err := json.Marshal(document)
+	data, err := json.Marshal(withAnnotationStrings(object))
 	if err != nil {
 		return nil, &ValueError{Message: "the manifest can't be converted to JSON: " + err.Error(), Err: err}
 	}

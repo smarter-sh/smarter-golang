@@ -10,11 +10,9 @@
         "example",
         "pii"
       ],
-      "annotations": [
-        {
-          "smarter.sh/guardrail/purpose": "example"
-        }
-      ]
+      "annotations": {
+        "smarter.sh/guardrail/purpose": "example"
+      }
     },
     "spec": {
       "config": {

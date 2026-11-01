@@ -167,7 +167,7 @@ func TestLiveManifestKinds(t *testing.T) {
 	check(t, err)
 	for _, kind := range kinds {
 		t.Run(kind.APIKind, func(t *testing.T) {
-			_, err := client.Manifests.Get(ctx, kind.APIKind, "")
+			_, err := client.Manifests.Get(ctx, kind.APIKind, "", nil)
 			skipPlatformError(t, "get "+kind.APIKind, err)
 			example, err := client.Manifests.ExampleManifest(ctx, kind.APIKind)
 			check(t, err)
@@ -198,7 +198,7 @@ func TestLiveSAMStructs(t *testing.T) {
 					}
 				}
 			} else {
-				list, err := client.Manifests.Get(ctx, kind.APIKind, "")
+				list, err := client.Manifests.Get(ctx, kind.APIKind, "", nil)
 				skipPlatformError(t, "get "+kind.APIKind, err)
 				names = list.Names()
 			}
@@ -224,6 +224,7 @@ func TestLiveManifestLifecycle(t *testing.T) {
 	_, _ = rand.Read(suffix)
 	name := "sdk_live_test_" + hex.EncodeToString(suffix)
 	manifest.Metadata.Name = name
+	manifest.Metadata.Annotations = smarter.Annotations{"example.com/sdk-live-test": name, "example.com/active": "true"}
 	validation, err := client.Manifests.Validate(ctx, manifest)
 	check(t, err)
 	equal(t, validation.Valid, true)
@@ -235,9 +236,20 @@ func TestLiveManifestLifecycle(t *testing.T) {
 	equal(t, described.Metadata.Name, name)
 	_, err = smarter.ToSAM[sam.Guardrail](described)
 	check(t, err)
-	listed, err := client.Manifests.Get(ctx, "Guardrail", name)
+	listed, err := client.Manifests.Get(ctx, "Guardrail", name, nil)
 	check(t, err)
 	jsonEqual(t, listed.Names(), []string{name})
+	equal(t, described.Metadata.Annotations["example.com/sdk-live-test"], name)
+	selector := []string{"example.com/sdk-live-test=" + name, "example.com/active"}
+	selected, err := client.Manifests.Get(ctx, "Guardrail", "", &smarter.GetParams{Annotation: selector})
+	check(t, err)
+	jsonEqual(t, selected.Names(), []string{name})
+	none, err := client.Manifests.Get(ctx, "Guardrail", "", &smarter.GetParams{Annotation: append(selector, "!example.com/active")})
+	check(t, err)
+	equal(t, len(none.Names()), 0)
+	if _, err := client.Manifests.Get(ctx, "Guardrail", "", &smarter.GetParams{Annotation: []string{"Not A Key="}}); !errors.Is(err, smarter.ErrBadRequest) {
+		t.Errorf("an invalid selector: got %v", err)
+	}
 	guardrail, err := client.Guardrails.Find(ctx, name)
 	check(t, err)
 	retrieved, err := client.Guardrails.Retrieve(ctx, smarter.IntID(guardrail.ID))

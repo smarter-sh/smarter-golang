@@ -20,12 +20,8 @@ type Proxy struct {
 
 // ProxyMetadata: Smarter API Proxy Manifest - Metadata class.
 type ProxyMetadata struct {
-	// The manifest annotations. Used for storing arbitrary metadata as
-	// key-value pairs. Example: [{'smarter.sh/test-manifest/project-name': 'Scooby dooby do'}]. The
-	// key should be a valid url-friendly string. The value accepts
-	// multi-line string values (YAML block scalars) and various scalar types including
-	// str, int, float, bool, datetime.date, datetime.datetime, decimal.Decimal, uuid.UUID, bytes, list, dict.
-	Annotations []map[string]any `json:"annotations,omitempty"`
+	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
+	Annotations map[string]string `json:"annotations,omitempty"`
 	// The description for this resource. Be brief. Keep it under 255 characters.
 	Description string `json:"description,omitempty"`
 	// The camelCase name of the manifest resource

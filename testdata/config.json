@@ -43,14 +43,10 @@
           "calculator",
           "capstone-project"
         ],
-        "annotations": [
-          {
-            "smarter.sh/tests/focus_level": "high"
-          },
-          {
-            "smarter.sh/tests/owner": "Example Owner"
-          }
-        ],
+        "annotations": {
+          "smarter.sh/tests/focus_level": "high",
+          "smarter.sh/tests/owner": "Example Owner"
+        },
         "user_profile": {
           "user": {
             "username": "admin",
@@ -260,14 +256,10 @@
           "account_number": "1234-5678-9012"
         }
       },
-      "annotations": [
-        {
-          "smarter.sh/tests/focus_level": "high"
-        },
-        {
-          "smarter.sh/tests/owner": "Example Owner"
-        }
-      ],
+      "annotations": {
+        "smarter.sh/tests/focus_level": "high",
+        "smarter.sh/tests/owner": "Example Owner"
+      },
       "created_at": "2026-10-12T18:54:03.688604Z",
       "updated_at": "2026-10-12T18:54:03.725397Z",
       "description": "An llmclient that scientific calculator functions.",

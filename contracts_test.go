@@ -204,7 +204,7 @@ func TestEveryRequestIsPublished(t *testing.T) {
 	calls := []func() error{
 		func() error { _, err := c.Manifests.Apply(ctx, guardrail); return err },
 		func() error { _, err := c.Manifests.Validate(ctx, guardrail); return err },
-		func() error { _, err := c.Manifests.Get(ctx, "Guardrail", ""); return err },
+		func() error { _, err := c.Manifests.Get(ctx, "Guardrail", "", nil); return err },
 		func() error { _, err := c.Manifests.Describe(ctx, "Guardrail", "example"); return err },
 		func() error { _, err := c.Manifests.Delete(ctx, "Guardrail", "example"); return err },
 		func() error { _, err := c.Manifests.Deploy(ctx, "LLMClient", "example"); return err },

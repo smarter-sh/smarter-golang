@@ -100,6 +100,13 @@ type JournalPagination struct {
 	Filter string `json:"filter,omitempty"`
 	// Filters are the named filters that the list offers.
 	Filters []string `json:"filters,omitempty"`
+	// Tags are the tags that every entry of the list has.
+	Tags []string `json:"tags,omitempty"`
+	// Annotations are the annotation selector's requirements that every entry matches, e.g.
+	// acme.com/crm-id=A-1.
+	Annotations []string `json:"annotations,omitempty"`
+	// AnnotationError is why the annotation selector is invalid, in which case it is not applied, or "".
+	AnnotationError string `json:"annotationError,omitempty"`
 }
 
 // JournalPage is one page of the journal's entries.
