@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copy the Smarter platform's published api contracts into the SDK's test data.
+# Copy the Smarter Project's published api contracts into the SDK's test data.
 #
 # The platform commits its api contracts, generated from its Pydantic models:
 #

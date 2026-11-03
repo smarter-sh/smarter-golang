@@ -1,6 +1,6 @@
 ---
 name: smarter-sphinx-docs
-description: Use when adding or editing the smarter-golang SDK's guides, which live in the Smarter platform's Sphinx docs (../smarter/docs/source/smarter-framework/smarter-golang*, published to docs.smarter.sh). Covers where each page goes, why the api reference is pkg.go.dev and not a generated page, the evergreen-prose rule, and how to verify without the platform's 20-minute build.
+description: Use when adding or editing the smarter-golang SDK's guides, which live in the Smarter Project's Sphinx docs (../smarter/docs/source/smarter-framework/smarter-golang*, published to docs.smarter.sh). Covers where each page goes, why the api reference is pkg.go.dev and not a generated page, the evergreen-prose rule, and how to verify without the platform's 20-minute build.
 ---
 
 # The SDK's Sphinx Documentation

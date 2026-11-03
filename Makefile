@@ -34,7 +34,7 @@ coverage:
 	@go tool cover -func=coverage.out | tail -1
 	@go tool cover -func=coverage.out | tail -1 | awk '{ sub(/%/, "", $$3); if ($$3 + 0 < 90) { print "coverage is below 90%"; exit 1 } }'
 
-# Test the SDK against a running Smarter platform, e.g. the local one:
+# Test the SDK against a running Smarter installation, e.g. the local one:
 # SMARTER_BASE_URL=http://localhost:9357 SMARTER_API_KEY=... make test-live
 # These prompt an LLMClient, which makes billable LLM requests.
 test-live:
@@ -65,7 +65,7 @@ help:
 	@echo 'clean         - delete node_modules, .venv/ and coverage.out'
 	@echo 'test          - run the unit tests, with the race detector'
 	@echo 'coverage      - run the unit tests with coverage'
-	@echo 'test-live     - test against a running Smarter platform (SMARTER_BASE_URL, SMARTER_API_KEY)'
+	@echo 'test-live     - test against a running Smarter installation (SMARTER_BASE_URL, SMARTER_API_KEY)'
 	@echo 'vet           - go vet and golangci-lint'
 	@echo 'lint          - run every pre-commit hook on every file'
 	@echo 'contracts     - copy the api contracts, SAM schemas and OpenAPI document from ../smarter'

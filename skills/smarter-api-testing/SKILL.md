@@ -1,6 +1,6 @@
 ---
 name: smarter-api-testing
-description: Use when you need to exercise the Smarter platform's REST api by hand from the smarter-golang SDK's side, e.g. to learn an endpoint's real request and response before the SDK covers it, to build a sanitized test fixture, or to reproduce an SDK bug against the local platform. Explains the throwaway api key, the endpoints, curl versus the SDK itself, and how to clean up.
+description: Use when you need to exercise the Smarter Project's REST api by hand from the smarter-golang SDK's side, e.g. to learn an endpoint's real request and response before the SDK covers it, to build a sanitized test fixture, or to reproduce an SDK bug against the local platform. Explains the throwaway api key, the endpoints, curl versus the SDK itself, and how to clean up.
 ---
 
 # Probing the Smarter API

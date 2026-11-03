@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-// Client is a client of a Smarter platform's api. Its fields group the api's operations, and it is
+// Client is a client of a Smarter installation's api. Its fields group the api's operations, and it is
 // safe for concurrent use by many goroutines. Create one with [NewClient].
 type Client struct {
 	// Manifests is the manifest api: apply, validate, get, describe, delete, deploy, undeploy and

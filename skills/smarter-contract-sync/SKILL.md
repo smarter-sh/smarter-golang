@@ -1,11 +1,11 @@
 ---
 name: smarter-contract-sync
-description: Use when the Smarter platform's api contract changed and this repository's copy of it must follow - a platform commit that changed openapi.json, a SAM kind's schema or example, or the chat or journal contract (smarter/smarter/apps/api/v1/contract/ in ../smarter), e.g. a new field in a REST response - outside the monthly maintenance, or when a contract test fails after a sync. Gives the exact steps - pick the platform's release tag, copy with SMARTER_REF, regenerate, read the diff, fix the recorded responses, test, lint the changed files, and write the commit - and lists the sibling repositories that hold the same copy and must be synced with it.
+description: Use when the Smarter Project's api contract changed and this repository's copy of it must follow - a platform commit that changed openapi.json, a SAM kind's schema or example, or the chat or journal contract (smarter/smarter/apps/api/v1/contract/ in ../smarter), e.g. a new field in a REST response - outside the monthly maintenance, or when a contract test fails after a sync. Gives the exact steps - pick the platform's release tag, copy with SMARTER_REF, regenerate, read the diff, fix the recorded responses, test, lint the changed files, and write the commit - and lists the sibling repositories that hold the same copy and must be synced with it.
 ---
 
 # Syncing the Platform's API Contract
 
-This repository holds a copy of the Smarter platform's api contract:
+This repository holds a copy of the Smarter Project's api contract:
 `testdata/contracts/` (`openapi.json`, the chat and journal contracts), `testdata/sam/` (each kind's schema and example), and `sam/`, which `internal/cmd/samgen` generates from the schemas. The platform generates the contract from its Pydantic models
 (`../smarter`, its `smarter-api-contract` skill), so the copy is never edited
 by hand. It is copied, at a platform ref, and checked by this repository's

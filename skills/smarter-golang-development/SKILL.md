@@ -1,12 +1,12 @@
 ---
 name: smarter-golang-development
-description: Start here for any change to the smarter-golang repository, the Smarter platform's Go SDK (module github.com/smarter-sh/smarter-golang, package smarter). Gives the non-negotiable rules, the SDK's architecture (client, transport, resources, structs, the generated sam package and the mirrored api contracts), its relationship to the Python SDK (the reference implementation) and to the smarter cli (also Go), how to cover a new platform endpoint, and an index of the narrower skills to load for each kind of work.
+description: Start here for any change to the smarter-golang repository, the Smarter Project's Go SDK (module github.com/smarter-sh/smarter-golang, package smarter). Gives the non-negotiable rules, the SDK's architecture (client, transport, resources, structs, the generated sam package and the mirrored api contracts), its relationship to the Python SDK (the reference implementation) and to the smarter cli (also Go), how to cover a new platform endpoint, and an index of the narrower skills to load for each kind of work.
 ---
 
 # Smarter Go SDK Development
 
 `github.com/smarter-sh/smarter-golang` (package `smarter`) is to the Smarter
-platform what `openai-go` is to the OpenAI api: the library that Go
+Project what `openai-go` is to the OpenAI api: the library that Go
 programmers import to build custom software on their own Smarter installation,
 running locally or on Kubernetes. The platform itself is
 [smarter-sh/smarter](https://github.com/smarter-sh/smarter), usually checked out

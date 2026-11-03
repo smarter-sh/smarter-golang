@@ -2,9 +2,9 @@
 
 Guidance for Claude Code (and other coding agents) working in this repository.
 
-smarter-golang is the Smarter platform's official Go SDK: the module
+smarter-golang is the Smarter Project's official Go SDK: the module
 `github.com/smarter-sh/smarter-golang`, package `smarter`. It is to the Smarter
-platform ([smarter-sh/smarter](https://github.com/smarter-sh/smarter), usually
+Project ([smarter-sh/smarter](https://github.com/smarter-sh/smarter), usually
 checked out beside this repository as `../smarter`) what `openai-go` is to the
 OpenAI api: the library that Go programmers import to build software on their
 own Smarter installation, without customizing or forking the platform. The

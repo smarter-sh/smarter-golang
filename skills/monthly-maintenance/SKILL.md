@@ -1,6 +1,6 @@
 ---
 name: monthly-maintenance
-description: Use when asked to do smarter-golang's monthly maintenance, or either half of it - (1) bring the SDK back in sync with the Smarter platform, the Python SDK (the reference implementation) and the smarter cli's configuration by reviewing their commits since smarter-golang's last release and changing the SDK, its models, tests and docs as needed, and (2) update the SDK's Go module dependencies and toolchain, retest, and, if the tests pass, write a "fix" git commit. Covers finding the baseline, reading the delta by area, the mechanical refreshes (SAM structs, contracts), the dependency and Go toolchain update and its tests, and the commit messages.
+description: Use when asked to do smarter-golang's monthly maintenance, or either half of it - (1) bring the SDK back in sync with the Smarter Project, the Python SDK (the reference implementation) and the smarter cli's configuration by reviewing their commits since smarter-golang's last release and changing the SDK, its models, tests and docs as needed, and (2) update the SDK's Go module dependencies and toolchain, retest, and, if the tests pass, write a "fix" git commit. Covers finding the baseline, reading the delta by area, the mechanical refreshes (SAM structs, contracts), the dependency and Go toolchain update and its tests, and the commit messages.
 ---
 
 # smarter-golang Monthly Maintenance

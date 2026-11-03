@@ -2,7 +2,7 @@
 #------------------------------------------------------------------------------
 # Vet, lint and run the unit tests on every supported Go version.
 #
-# The unit tests never reach a Smarter platform: a RoundTripper answers every
+# The unit tests never reach a Smarter installation: a RoundTripper answers every
 # request. The live tests (live_test.go) are skipped, because SMARTER_TEST_LIVE
 # is not set.
 #------------------------------------------------------------------------------

@@ -15,7 +15,7 @@ import (
 	"github.com/smarter-sh/smarter-golang/sam"
 )
 
-// examplePlatform is a stand-in for a Smarter platform, for the examples: it answers with the
+// examplePlatform is a stand-in for a Smarter installation, for the examples: it answers with the
 // recorded responses of testdata/.
 func examplePlatform() *httptest.Server {
 	fixtures := map[string]string{

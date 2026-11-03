@@ -32,7 +32,7 @@ const (
 	DefaultEnvironment = EnvironmentProd
 	// DefaultRootDomain is the platform's root domain when none is configured.
 	DefaultRootDomain = "platform.smarter.sh"
-	// LocalURL is the url of the Smarter platform's local development server.
+	// LocalURL is the url of the Smarter Project's local development server.
 	LocalURL = "http://localhost:9357"
 	// APIPath is the path of the Smarter api, which every request url is relative to.
 	APIPath = "/api/v1/"

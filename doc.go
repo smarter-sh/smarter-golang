@@ -1,4 +1,4 @@
-// Package smarter is the official Go SDK of the Smarter platform's api: the library that Go
+// Package smarter is the official Go SDK of the Smarter Project's api: the library that Go
 // programs import to build software on their own Smarter installation, running locally or on
 // Kubernetes, without customizing or forking the platform. It has the features of the Python SDK,
 // smarter-python, which is the reference implementation of every Smarter SDK.
