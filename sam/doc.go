@@ -1,5 +1,5 @@
 // Package sam holds a Go struct of every SAM (Smarter Application Manifest) kind, generated from
-// the Smarter platform's JSON Schemas.
+// the Smarter Project's JSON Schemas.
 //
 // Each struct describes a complete manifest of its kind: apiVersion, kind, metadata, spec and the
 // read-only status. Use them to build manifests in code, with your editor's completion, or to read

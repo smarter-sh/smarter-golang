@@ -1,7 +1,7 @@
 package smarter
 
 // The Smarter Journal api contract: the envelope of every journaled response, its error body, and
-// a journal entry. These mirror smarter.lib.journal.contract.models in the Smarter platform, whose
+// a journal entry. These mirror smarter.lib.journal.contract.models in the Smarter Project, whose
 // JSON Schema is journal-contract.schema.json, as the Python SDK's smarter.models.journal does. The
 // SDK's tests check the platform's schema against them (contracts_test.go).
 

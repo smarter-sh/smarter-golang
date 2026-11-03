@@ -8,7 +8,7 @@ import (
 
 // The Smarter Chat api contract, version 2: an LLMClient's configuration, its prompt api's request
 // and response, and the prompt's progress events. These mirror smarter.apps.prompt.contract.models
-// in the Smarter platform, whose JSON Schema is chat-contract.schema.json, as the Python SDK's
+// in the Smarter Project, whose JSON Schema is chat-contract.schema.json, as the Python SDK's
 // smarter.models.chat does. The SDK always asks for version 2 of the contract, so the deprecated
 // version 1 models are not mirrored. The SDK's tests check the platform's schema and examples
 // against them (contracts_test.go).

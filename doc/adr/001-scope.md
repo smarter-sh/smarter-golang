@@ -8,7 +8,7 @@ Follows the Python SDK's [ADR-001](https://github.com/smarter-sh/smarter-python/
 
 ## Context
 
-The Smarter platform is managed through its REST api. The smarter cli serves people at a terminal and is itself written in Go, but its http code lives in its `cmd` package, untyped and tied to its commands, so other Go programs can't use it. Go programmers who build services, operators and infrastructure tooling on Smarter had to hand-write HTTP calls, or customize the platform. The platform's [APIs and SDKs](https://docs.smarter.sh/en/latest/smarter-framework/apis-and-sdks.html) page lists a Go SDK as planned, and sets the requirements that every SDK meets.
+The Smarter Project is managed through its REST api. The smarter cli serves people at a terminal and is itself written in Go, but its http code lives in its `cmd` package, untyped and tied to its commands, so other Go programs can't use it. Go programmers who build services, operators and infrastructure tooling on Smarter had to hand-write HTTP calls, or customize the platform. The platform's [APIs and SDKs](https://docs.smarter.sh/en/latest/smarter-framework/apis-and-sdks.html) page lists a Go SDK as planned, and sets the requirements that every SDK meets.
 
 ## Decision
 

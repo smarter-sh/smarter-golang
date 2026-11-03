@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Report what changed in the Smarter platform since smarter-golang's last release, grouped by
+# Report what changed in the Smarter Project since smarter-golang's last release, grouped by
 # what each change means for the SDK. Read-only: it changes neither repository, apart from
 # `git fetch`, which updates only the platform's remote-tracking branches.
 #

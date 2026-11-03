@@ -5,10 +5,10 @@ import (
 	"sort"
 )
 
-// The Smarter platform's Django-React integration: a React app's Vite manifest, and the assets that
+// The Smarter Project's Django-React integration: a React app's Vite manifest, and the assets that
 // a template includes. These are a copy of the platform's
 // smarter.lib.django.templatetags.smarter_react_contract, as the Python SDK's smarter.models.react
-// is, so that tools that build or check React apps for a Smarter platform can use them without the
+// is, so that tools that build or check React apps for a Smarter installation can use them without the
 // platform.
 
 // ReactBuildInfoKey is the key of the build information that each React package's vite.config.ts

@@ -124,7 +124,7 @@ type WhoAmI struct {
 
 // APIVersion is the platform's version, and the versions of its main Python packages.
 type APIVersion struct {
-	// Version is the Smarter platform's semantic version.
+	// Version is the Smarter installation's semantic version.
 	Version string `json:"version"`
 	// Python holds Python package versions, by package; nil when a package isn't installed.
 	Python map[string]*string `json:"python,omitempty"`
@@ -608,7 +608,7 @@ type Proxy struct {
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
 	Provider    string `json:"provider,omitempty"`
-	// URL is the proxy's base url on the Smarter platform.
+	// URL is the proxy's base url on the Smarter installation.
 	URL          string   `json:"url,omitempty"`
 	UpstreamURL  string   `json:"upstreamUrl,omitempty"`
 	AllowedPaths []string `json:"allowedPaths,omitempty"`

@@ -1,6 +1,6 @@
 ---
 name: smarter-golang-testing
-description: Use when writing, fixing or running the smarter-golang SDK's tests, or raising its coverage. Covers the go test unit tests (newMockPlatform, routes answered by a RoundTripper, sanitized fixtures in testdata shared with the Python SDK), the opt-in live tests against a running Smarter platform, the contract and SAM tests, runnable examples, coverage, and what never to do in a test.
+description: Use when writing, fixing or running the smarter-golang SDK's tests, or raising its coverage. Covers the go test unit tests (newMockPlatform, routes answered by a RoundTripper, sanitized fixtures in testdata shared with the Python SDK), the opt-in live tests against a running Smarter installation, the contract and SAM tests, runnable examples, coverage, and what never to do in a test.
 ---
 
 # Smarter Go SDK Testing
