@@ -58,13 +58,14 @@ jobs:
   version:
     name: Version
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     outputs:
       version: ${{ steps.vars.outputs.version }}
       tag: ${{ steps.vars.outputs.tag }}
       prerelease: ${{ steps.vars.outputs.prerelease }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -110,6 +111,7 @@ jobs:
     name: Build (${{ matrix.os }}, Go ${{ matrix.go }})
     needs: version
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
@@ -117,13 +119,13 @@ jobs:
         go: ["1.26", "1.27"]
     steps:
       - name: Check out the tag
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.version.outputs.tag }}
           persist-credentials: false
 
       - name: Set up Go
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: ${{ matrix.go }}
 
@@ -159,8 +161,9 @@ jobs:
     name: GitHub Release
     needs: [version, build]
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
-      contents: write
+      contents: write # creates the GitHub Release with the automatic token, if it is missing
     steps:
       # semantic-release has usually created it already. Never delete and recreate it, as the cli's
       # workflow does: the tag is the module's version, and must not move.
@@ -183,13 +186,14 @@ jobs:
     name: Go module proxy and pkg.go.dev
     needs: [version, github-release]
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       GOPROXY: https://proxy.golang.org
       TAG: ${{ needs.version.outputs.tag }}
       VERSION: ${{ needs.version.outputs.version }}
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: "1.27"
           cache: false
