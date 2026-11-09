@@ -18,7 +18,7 @@ type SQLConnection struct {
 	Status *ConnectionCommonStatus `json:"status,omitempty"`
 }
 
-// SQLConnectionSpec: Smarter API Sql Connection Manifest Connection.spec
+// SQLConnectionSpec: Smarter API Sql Connection Manifest Connection.spec.
 type SQLConnectionSpec struct {
 	// SqlConnection.spec.selector[obj]: the selector logic to use for the SqlConnection
 	Connection Connection `json:"connection"`

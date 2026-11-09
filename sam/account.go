@@ -22,7 +22,7 @@ type Account struct {
 type AccountMetadata struct {
 	// Account.metadata.accountNumber[str]. Your preassigned 12-digit account number for your Smarter Account in the format '####-####-####'. Read only.
 	AccountNumber string `json:"accountNumber,omitempty"`
-	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
+	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
 	Annotations map[string]string `json:"annotations,omitempty"`
 	// The description for this resource. Be brief. Keep it under 255 characters.
 	Description string `json:"description,omitempty"`
@@ -34,7 +34,7 @@ type AccountMetadata struct {
 	Version string `json:"version,omitempty"`
 }
 
-// AccountSpec: Smarter API Account Manifest Account.spec
+// AccountSpec: Smarter API Account Manifest Account.spec.
 type AccountSpec struct {
 	// Account.spec.config[object]. The configuration for the Account.
 	Config AccountSpecConfig `json:"config"`
@@ -54,7 +54,7 @@ type AccountStatus struct {
 	RecordLocator string `json:"recordLocator"`
 }
 
-// AccountSpecConfig: Smarter API Account Manifest Account.spec.config
+// AccountSpecConfig: Smarter API Account Manifest Account.spec.config.
 type AccountSpecConfig struct {
 	// Account.spec.configuration.address1[str]. The primary address for the Account.
 	Address1 string `json:"address1,omitempty"`

@@ -20,7 +20,7 @@ type LLMClient struct {
 
 // LLMClientMetadata: Smarter API LLMClient Manifest - Metadata class.
 type LLMClientMetadata struct {
-	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
+	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
 	Annotations map[string]string `json:"annotations,omitempty"`
 	// The description for this resource. Be brief. Keep it under 255 characters.
 	Description string `json:"description,omitempty"`
@@ -34,7 +34,7 @@ type LLMClientMetadata struct {
 
 // LLMClientSpec: Smarter API LLMClient Manifest LLMClient.spec.
 type LLMClientSpec struct {
-	// LLMClient.spec.apiKey[str]. Optional. The name of the API key that this llmclient uses for authentication. Example: 'my_api_key'. API keys are only necessary for llmclients that are not public facing. This is the name of the API key that is used to authenticate the llmclient with the Smarter API. API keys are issued by a Smarter platform administrator and are used to authenticate the llmclient with the Smarter API.
+	// LLMClient.spec.apiKey[str]. Optional. The name of the API key that this llmclient uses for authentication. Example: 'my_api_key'. API keys are only necessary for llmclients that are not public facing. This is the name of the API key that is used to authenticate the llmclient with the Smarter API. API keys are issued by an administrator of the Smarter installation and are used to authenticate the llmclient with the Smarter API.
 	APIKey string `json:"apiKey,omitempty"`
 	// LLMClient.spec.config[object]. The configuration for the LLMClient.
 	Config LLMClientSpecConfig `json:"config"`
@@ -44,7 +44,7 @@ type LLMClientSpec struct {
 	Guardrails []string `json:"guardrails,omitempty"`
 	// LLMClient.spec.mcpClients[list]. Optional. The names of the MCPClients whose MCP servers' tools the LLMClient offers the LLM. Example: ['deepwiki']. Each must be an MCPClient that you own, or that is shared with you. Experimental.
 	MCPClients []string `json:"mcpClients,omitempty"`
-	// LLMClient.spec.searchTerms[list]. Optional. The Plugins to add to the LLMClient. Plugins are a proprietary extensibility model for tool calling and are not the same as OpenAI plugins. See https://docs.smarter.sh/plugins/ for more information.
+	// LLMClient.spec.searchTerms[list]. Optional. The Plugins to add to the LLMClient. Plugins are a proprietary extensibility model for tool calling and are not the same as OpenAI plugins. See https://docs.smarter.sh/smarter-resources/smarter-llmtool.html for more information.
 	Plugins []string `json:"plugins,omitempty"`
 }
 
@@ -99,7 +99,7 @@ type LLMClientStatus struct {
 type LLMClientSpecConfig struct {
 	// LLMClient.spec.configuration.prompt[object]. Required. The LLMClient's LLM provider, model and system prompt, the text of its chat, and where it is published.
 	Prompt LLMClientSpecConfigPrompt `json:"prompt"`
-	// LLMClient.spec.configuration.styles[object]. Optional. The look of the LLMClient's chat, in the Smarter workbench and on every page that embeds it: its logo, background image, fonts and colors. See https://docs.smarter.sh/en/latest/smarter-resources/llmclient/styles.html
+	// LLMClient.spec.configuration.styles[object]. Optional. The look of the LLMClient's chat, in the Smarter workbench and on every page that embeds it: its logo, background image, fonts and colors. See https://docs.smarter.sh/smarter-resources/llmclient/styles.html
 	Styles *LLMClientSpecConfigStyles `json:"styles,omitempty"`
 }
 
@@ -108,7 +108,7 @@ type LLMClientSpecConfig struct {
 // What the LLMClient is and does: its LLM provider, model and system prompt, the text of its chat
 // (its name, welcome message, example prompts and placeholder), and where it is published.
 type LLMClientSpecConfigPrompt struct {
-	// LLMClient.spec.configuration.prompt.allowed_origins[list[str]]. Optional. The origins of the web pages that may call this llmclient from a browser, with the @smarter.sh/ui-chat React component, in addition to those that the Smarter platform allows. An origin is a scheme, a host and an optional port, without a path or a wildcard. Example: ['https://www.example.com', 'http://localhost:5173'].
+	// LLMClient.spec.configuration.prompt.allowed_origins[list[str]]. Optional. The origins of the web pages that may call this llmclient from a browser, with the @smarter.sh/ui-chat React component, in addition to those that the Smarter installation allows. An origin is a scheme, a host and an optional port, without a path or a wildcard. Example: ['https://www.example.com', 'http://localhost:5173'].
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 	// LLMClient.spec.configuration.prompt.app_assistant[str]. Optional. The assistant name of the llmclient. Example: 'Joe'. This is the fictitious assistant name that will be displayed to users in the Smarter Prompt Engineer Workbench, as well as any production UI that leverages the SmarterChat React.js Component - https://www.npmjs.com/package/@smarter.sh/ui-prompt.
 	AppAssistant string `json:"appAssistant,omitempty"`
@@ -131,6 +131,8 @@ type LLMClientSpecConfigPrompt struct {
 	DefaultMaxTokens *int `json:"defaultMaxTokens,omitempty"`
 	// LLMClient.spec.configuration.prompt.default_model[str]. Optional. The default model to use for the llmclient. This changes routinely and is currently defaults to gpt-6-luna
 	DefaultModel string `json:"defaultModel,omitempty"`
+	// LLMClient.spec.configuration.prompt.default_reasoning_effort[str]. Optional. How much a reasoning model reasons before it answers: none, minimal, low, medium, high or xhigh. When it is not set, the model reasons at its own default effort. Each model supports some of these values, and models that don't reason, e.g. gpt-4o, support none of them: an effort that the model doesn't support is left out, with a warning in the chat's sandbox mode. Some models use function tools only with none, e.g. gpt-6-luna, so the requests that offer the llmclient's tools use none, and the final answer uses this effort. A reasoning model ignores defaultTemperature at any effort but none. Example: high.
+	DefaultReasoningEffort string `json:"defaultReasoningEffort,omitempty"`
 	// LLMClient.spec.configuration.prompt.default_system_role[str]. Optional. The default system prompt to use for the llmclient. This defaults to the following value:
 	// You are a helpful llmclient. When given the opportunity to utilize function calling, you should always do so. This will allow you to provide the best possible responses to the user. If you are unable to provide a response, you should prompt the user for more information. If you are still unable to provide a response, you should inform the user that you are unable to help them at this time..
 	// The system prompt is the first message in the conversation and is used to set the context for the llmclient. It is sent with every prompt, so its tokens count towards every turn's cost. The maximum length of the system prompt is 32768 characters.
@@ -142,6 +144,8 @@ type LLMClientSpecConfigPrompt struct {
 	Deployed *bool `json:"deployed,omitempty"`
 	// LLMClient.spec.configuration.prompt.provider[str]. Optional. The provider to use for the llmclient.
 	Provider string `json:"provider,omitempty"`
+	// LLMClient.spec.configuration.prompt.staff_only[bool]. Optional. Whether only the platform's own staff may see and use the llmclient: the staff users of the Smarter account that runs the platform, not the admins of other accounts. Defaults to False. A staff-only llmclient is in no other user's lists, workbench or apis, including at its deployed url, and only the platform's staff may apply one. Use it for an llmclient whose tools read what only staff may see, e.g. one with the smarter_operations MCPClient, of the MCPServer's staff-only tools.
+	StaffOnly *bool `json:"staffOnly,omitempty"`
 	// LLMClient.spec.configuration.prompt.subdomain[str]. Optional. The subdomain to use for the llmclient for published public urls. Example: https://<subdomain>.3141-5926-5359.api.example.com
 	Subdomain string `json:"subdomain,omitempty"`
 }

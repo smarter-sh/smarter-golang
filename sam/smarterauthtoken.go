@@ -4,7 +4,7 @@ package sam
 
 // SmarterAuthToken is a manifest of the SmarterAuthToken kind.
 //
-// Smarter API Manifest - SmarterAuthToken
+// Smarter API Manifest - SmarterAuthToken.
 type SmarterAuthToken struct {
 	// apiVersion[String]: Required. The API version of the AbstractSAMBase.
 	APIVersion string `json:"apiVersion"`
@@ -20,7 +20,7 @@ type SmarterAuthToken struct {
 
 // SmarterAuthTokenMetadata: Smarter API SmarterAuthToken Manifest - Metadata class.
 type SmarterAuthTokenMetadata struct {
-	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
+	// Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.
 	Annotations map[string]string `json:"annotations,omitempty"`
 	// The description for this resource. Be brief. Keep it under 255 characters.
 	Description string `json:"description,omitempty"`
@@ -32,7 +32,7 @@ type SmarterAuthTokenMetadata struct {
 	Version string `json:"version,omitempty"`
 }
 
-// SmarterAuthTokenSpec: Smarter API SmarterAuthToken Manifest SmarterAuthToken.spec
+// SmarterAuthTokenSpec: Smarter API SmarterAuthToken Manifest SmarterAuthToken.spec.
 type SmarterAuthTokenSpec struct {
 	// SmarterAuthToken.spec.config[object]. The configuration for the SmarterAuthToken.
 	Config SmarterAuthTokenSpecConfig `json:"config"`
@@ -52,7 +52,7 @@ type SmarterAuthTokenStatus struct {
 	RecordLocator string `json:"recordLocator"`
 }
 
-// SmarterAuthTokenSpecConfig: Smarter API SmarterAuthToken Manifest SmarterAuthToken.spec.config
+// SmarterAuthTokenSpecConfig: Smarter API SmarterAuthToken Manifest SmarterAuthToken.spec.config.
 type SmarterAuthTokenSpecConfig struct {
 	// SmarterAuthToken.spec.configuration.isActive[bool]. Required. Whether the SmarterAuthToken is activated.
 	IsActive *bool `json:"isActive,omitempty"`
