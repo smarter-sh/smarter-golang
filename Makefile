@@ -28,9 +28,10 @@ clean:
 test:
 	go test -race ./...
 
-# fails below 90% coverage of the smarter package.
+# fails below 90% coverage of the smarter package. -v lists every test, so
+# that the nightly Repository Tests job can count them.
 coverage:
-	go test -race -coverprofile=coverage.out .
+	go test -v -race -coverprofile=coverage.out .
 	@go tool cover -func=coverage.out | tail -1
 	@go tool cover -func=coverage.out | tail -1 | awk '{ sub(/%/, "", $$3); if ($$3 + 0 < 90) { print "coverage is below 90%"; exit 1 } }'
 
