@@ -3825,6 +3825,27 @@
             "description": "LLMClient.default_model.",
             "title": "Defaultmodel"
           },
+          "defaultReasoningEffort": {
+            "anyOf": [
+              {
+                "enum": [
+                  "none",
+                  "minimal",
+                  "low",
+                  "medium",
+                  "high",
+                  "xhigh"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "LLMClient.default_reasoning_effort.",
+            "title": "Defaultreasoningeffort"
+          },
           "defaultSystemRole": {
             "anyOf": [
               {
@@ -4057,6 +4078,11 @@
             "description": "The LLMClient's page in the web console's workbench.",
             "title": "Sandboxurl"
           },
+          "staffOnly": {
+            "description": "LLMClient.staff_only: whether only the platform's own staff may see and use it.",
+            "title": "Staffonly",
+            "type": "boolean"
+          },
           "styles": {
             "anyOf": [
               {
@@ -4220,7 +4246,8 @@
           "apiKeys",
           "ready",
           "isAuthenticationRequired",
-          "allowedOrigins"
+          "allowedOrigins",
+          "staffOnly"
         ],
         "title": "LLMClientApiLLMClient",
         "type": "object"
@@ -8750,7 +8777,6 @@
           "function_args": {
             "anyOf": [
               {
-                "maxLength": 255,
                 "type": "string"
               },
               {
@@ -8842,6 +8868,128 @@
           "prompt"
         ],
         "title": "PromptChatApiPromptToolCall",
+        "type": "object"
+      },
+      "PromptChatApiProviderRequest": {
+        "additionalProperties": true,
+        "description": "The chat session's conversation, as the request body that Smarter sends to the LLM provider.\n\nIt is a request to an OpenAI-compatible ``v1/chat/completions`` api, without any of Smarter's own\ncontent: no ``smarter`` or ``smarter_error`` messages, no ``smarter_*`` fields, no api url or key.\nIt can be sent with curl, or pasted into the Prompt Passthrough page. Its messages are the whole\nconversation, including the latest answer, so that a prompt engineer can add the next user\nmessage. Its model, temperature, token limit and tools are those of the session's latest\nprompt, or the LLMClient's, before its first prompt.\n\nThe provider request api, ``/api/v1/llm-clients/<hashed_id>/provider-request/``, returns it, to\nthe workbench only. Fields without a value are left out.",
+        "properties": {
+          "max_completion_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Max Completion Tokens"
+          },
+          "messages": {
+            "description": "The conversation's system, user, assistant and tool messages.",
+            "items": {
+              "$ref": "#/components/schemas/PromptChatApiMessage"
+            },
+            "title": "Messages",
+            "type": "array"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The LLM's model, e.g. gpt-4o-mini.",
+            "title": "Model"
+          },
+          "reasoning_effort": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "none, for a model that requires it with tools.",
+            "title": "Reasoning Effort"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Temperature"
+          },
+          "tool_choice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "auto, when the request has tools.",
+            "title": "Tool Choice"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/JsonValue"
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The function definitions that the LLM may call, in the OpenAI format.",
+            "title": "Tools"
+          }
+        },
+        "title": "PromptChatApiProviderRequest",
+        "type": "object"
+      },
+      "PromptChatApiProviderRequestResponse": {
+        "additionalProperties": true,
+        "description": "The provider request api's response.",
+        "properties": {
+          "api": {
+            "description": "The api version, e.g. \"smarter.sh/v1\".",
+            "title": "Api",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PromptChatApiProviderRequest"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PromptChatApiJournalMetadata",
+            "description": "The journal's command and thing."
+          }
+        },
+        "required": [
+          "api",
+          "data"
+        ],
+        "title": "PromptChatApiProviderRequestResponse",
         "type": "object"
       },
       "PromptChatApiRefusalPart": {
@@ -9570,7 +9718,6 @@
           "function_args": {
             "anyOf": [
               {
-                "maxLength": 255,
                 "type": "string"
               },
               {
@@ -10459,7 +10606,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -10522,7 +10669,7 @@
         "type": "object"
       },
       "SAMAccountSpec": {
-        "description": "Smarter API Account Manifest Account.spec",
+        "description": "Smarter API Account Manifest Account.spec.",
         "properties": {
           "config": {
             "$ref": "#/components/schemas/SAMAccountSpecConfig",
@@ -10536,7 +10683,7 @@
         "type": "object"
       },
       "SAMAccountSpecConfig": {
-        "description": "Smarter API Account Manifest Account.spec.config",
+        "description": "Smarter API Account Manifest Account.spec.config.",
         "properties": {
           "address1": {
             "anyOf": [
@@ -10748,7 +10895,7 @@
         "type": "object"
       },
       "SAMApiConnectionSpec": {
-        "description": "Smarter API Api Connection Manifest ApiConnection.spec",
+        "description": "Smarter API Api Connection Manifest ApiConnection.spec.",
         "properties": {
           "connection": {
             "$ref": "#/components/schemas/ApiConnection",
@@ -10894,7 +11041,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -11335,7 +11482,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -11513,7 +11660,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -11795,7 +11942,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -12843,7 +12990,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -12918,7 +13065,7 @@
               }
             ],
             "default": null,
-            "description": "LLMClient.spec.apiKey[str]. Optional. The name of the API key that this llmclient uses for authentication. Example: 'my_api_key'. API keys are only necessary for llmclients that are not public facing. This is the name of the API key that is used to authenticate the llmclient with the Smarter API. API keys are issued by a Smarter platform administrator and are used to authenticate the llmclient with the Smarter API.",
+            "description": "LLMClient.spec.apiKey[str]. Optional. The name of the API key that this llmclient uses for authentication. Example: 'my_api_key'. API keys are only necessary for llmclients that are not public facing. This is the name of the API key that is used to authenticate the llmclient with the Smarter API. API keys are issued by an administrator of the Smarter installation and are used to authenticate the llmclient with the Smarter API.",
             "title": "Apikey"
           },
           "config": {
@@ -12986,7 +13133,7 @@
               }
             ],
             "default": null,
-            "description": "LLMClient.spec.searchTerms[list]. Optional. The Plugins to add to the LLMClient. Plugins are a proprietary extensibility model for tool calling and are not the same as OpenAI plugins. See https://docs.smarter.sh/plugins/ for more information.",
+            "description": "LLMClient.spec.searchTerms[list]. Optional. The Plugins to add to the LLMClient. Plugins are a proprietary extensibility model for tool calling and are not the same as OpenAI plugins. See https://docs.smarter.sh/smarter-resources/smarter-llmtool.html for more information.",
             "title": "Plugins"
           }
         },
@@ -13013,7 +13160,7 @@
               }
             ],
             "default": null,
-            "description": "LLMClient.spec.configuration.styles[object]. Optional. The look of the LLMClient's chat, in the Smarter workbench and on every page that embeds it: its logo, background image, fonts and colors. See https://docs.smarter.sh/en/latest/smarter-resources/llmclient/styles.html"
+            "description": "LLMClient.spec.configuration.styles[object]. Optional. The look of the LLMClient's chat, in the Smarter workbench and on every page that embeds it: its logo, background image, fonts and colors. See https://docs.smarter.sh/smarter-resources/llmclient/styles.html"
           }
         },
         "required": [
@@ -13037,7 +13184,7 @@
                 "type": "null"
               }
             ],
-            "description": "LLMClient.spec.configuration.prompt.allowed_origins[list[str]]. Optional. The origins of the web pages that may call this llmclient from a browser, with the @smarter.sh/ui-chat React component, in addition to those that the Smarter platform allows. An origin is a scheme, a host and an optional port, without a path or a wildcard. Example: ['https://www.example.com', 'http://localhost:5173'].",
+            "description": "LLMClient.spec.configuration.prompt.allowed_origins[list[str]]. Optional. The origins of the web pages that may call this llmclient from a browser, with the @smarter.sh/ui-chat React component, in addition to those that the Smarter installation allows. An origin is a scheme, a host and an optional port, without a path or a wildcard. Example: ['https://www.example.com', 'http://localhost:5173'].",
             "title": "Allowedorigins"
           },
           "appAssistant": {
@@ -13173,6 +13320,27 @@
             "description": "LLMClient.spec.configuration.prompt.default_model[str]. Optional. The default model to use for the llmclient. This changes routinely and is currently defaults to gpt-6-luna",
             "title": "Defaultmodel"
           },
+          "defaultReasoningEffort": {
+            "anyOf": [
+              {
+                "enum": [
+                  "none",
+                  "minimal",
+                  "low",
+                  "medium",
+                  "high",
+                  "xhigh"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "LLMClient.spec.configuration.prompt.default_reasoning_effort[str]. Optional. How much a reasoning model reasons before it answers: none, minimal, low, medium, high or xhigh. When it is not set, the model reasons at its own default effort. Each model supports some of these values, and models that don't reason, e.g. gpt-4o, support none of them: an effort that the model doesn't support is left out, with a warning in the chat's sandbox mode. Some models use function tools only with none, e.g. gpt-6-luna, so the requests that offer the llmclient's tools use none, and the final answer uses this effort. A reasoning model ignores defaultTemperature at any effort but none. Example: high.",
+            "title": "Defaultreasoningeffort"
+          },
           "defaultSystemRole": {
             "anyOf": [
               {
@@ -13220,6 +13388,12 @@
             "default": null,
             "description": "LLMClient.spec.configuration.prompt.provider[str]. Optional. The provider to use for the llmclient.",
             "title": "Provider"
+          },
+          "staffOnly": {
+            "default": false,
+            "description": "LLMClient.spec.configuration.prompt.staff_only[bool]. Optional. Whether only the platform's own staff may see and use the llmclient: the staff users of the Smarter account that runs the platform, not the admins of other accounts. Defaults to False. A staff-only llmclient is in no other user's lists, workbench or apis, including at its deployed url, and only the platform's staff may apply one. Use it for an llmclient whose tools read what only staff may see, e.g. one with the smarter_operations MCPClient, of the MCPServer's staff-only tools.",
+            "title": "Staffonly",
+            "type": "boolean"
           },
           "subdomain": {
             "anyOf": [
@@ -14087,7 +14261,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -14640,7 +14814,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -15463,7 +15637,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -16042,7 +16216,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -16227,7 +16401,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -16530,7 +16704,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -16768,7 +16942,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -17214,7 +17388,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -17534,7 +17708,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -17597,7 +17771,7 @@
         "type": "object"
       },
       "SAMSecretSpec": {
-        "description": "Smarter API Secret Manifest Secret.spec",
+        "description": "Smarter API Secret Manifest Secret.spec.",
         "properties": {
           "config": {
             "$ref": "#/components/schemas/SAMSecretSpecConfig",
@@ -17611,7 +17785,7 @@
         "type": "object"
       },
       "SAMSecretSpecConfig": {
-        "description": "Smarter API Secret Manifest Secret.spec.config",
+        "description": "Smarter API Secret Manifest Secret.spec.config.",
         "properties": {
           "expiration_date": {
             "anyOf": [
@@ -17779,7 +17953,7 @@
         "type": "object"
       },
       "SAMSmarterAuthToken": {
-        "description": "Smarter API Manifest - SmarterAuthToken",
+        "description": "Smarter API Manifest - SmarterAuthToken.",
         "properties": {
           "apiVersion": {
             "description": "apiVersion[String]: Required. The API version of the AbstractSAMBase.",
@@ -17837,7 +18011,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -17900,7 +18074,7 @@
         "type": "object"
       },
       "SAMSmarterAuthTokenSpec": {
-        "description": "Smarter API SmarterAuthToken Manifest SmarterAuthToken.spec",
+        "description": "Smarter API SmarterAuthToken Manifest SmarterAuthToken.spec.",
         "properties": {
           "config": {
             "$ref": "#/components/schemas/SAMSmarterAuthTokenSpecConfig",
@@ -17914,7 +18088,7 @@
         "type": "object"
       },
       "SAMSmarterAuthTokenSpecConfig": {
-        "description": "Smarter API SmarterAuthToken Manifest SmarterAuthToken.spec.config",
+        "description": "Smarter API SmarterAuthToken Manifest SmarterAuthToken.spec.config.",
         "properties": {
           "isActive": {
             "default": false,
@@ -18038,7 +18212,7 @@
         "type": "object"
       },
       "SAMSqlConnectionSpec": {
-        "description": "Smarter API Sql Connection Manifest Connection.spec",
+        "description": "Smarter API Sql Connection Manifest Connection.spec.",
         "properties": {
           "connection": {
             "$ref": "#/components/schemas/Connection",
@@ -18228,7 +18402,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -18486,7 +18660,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -18921,7 +19095,7 @@
                 "type": "null"
               }
             ],
-            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter platform. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
+            "description": "Annotations, as in Kubernetes: a map of keys to string values that clients and integrations attach to a resource for their own purposes, e.g. to associate it with a resource in another system. A key is an optional DNS-subdomain prefix that names its owner, then a slash and a name of one or more slash-separated segments, e.g. 'acme.com/crm-account-id'. The prefix 'smarter.sh' and its subdomains are reserved for the Smarter Project. Values are strings: unquoted YAML scalars such as true, 42 or dates are converted to strings, and structured data belongs in a JSON string. All annotations together are limited to 256 KiB. The list of one-key maps of older manifests, e.g. [{'acme.com/crm-account-id': 'A-10042'}], is also accepted.",
             "examples": [
               {
                 "acme.com/crm-account-id": "A-10042",
@@ -23353,6 +23527,69 @@
         ]
       }
     },
+    "/llm-clients/{id}/provider-request/": {
+      "post": {
+        "description": "The chat session's conversation, as the request body that Smarter sends to the LLM provider's v1/chat/completions api: the model, temperature, token limit and tools of its latest prompt (or the LLMClient's, before its first prompt), and its system, user, assistant and tool messages, without Smarter's own messages, fields, api url or key. It can be sent with curl, or to the Prompt Passthrough api. Only a user who may read the LLMClient receives it, never a deployed LLMClient's own host.",
+        "operationId": "llmclient_provider_request",
+        "parameters": [
+          {
+            "description": "The LLMClient's numeric id, e.g. 12, or its hashed id, e.g. rMTAwMDAxMgx.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chat session's key. The platform looks for it in this parameter, then in the request body, a header and a cookie, in that order.",
+            "in": "query",
+            "name": "session_key",
+            "required": false,
+            "schema": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PromptChatApiConfigRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromptChatApiProviderRequestResponse"
+                }
+              }
+            },
+            "description": "The request body."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromptChatApiErrorResponse"
+                }
+              }
+            },
+            "description": "An error, e.g. 404 for an LLMClient that does not exist, or that the user may not read."
+          }
+        },
+        "summary": "A chat session's request to the LLM provider",
+        "tags": [
+          "chat"
+        ]
+      }
+    },
     "/llmhosts/": {
       "get": {
         "description": "The LLMHosts that the user may read, by name. Requires an api key. The response includes only what the user may read: their account's resources, and the platform's built-in ones.",
@@ -25444,7 +25681,7 @@
   ],
   "servers": [
     {
-      "description": "A Smarter platform.",
+      "description": "A Smarter installation.",
       "url": "{platform}/api/v1",
       "variables": {
         "platform": {

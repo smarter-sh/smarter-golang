@@ -116,6 +116,7 @@
       }
     },
     "allowedOrigins": [],
+    "staffOnly": false,
     "dnsVerificationStatus": "Not Verified",
     "tlsCertificateIssuanceStatus": "No Certificate",
     "subdomain": null,
@@ -237,6 +238,7 @@
       }
     },
     "allowedOrigins": [],
+    "staffOnly": false,
     "dnsVerificationStatus": "Not Verified",
     "tlsCertificateIssuanceStatus": "No Certificate",
     "subdomain": null,
