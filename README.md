@@ -150,6 +150,9 @@ response, err := stream.Response()
 session. It has what a chat needs; pass
 `&smarter.PromptParams{Verbose: true}` for the complete configuration, with the
 LLMClient's plugin and extension lists and the session's tool calls.
+`client.LLMClients.ProviderRequest` returns a session's conversation as the
+exact request body that Smarter sends to the LLM provider's
+`v1/chat/completions` api, ready to send with curl or to the Prompt Passthrough.
 
 ### Errors
 

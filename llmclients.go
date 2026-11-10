@@ -18,13 +18,13 @@ type LLMClientsService struct {
 // PromptParams are the optional arguments of a prompt.
 type PromptParams struct {
 	// SessionKey is the chat session's key, from [LLMClientsService.Config], to keep the prompt's
-	// history in that session, or "" for none.
+	// history in that session (or to read it, for [LLMClientsService.ProviderRequest]), or "" for none.
 	SessionKey string
 	// Verbose asks [LLMClientsService.Config] and [LLMClientsService.Chat] for the complete
 	// configuration: the session's tool calls (History.PromptToolCallHistory), the complete MetaData,
 	// and the lists of the LLMClient's plugins and extensions. Without it, the configuration has what a
 	// chat needs, and only the counts of the plugins and extensions. A deployed LLMClient's own host
-	// ignores it, and so do Prompt and Stream.
+	// ignores it, and so do Prompt, Stream and ProviderRequest.
 	Verbose bool
 }
 
@@ -72,6 +72,24 @@ func (s *LLMClientsService) Config(ctx context.Context, id ID, params *PromptPar
 	q := query{}.flag("verbose", params != nil && params.Verbose)
 	var response PromptChatAPIConfigResponse
 	if err := s.c.http.do(ctx, &request{method: http.MethodPost, path: path, query: url.Values(q), body: promptBody{SessionKey: sessionKeyOf(params)}}, &response); err != nil {
+		return nil, err
+	}
+	return &response.Data, nil
+}
+
+// ProviderRequest returns a chat session's conversation as the request body that Smarter sends to the
+// LLM provider's OpenAI-compatible v1/chat/completions api: the model, temperature, token limit and
+// tools of the session's latest prompt (or the LLMClient's, before its first prompt), and its system,
+// user, assistant and tool messages, without Smarter's own messages, fields, api url or key. The
+// session is the one of params.SessionKey, or a new one. Only a user who may read the LLMClient
+// receives it; a deployed LLMClient's own host answers 404. params.Verbose is ignored.
+func (s *LLMClientsService) ProviderRequest(ctx context.Context, id ID, params *PromptParams) (*PromptChatAPIProviderRequest, error) {
+	path, err := s.path(id, "provider-request/")
+	if err != nil {
+		return nil, err
+	}
+	var response PromptChatAPIProviderRequestResponse
+	if err := s.c.http.do(ctx, &request{method: http.MethodPost, path: path, body: promptBody{SessionKey: sessionKeyOf(params)}}, &response); err != nil {
 		return nil, err
 	}
 	return &response.Data, nil
