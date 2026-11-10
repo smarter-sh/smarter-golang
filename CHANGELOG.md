@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/smarter-sh/smarter-golang/compare/v1.0.0...v1.0.1) (2026-11-10)
+
+
+### Bug Fixes
+
+* **contracts:** sync with smarter v0.44.6 ([0903293](https://github.com/smarter-sh/smarter-golang/commit/0903293fefe3f8a1ff4f5e6c95caf60fd4699116))
+* **llmclients:** add ProviderRequest for the provider request api ([23389b8](https://github.com/smarter-sh/smarter-golang/commit/23389b88df3770c9d2b6d1d4e46cbad36ce229a4))
+
 # [1.0.0](https://github.com/smarter-sh/smarter-golang/compare/v0.2.2...v1.0.0) (2026-11-01)
 
 
