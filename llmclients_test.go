@@ -126,6 +126,46 @@ func TestLLMClientsConfig(t *testing.T) {
 	}
 }
 
+func TestLLMClientsProviderRequest(t *testing.T) {
+	p := newMockPlatform(t)
+	p.route("POST", "llm-clients/5/provider-request/", reply{fixture: "provider_request"})
+	body, err := p.client.LLMClients.ProviderRequest(context.Background(), smarter.IntID(5), &smarter.PromptParams{SessionKey: "abc", Verbose: true})
+	check(t, err)
+	jsonEqual(t, p.lastJSON(), map[string]any{"session_key": "abc"})
+	equal(t, p.last().URL.RawQuery, "")
+	equal(t, body.Model, "gpt-4o-mini")
+	equal(t, *body.Temperature, 1.0)
+	equal(t, *body.MaxCompletionTokens, 4096)
+	equal(t, body.ToolChoice, "auto")
+	equal(t, body.ReasoningEffort, "")
+	equal(t, len(body.Messages), 6)
+	equal(t, body.Messages[0].Role, "system")
+	equal(t, body.Messages[2].Text(), "What is (3 + 5) * 2?")
+	equal(t, body.Messages[3].ToolCalls[0].Function.Name, "calculator")
+	equal(t, body.Messages[4].Role+" "+body.Messages[4].Text(), "tool 16")
+	equal(t, body.Messages[5].Text(), "`(3 + 5) * 2` = **16**")
+	equal(t, object(t, body.Tools[0]["function"])["name"], any("calculator"))
+	// the body round-trips, and can be sent to the provider as it is. A message always has its content
+	// key, null for the tool call's, as OpenAI-compatible apis accept.
+	sent, err := json.Marshal(body)
+	check(t, err)
+	var resent any
+	check(t, json.Unmarshal(sent, &resent))
+	want := object(t, object(t, loadJSON(t, "provider_request"))["data"])
+	object(t, want["messages"].([]any)[3])["content"] = nil
+	jsonEqual(t, resent, want)
+	_, err = p.client.LLMClients.ProviderRequest(context.Background(), smarter.IntID(5), nil)
+	check(t, err)
+	jsonEqual(t, p.lastJSON(), map[string]any{"session_key": nil})
+	if _, err := p.client.LLMClients.ProviderRequest(context.Background(), smarter.ID("a/b"), nil); err == nil {
+		t.Error("no error")
+	}
+	p.route("POST", "llm-clients/5/provider-request/", reply{status: 404, json: map[string]any{}})
+	if _, err := p.client.LLMClients.ProviderRequest(context.Background(), smarter.IntID(5), nil); !errors.Is(err, smarter.ErrNotFound) {
+		t.Errorf("got %v", err)
+	}
+}
+
 func TestLLMClientsPrompt(t *testing.T) {
 	p := newMockPlatform(t)
 	p.route("POST", "llm-clients/5/prompt/", reply{fixture: "prompt"})

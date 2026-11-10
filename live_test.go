@@ -325,6 +325,16 @@ func TestLiveStreamAndChat(t *testing.T) {
 	if len(resumed.Messages) == 0 {
 		t.Error("the resumed session has no messages")
 	}
+	body, err := client.LLMClients.ProviderRequest(ctx, llmclient.Ref(), &smarter.PromptParams{SessionKey: chat.SessionKey()})
+	check(t, err)
+	if body.Model == "" || len(body.Messages) < 4 {
+		t.Errorf("got %+v", body)
+	}
+	for _, message := range body.Messages {
+		if strings.HasPrefix(message.Role, "smarter") {
+			t.Errorf("Smarter's own message in the provider request: %+v", message)
+		}
+	}
 }
 
 func TestLiveMCPAndLLMHosts(t *testing.T) {

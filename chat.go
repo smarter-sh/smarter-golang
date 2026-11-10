@@ -405,6 +405,35 @@ type PromptChatAPIConfigResponse struct {
 	Data PromptChatAPIConfig `json:"data"`
 }
 
+// PromptChatAPIProviderRequest is a chat session's conversation, as the request body that Smarter
+// sends to the LLM provider's OpenAI-compatible v1/chat/completions api, without any of Smarter's own
+// content: no smarter or smarter_error messages, no smarter_* fields, no api url or key. It can be
+// sent with curl, or pasted into the Prompt Passthrough page. Its messages are the whole
+// conversation, including the latest answer, so that a prompt engineer can add the next user
+// message. Its model, temperature, token limit and tools are those of the session's latest prompt,
+// or the LLMClient's, before its first prompt. [LLMClientsService.ProviderRequest] returns it. Fields
+// without a value are left out.
+type PromptChatAPIProviderRequest struct {
+	// Model is the LLM's model, e.g. gpt-4o-mini.
+	Model string `json:"model,omitempty"`
+	// Messages are the conversation's system, user, assistant and tool messages.
+	Messages            []PromptChatAPIMessage `json:"messages"`
+	Temperature         *float64               `json:"temperature,omitempty"`
+	MaxCompletionTokens *int                   `json:"max_completion_tokens,omitempty"`
+	// Tools are the function definitions that the LLM may call, in the OpenAI format.
+	Tools []JSONObject `json:"tools,omitempty"`
+	// ToolChoice is auto, when the request has tools.
+	ToolChoice string `json:"tool_choice,omitempty"`
+	// ReasoningEffort is none, for a model that requires it with tools.
+	ReasoningEffort string `json:"reasoning_effort,omitempty"`
+}
+
+// PromptChatAPIProviderRequestResponse is the provider request api's response.
+type PromptChatAPIProviderRequestResponse struct {
+	PromptChatAPIEnvelope
+	Data PromptChatAPIProviderRequest `json:"data"`
+}
+
 // PromptChatAPIChoice is a choice of a chat completion.
 type PromptChatAPIChoice struct {
 	Index int `json:"index"`
