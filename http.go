@@ -12,6 +12,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/url"
+	"slices"
 	"strconv"
 	"strings"
 	"sync/atomic"
@@ -51,6 +52,11 @@ type request struct {
 	form []formFile
 	// header overrides the client's headers for this request.
 	header http.Header
+	// final are statuses that are the platform's answer to this request, not a transient failure, and
+	// are never retried, e.g. the 429 that refuses to start a data export.
+	final []int
+	// status, unless nil, receives the status of the successful response, e.g. 202 or 200.
+	status *int
 }
 
 // formFile is one file of a multipart body.
@@ -182,7 +188,7 @@ func (h *httpClient) send(ctx context.Context, r *request, stream bool) (*http.R
 		if readErr != nil {
 			return nil, nil, &APIConnectionError{Method: r.method, URL: target, Err: readErr, timeout: expired}
 		}
-		if attempt < h.cfg.maxRetries && isRetryable(response.StatusCode, data) {
+		if attempt < h.cfg.maxRetries && isRetryable(response.StatusCode, data) && !slices.Contains(r.final, response.StatusCode) {
 			if err := h.wait(ctx, attempt, r.method, target, strconv.Itoa(response.StatusCode), response.Header); err != nil {
 				return nil, nil, err
 			}
@@ -234,6 +240,9 @@ func (h *httpClient) do(ctx context.Context, r *request, out any) error {
 	}
 	defer done()
 	defer func() { _ = response.Body.Close() }()
+	if r.status != nil {
+		*r.status = response.StatusCode
+	}
 	target := h.url(r.path, r.query)
 	data, err := io.ReadAll(response.Body)
 	if err != nil {

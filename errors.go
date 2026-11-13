@@ -23,6 +23,11 @@ var (
 	// ErrNotFound matches a 404: the resource does not exist, or the api key's user may not read it.
 	// It also matches [ErrResourceNotFound].
 	ErrNotFound = fmt.Errorf("%w: not found", ErrResourceNotFound)
+	// ErrPaymentRequired matches a 402: a budget refused the charge that the request would make,
+	// because a budget has locked the account, the user profile or the resource (e.g. a Vectorsearch
+	// or a Proxy) when it reached its limit. Retrying doesn't help until the budget allows charges
+	// again, e.g. in its next period, or after an admin raises its limit, so it is never retried.
+	ErrPaymentRequired = fmt.Errorf("%w: payment required", ErrSmarter)
 	// ErrConflict matches a 409: the request conflicts with the resource's current state.
 	ErrConflict = fmt.Errorf("%w: conflict", ErrSmarter)
 	// ErrUnprocessableEntity matches a 422: the request is well-formed but cannot be processed.
@@ -36,6 +41,7 @@ var (
 var statusSentinels = map[int]error{
 	http.StatusBadRequest:          ErrBadRequest,
 	http.StatusUnauthorized:        ErrAuthentication,
+	http.StatusPaymentRequired:     ErrPaymentRequired,
 	http.StatusForbidden:           ErrPermissionDenied,
 	http.StatusNotFound:            ErrNotFound,
 	http.StatusConflict:            ErrConflict,

@@ -1,0 +1,62 @@
+{
+  "periodicity": "7_days",
+  "period": "day",
+  "points": [
+    {
+      "period_start": "2026-11-07T00:00:00Z",
+      "records": 20,
+      "prompt_tokens": 32314,
+      "completion_tokens": 20080,
+      "total_tokens": 52394,
+      "total_cost": 0.0
+    },
+    {
+      "period_start": "2026-11-08T00:00:00Z",
+      "records": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "total_cost": 0.0
+    },
+    {
+      "period_start": "2026-11-09T00:00:00Z",
+      "records": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "total_cost": 0.0
+    },
+    {
+      "period_start": "2026-11-10T00:00:00Z",
+      "records": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "total_cost": 0.0
+    },
+    {
+      "period_start": "2026-11-11T00:00:00Z",
+      "records": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "total_cost": 0.0
+    },
+    {
+      "period_start": "2026-11-12T00:00:00Z",
+      "records": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "total_cost": 0.0
+    },
+    {
+      "period_start": "2026-11-13T00:00:00Z",
+      "records": 16,
+      "prompt_tokens": 29148,
+      "completion_tokens": 22167,
+      "total_tokens": 51315,
+      "total_cost": 0.0
+    }
+  ]
+}

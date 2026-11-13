@@ -337,6 +337,65 @@ func TestLiveStreamAndChat(t *testing.T) {
 	}
 }
 
+// TestLiveExtensionsAndUsage reads the extensions, the Extension Registry, the user's token usage and
+// the overview of their data exports. It never starts a data export, which stores a real file and
+// sends a real email, and never installs, configures, enables or uninstalls an extension.
+func TestLiveExtensionsAndUsage(t *testing.T) {
+	client, ctx := liveClient(t), context.Background()
+	extensions, err := client.Extensions.List(ctx)
+	check(t, err)
+	if len(extensions.Objects) > 0 {
+		detail, err := client.Extensions.Retrieve(ctx, extensions.Objects[0].Slug)
+		check(t, err)
+		equal(t, detail.Slug, extensions.Objects[0].Slug)
+	}
+	registry, err := client.Extensions.Registry(ctx, false)
+	check(t, err)
+	if registry.Enabled && registry.Error == "" && len(registry.Objects) == 0 {
+		t.Error("the registry is enabled and readable, but has no extensions")
+	}
+	series, err := client.Accounts.Usage(ctx, smarter.UsagePeriodicity7Days)
+	check(t, err)
+	equal(t, series.Periodicity, string(smarter.UsagePeriodicity7Days))
+	equal(t, len(series.Points), 7)
+	if _, err := client.Accounts.Usage(ctx, "no_such_window"); !errors.Is(err, smarter.ErrBadRequest) {
+		t.Errorf("an unknown periodicity: got %v", err)
+	}
+	overview, err := client.Accounts.DataExports.Overview(ctx)
+	check(t, err)
+	if overview.ExportsPerDay < 1 {
+		t.Errorf("got %+v", overview)
+	}
+	if overview.Latest != nil {
+		export, err := client.Accounts.DataExports.Retrieve(ctx, overview.Latest.ID)
+		check(t, err)
+		equal(t, export.ID, overview.Latest.ID)
+	}
+}
+
+// TestLiveVectorsearchRun runs a Vectorsearch whose vectorstore is already deployed and ready. It
+// deploys nothing: without one, it skips.
+func TestLiveVectorsearchRun(t *testing.T) {
+	client, ctx := liveClient(t), context.Background()
+	vectorstores, err := client.Vectorstores.List(ctx)
+	skipPlatformError(t, "vectorstores", err)
+	ready := map[int]bool{}
+	for _, vectorstore := range vectorstores {
+		ready[vectorstore.ID] = vectorstore.Status == "ready"
+	}
+	vectorsearches, err := client.Vectorsearches.List(ctx)
+	check(t, err)
+	for _, vectorsearch := range vectorsearches {
+		if smarter.Deref(vectorsearch.IsEnabled) && ready[smarter.Deref(vectorsearch.Vectorstore)] {
+			results, err := client.Vectorsearches.Run(ctx, vectorsearch.Ref(), "What is this about?", nil)
+			skipPlatformError(t, "run "+vectorsearch.Name, err)
+			equal(t, results.Vectorsearch, vectorsearch.Name)
+			return
+		}
+	}
+	t.Skip("there is no enabled Vectorsearch of a ready vectorstore to run")
+}
+
 func TestLiveMCPAndLLMHosts(t *testing.T) {
 	client, ctx := liveClient(t), context.Background()
 	mcpclients, err := client.MCPClients.List(ctx)
