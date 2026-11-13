@@ -31,8 +31,11 @@ type Client struct {
 	Orchestrators *OrchestratorsService
 	// Vectorsearches are Vectorsearches.
 	Vectorsearches *VectorsearchesService
-	// Accounts are Accounts, and their users, contacts and user profiles.
+	// Accounts are Accounts, and their users, contacts and user profiles, and the user's own token
+	// usage and data exports.
 	Accounts *AccountsService
+	// Extensions are the platform's Extensions, and the Extension Registry.
+	Extensions *ExtensionsService
 	// History is the history of chat sessions, tool calls and plugin uses.
 	History *PromptHistoryService
 	// Journal is the Smarter Journal. Superusers only.
@@ -88,7 +91,9 @@ func NewClient(opts ...Option) (*Client, error) {
 		Users:        &ReadService[User]{c: c, path: "accounts/users/"},
 		Contacts:     &ReadService[AccountContact]{c: c, path: "accounts/contacts/"},
 		UserProfiles: &ReadService[UserProfile]{c: c, path: "accounts/user-profiles/"},
+		DataExports:  &DataExportsService{c: c},
 	}
+	c.Extensions = &ExtensionsService{c: c}
 	c.History = &PromptHistoryService{c: c}
 	c.Journal = &JournalService{c: c}
 	c.Providers = &ProvidersService{c: c}

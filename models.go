@@ -739,3 +739,274 @@ type VectorstoreRestored struct {
 	Restored    string `json:"restored"`
 	VectorCount *int   `json:"vectorCount,omitempty"`
 }
+
+// VectorsearchResults are the chunks that a Vectorsearch found, best first: the results of
+// [VectorsearchesService.Run].
+type VectorsearchResults struct {
+	// Vectorsearch is the Vectorsearch's name.
+	Vectorsearch string `json:"vectorsearch"`
+	// Vectorstore is the name of the vectorstore that it searched.
+	Vectorstore string                    `json:"vectorstore"`
+	Results     []VectorstoreSearchResult `json:"results"`
+}
+
+// Extension is an installed extension, as the list of extensions shows it: a package of tools,
+// settings and resources, installed from the Extension Registry or uploaded.
+type Extension struct {
+	ID int `json:"id"`
+	// Slug is the extension's slug, e.g. weather.
+	Slug        string `json:"slug"`
+	DisplayName string `json:"displayName"`
+	Description string `json:"description,omitempty"`
+	// Publisher is the publisher's registry id, or an uploaded archive's authors.
+	Publisher string `json:"publisher,omitempty"`
+	// Source is registry or upload.
+	Source string `json:"source,omitempty"`
+	// TrustBadge is official, verified, community or unverified.
+	TrustBadge string `json:"trustBadge,omitempty"`
+	// TrustBadgeLabel is the badge, as people read it, e.g. Official Smarter Extension.
+	TrustBadgeLabel string `json:"trustBadgeLabel,omitempty"`
+	Enabled         bool   `json:"enabled"`
+	// InstalledVersion is the version that runs, if any.
+	InstalledVersion string `json:"installedVersion,omitempty"`
+	// LatestVersion is the newest compatible version in the registry, if known.
+	LatestVersion   string `json:"latestVersion,omitempty"`
+	UpdateAvailable bool   `json:"updateAvailable"`
+	LatestCheckedAt string `json:"latestCheckedAt,omitempty"`
+	// Error is the last error from loading the extension or running its lifecycle hooks.
+	Error string `json:"error,omitempty"`
+	// DetailURL is the url of the extension's detail page in the web console.
+	DetailURL string `json:"detailUrl,omitempty"`
+}
+
+// ExtensionList is the list of installed extensions that the user may see.
+type ExtensionList struct {
+	Objects []Extension `json:"objects"`
+	// RegistryEnabled is whether the Extension Registry's public key is configured.
+	RegistryEnabled bool `json:"registryEnabled"`
+	// UpdatesAvailable is how many installed extensions have an update in the registry.
+	UpdatesAvailable int `json:"updatesAvailable"`
+}
+
+// ExtensionTool is a tool of an extension, which LLMClients that use the extension offer the LLM.
+type ExtensionTool struct {
+	// Name is the tool's name in the extension, e.g. get_weather.
+	Name string `json:"name"`
+	// FunctionName is the name that the LLM sees, e.g. ext_weather_get_weather.
+	FunctionName string `json:"functionName"`
+	Description  string `json:"description,omitempty"`
+	// Parameters is the JSON Schema of the tool's arguments.
+	Parameters JSONObject `json:"parameters,omitempty"`
+}
+
+// ExtensionSetting is a setting of an extension. A secret setting's value is never returned: its
+// Secret is named instead.
+type ExtensionSetting struct {
+	Name string `json:"name"`
+	// Type is string, integer, float, boolean, url, choice or secret.
+	Type        string `json:"type"`
+	Description string `json:"description,omitempty"`
+	Required    bool   `json:"required"`
+	// Default is the setting's default value: a string, number or boolean, or nil.
+	Default JSONValue `json:"default,omitempty"`
+	// Choices are the values of a choice setting.
+	Choices []string `json:"choices,omitempty"`
+	// Value is the configured value. Always nil for a secret setting.
+	Value JSONValue `json:"value,omitempty"`
+	// SecretID is the id of a secret setting's Secret.
+	SecretID *int `json:"secretId,omitempty"`
+	// SecretName is the name of a secret setting's Secret.
+	SecretName string `json:"secretName,omitempty"`
+	// IsSet is whether the setting has a configured value, or a Secret.
+	IsSet bool `json:"isSet"`
+}
+
+// ExtensionVersion is an installed version of an extension.
+type ExtensionVersion struct {
+	// ID identifies the version for [ExtensionsService.Rollback].
+	ID        int    `json:"id"`
+	Version   string `json:"version"`
+	SHA256    string `json:"sha256,omitempty"`
+	SourceURL string `json:"sourceUrl,omitempty"`
+	// InstalledBy is the username of the superuser who installed it.
+	InstalledBy string `json:"installedBy,omitempty"`
+	CreatedAt   string `json:"createdAt,omitempty"`
+	// IsInstalled is whether it is the version that runs.
+	IsInstalled bool `json:"isInstalled"`
+}
+
+// ExtensionResource is a Smarter resource that an extension created.
+type ExtensionResource struct {
+	// Kind is the resource's manifest kind, e.g. Plugin.
+	Kind string `json:"kind"`
+	Name string `json:"name"`
+	// Owner is the username of the resource's owner.
+	Owner string `json:"owner,omitempty"`
+	// Version is the extension version that created or last applied it.
+	Version string `json:"version,omitempty"`
+	// Managed is whether it came from the package's manifests/ directory.
+	Managed bool `json:"managed"`
+}
+
+// ExtensionSwitch is a feature switch of an extension.
+type ExtensionSwitch struct {
+	// Name is the switch's full name, e.g. ext_weather_verbose.
+	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+	Active      bool   `json:"active"`
+}
+
+// ExtensionAccount is an account that may use an extension.
+type ExtensionAccount struct {
+	ID            int    `json:"id"`
+	AccountNumber string `json:"accountNumber"`
+	CompanyName   string `json:"companyName,omitempty"`
+}
+
+// SecretRef is a Secret, by its id and name.
+type SecretRef struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+// ExtensionDetail is everything about an installed extension: its tools, settings, versions,
+// resources, switches and availability. A user who is not a superuser gets less: no settings.
+type ExtensionDetail struct {
+	Extension
+	Homepage string `json:"homepage,omitempty"`
+	License  string `json:"license,omitempty"`
+	// DocsHTML is the extension's documentation, as HTML rendered safely.
+	DocsHTML string `json:"docsHtml,omitempty"`
+	// LoadError is why the extension's code does not load, if it does not.
+	LoadError string             `json:"loadError,omitempty"`
+	Tools     []ExtensionTool    `json:"tools,omitempty"`
+	Settings  []ExtensionSetting `json:"settings,omitempty"`
+	// MissingSettings are the required settings that block enabling the extension.
+	MissingSettings []string            `json:"missingSettings,omitempty"`
+	Versions        []ExtensionVersion  `json:"versions,omitempty"`
+	Resources       []ExtensionResource `json:"resources,omitempty"`
+	Switches        []ExtensionSwitch   `json:"switches,omitempty"`
+	// AllAccounts is whether every account may use it. Otherwise only Accounts may.
+	AllAccounts bool               `json:"allAccounts"`
+	Accounts    []ExtensionAccount `json:"accounts,omitempty"`
+	// AvailableSecrets are the platform admin's Secrets, for secret settings.
+	AvailableSecrets []SecretRef `json:"availableSecrets,omitempty"`
+}
+
+// ExtensionAction is the result of an action on extensions: what happened, and the extension as it
+// now is, or nil if the action has no one extension (CheckUpdates) or removed it (Uninstall).
+type ExtensionAction struct {
+	Message   string           `json:"message"`
+	Extension *ExtensionDetail `json:"extension,omitempty"`
+}
+
+// RegistryVersion is a released version of an extension in the Extension Registry.
+type RegistryVersion struct {
+	Version string `json:"version"`
+	// RequiresSmarter is the Smarter versions that it works with, e.g. >=0.27.
+	RequiresSmarter string `json:"requiresSmarter,omitempty"`
+	ReleasedAt      string `json:"releasedAt,omitempty"`
+	// Compatible is whether it works with this platform's Smarter version.
+	Compatible bool `json:"compatible"`
+}
+
+// RegistryExtension is an extension of the Extension Registry.
+type RegistryExtension struct {
+	Slug        string `json:"slug"`
+	DisplayName string `json:"displayName"`
+	Description string `json:"description,omitempty"`
+	// Publisher is the publisher's name.
+	Publisher    string `json:"publisher,omitempty"`
+	PublisherURL string `json:"publisherUrl,omitempty"`
+	// TrustBadge is official, verified, community or unverified.
+	TrustBadge      string `json:"trustBadge,omitempty"`
+	TrustBadgeLabel string `json:"trustBadgeLabel,omitempty"`
+	Homepage        string `json:"homepage,omitempty"`
+	License         string `json:"license,omitempty"`
+	// DocsHTML is the extension's documentation, as HTML rendered safely.
+	DocsHTML string `json:"docsHtml,omitempty"`
+	// LatestVersion is the newest version that is compatible with this platform.
+	LatestVersion string `json:"latestVersion,omitempty"`
+	// Versions are every released version, newest first.
+	Versions         []RegistryVersion `json:"versions,omitempty"`
+	InstalledVersion string            `json:"installedVersion,omitempty"`
+	// Action is what the extension allows: install, update, installed, uploaded or incompatible.
+	Action string `json:"action"`
+	// DetailURL is the installed extension's detail page, if it is installed.
+	DetailURL string `json:"detailUrl,omitempty"`
+}
+
+// ExtensionRegistry is the Extension Registry's extensions.
+type ExtensionRegistry struct {
+	// Enabled is whether the registry's public key is configured.
+	Enabled bool `json:"enabled"`
+	// Error is why the registry cannot be read, if it cannot.
+	Error   string              `json:"error,omitempty"`
+	Objects []RegistryExtension `json:"objects"`
+}
+
+// TokenUsagePoint is the tokens that the user's LLM requests used in one period.
+type TokenUsagePoint struct {
+	// PeriodStart is the start of the period, in UTC.
+	PeriodStart string `json:"period_start"`
+	// Records is how many charges the period has.
+	Records          int `json:"records"`
+	PromptTokens     int `json:"prompt_tokens"`
+	CompletionTokens int `json:"completion_tokens"`
+	TotalTokens      int `json:"total_tokens"`
+	// TotalCost is the period's cost, in US dollars.
+	TotalCost float64 `json:"total_cost"`
+}
+
+// TokenUsageSeries is the tokens that the user's LLM requests used over a window of time, one point
+// per period, oldest first. Its JSON is snake_case, unlike most of the REST api's.
+type TokenUsageSeries struct {
+	// Periodicity is the window, e.g. 24_hours.
+	Periodicity string `json:"periodicity"`
+	// Period is the period of each point: hour, day or month.
+	Period string            `json:"period"`
+	Points []TokenUsagePoint `json:"points"`
+}
+
+// DataExport is one of the user's data exports, and its progress: a zip file of the user's
+// manifests, whose link is emailed to the user.
+type DataExport struct {
+	ID int `json:"id"`
+	// Status is queued, running, succeeded or failed.
+	Status string `json:"status"`
+	// Step is queued, inventory, manifests, archive, upload, email or done.
+	Step string `json:"step"`
+	// ResourceCount is how many resources the user owns.
+	ResourceCount int `json:"resourceCount"`
+	// ManifestCount is how many manifests have been written so far.
+	ManifestCount int `json:"manifestCount"`
+	// FailedCount is how many resources had no manifest.
+	FailedCount int `json:"failedCount"`
+	// SizeBytes is the size of the zip file.
+	SizeBytes int64 `json:"sizeBytes"`
+	// Email is the address that the link is emailed to.
+	Email     string `json:"email,omitempty"`
+	CreatedAt string `json:"createdAt"`
+	// ExpiresAt is when the emailed link expires.
+	ExpiresAt string `json:"expiresAt,omitempty"`
+	// Error is why the export failed.
+	Error string `json:"error,omitempty"`
+	// Started is set by [DataExportsService.Start]: true if this call started the export (the
+	// platform answered 202), false if one was already in progress (200). It is not in the JSON.
+	Started bool `json:"-"`
+}
+
+// DataExportOverview is the overview of the user's data exports.
+type DataExportOverview struct {
+	// Email is the address that the link is emailed to, or empty if the user has none: then no export
+	// can be started.
+	Email string `json:"email,omitempty"`
+	// LinkHours is how many hours the emailed link works.
+	LinkHours int `json:"linkHours"`
+	// ExportsPerDay is the most exports that a user may start in 24 hours.
+	ExportsPerDay int `json:"exportsPerDay"`
+	// ExportsLeftToday is how many more the user may start now.
+	ExportsLeftToday int `json:"exportsLeftToday"`
+	// Latest is the user's most recent export, or nil if they never started one.
+	Latest *DataExport `json:"latest,omitempty"`
+}

@@ -1,0 +1,18 @@
+{
+  "vectorsearch": "example_policy_search",
+  "vectorstore": "example_policies",
+  "results": [
+    {
+      "id": "6f1c2a9e-3b4d-4e5f-8a7b-9c0d1e2f3a4b",
+      "text": "Refunds are issued within 30 days of a return.",
+      "metadata": { "source": "refunds.txt", "topic": "refunds" },
+      "score": 0.87
+    },
+    {
+      "id": "0a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
+      "text": "Returns must be postmarked within 14 days of delivery.",
+      "metadata": { "source": "returns.txt", "topic": "returns" },
+      "score": 0.71
+    }
+  ]
+}

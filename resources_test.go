@@ -577,3 +577,118 @@ func TestVectorstores(t *testing.T) {
 		t.Errorf("got %v", err)
 	}
 }
+
+func TestAccountsUsage(t *testing.T) {
+	p := newMockPlatform(t)
+	ctx := context.Background()
+	p.route("GET", "accounts/usage/", reply{fixture: "token_usage"})
+	series, err := p.client.Accounts.Usage(ctx, smarter.UsagePeriodicity7Days)
+	check(t, err)
+	equal(t, p.last().URL.RawQuery, "periodicity=7_days")
+	equal(t, series.Periodicity, "7_days")
+	equal(t, series.Period, "day")
+	equal(t, len(series.Points), 7)
+	equal(t, series.Points[0].PeriodStart, "2026-11-07T00:00:00Z")
+	equal(t, series.Points[0].Records, 20)
+	equal(t, series.Points[0].PromptTokens+series.Points[0].CompletionTokens, series.Points[0].TotalTokens)
+	equal(t, series.Points[0].TotalCost, 0.0)
+	_, err = p.client.Accounts.Usage(ctx, "")
+	check(t, err)
+	equal(t, p.last().URL.RawQuery, "")
+	p.route("GET", "accounts/usage/", reply{status: 400, json: map[string]any{"detail": "Unknown periodicity: bad."}})
+	if _, err := p.client.Accounts.Usage(ctx, "bad"); !errors.Is(err, smarter.ErrBadRequest) {
+		t.Errorf("got %v", err)
+	}
+}
+
+func TestDataExports(t *testing.T) {
+	p := newMockPlatform(t)
+	ctx := context.Background()
+	p.route("GET", "accounts/data-exports/", reply{fixture: "data_export_overview"})
+	p.route("GET", "accounts/data-exports/7/", reply{fixture: "data_export_status"})
+	overview, err := p.client.Accounts.DataExports.Overview(ctx)
+	check(t, err)
+	equal(t, overview.Email, "user@example.com")
+	equal(t, overview.LinkHours, 24)
+	equal(t, overview.ExportsPerDay, 5)
+	equal(t, overview.ExportsLeftToday, 4)
+	equal(t, overview.Latest.Status, "succeeded")
+	export, err := p.client.Accounts.DataExports.Retrieve(ctx, 7)
+	check(t, err)
+	equal(t, export.ID, 7)
+	equal(t, export.Step, "done")
+	equal(t, export.ResourceCount, 42)
+	equal(t, export.SizeBytes, int64(18734))
+	equal(t, export.ExpiresAt, "2026-11-14T15:00:00+00:00")
+	p.route("GET", "accounts/data-exports/8/", reply{status: 404, json: map[string]any{"detail": "You have no data export 8."}})
+	if _, err := p.client.Accounts.DataExports.Retrieve(ctx, 8); !errors.Is(err, smarter.ErrNotFound) || !strings.Contains(err.Error(), "You have no data export 8.") {
+		t.Errorf("got %v", err)
+	}
+
+	queued := map[string]any{"id": 9, "status": "queued", "step": "queued", "email": "user@example.com", "createdAt": "2026-11-13T15:00:00+00:00", "expiresAt": nil, "error": ""}
+	p.route("POST", "accounts/data-exports/", reply{status: 202, json: queued})
+	started, err := p.client.Accounts.DataExports.Start(ctx)
+	check(t, err)
+	equal(t, started.Started, true)
+	equal(t, started.Status, "queued")
+	equal(t, len(p.last().body), 0)
+	p.route("POST", "accounts/data-exports/", reply{json: queued})
+	running, err := p.client.Accounts.DataExports.Start(ctx)
+	check(t, err)
+	equal(t, running.Started, false)
+
+	// a refusal is the platform's answer: it is not retried, even by a client that retries 429s.
+	retrying := p.makeClient(t, smarter.WithMaxRetries(3))
+	p.route("POST", "accounts/data-exports/", reply{status: 429, fixture: "data_export_refused", header: map[string]string{"Retry-After": "0"}})
+	before := p.count()
+	_, err = retrying.Accounts.DataExports.Start(ctx)
+	var statusError *smarter.APIStatusError
+	if !errors.Is(err, smarter.ErrRateLimit) || !errors.As(err, &statusError) || statusError.Message != "You can download your data 5 times a day. Please try again tomorrow." {
+		t.Errorf("got %v", err)
+	}
+	equal(t, p.count(), before+1)
+	// other requests' 429s are still retried.
+	p.route("GET", "accounts/data-exports/", reply{status: 429, json: map[string]any{"detail": "slow down"}, header: map[string]string{"Retry-After": "0"}})
+	before = p.count()
+	if _, err := retrying.Accounts.DataExports.Overview(ctx); !errors.Is(err, smarter.ErrRateLimit) {
+		t.Errorf("got %v", err)
+	}
+	equal(t, p.count(), before+4)
+}
+
+func TestVectorsearchesRun(t *testing.T) {
+	p := newMockPlatform(t)
+	ctx := context.Background()
+	p.route("POST", "vectorsearches/4/vectorsearch/", reply{fixture: "vectorsearch_run"})
+	p.route("POST", "vectorsearches/rMTAwMDAwNAx/vectorsearch/", reply{fixture: "vectorsearch_run"})
+	results, err := p.client.Vectorsearches.Run(ctx, smarter.IntID(4), "refunds", nil)
+	check(t, err)
+	jsonEqual(t, p.lastJSON(), map[string]any{"query": "refunds"})
+	equal(t, results.Vectorsearch, "example_policy_search")
+	equal(t, results.Vectorstore, "example_policies")
+	equal(t, results.Results[0].Text, "Refunds are issued within 30 days of a return.")
+	equal(t, smarter.Deref(results.Results[0].Score), 0.87)
+	_, err = p.client.Vectorsearches.Run(ctx, smarter.ID("rMTAwMDAwNAx"), "refunds", smarter.JSONObject{"topic": "refunds"})
+	check(t, err)
+	jsonEqual(t, p.lastJSON(), map[string]any{"filter": map[string]any{"topic": "refunds"}, "query": "refunds"})
+
+	p.route("POST", "vectorsearches/5/vectorsearch/", reply{status: 400, json: map[string]any{"detail": "Vectorsearch example is disabled."}})
+	if _, err := p.client.Vectorsearches.Run(ctx, smarter.IntID(5), "x", nil); !errors.Is(err, smarter.ErrBadRequest) {
+		t.Errorf("got %v", err)
+	}
+	// a budget's refusal: never retried, even by a client that retries.
+	p.route("POST", "vectorsearches/6/vectorsearch/", reply{status: 402, fixture: "vectorsearch_budget", header: map[string]string{"Retry-After": "0"}})
+	before := p.count()
+	_, err = p.makeClient(t, smarter.WithMaxRetries(3)).Vectorsearches.Run(ctx, smarter.IntID(6), "x", nil)
+	var statusError *smarter.APIStatusError
+	if !errors.Is(err, smarter.ErrPaymentRequired) || !errors.As(err, &statusError) || statusError.Message != "A budget forbids more charges." {
+		t.Errorf("got %v", err)
+	}
+	equal(t, p.count(), before+1)
+	if _, err := p.client.Vectorsearches.Run(ctx, smarter.IntID(7), "x", nil); !errors.Is(err, smarter.ErrNotFound) {
+		t.Errorf("got %v", err)
+	}
+	if _, err := p.client.Vectorsearches.Run(ctx, smarter.ID(""), "x", nil); !errors.Is(err, smarter.ErrSmarter) {
+		t.Errorf("got %v", err)
+	}
+}

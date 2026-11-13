@@ -28,6 +28,31 @@ type VectorsearchesService struct {
 	*KindService[Vectorsearch]
 }
 
+// Run runs a Vectorsearch: it searches the Vectorsearch's vectorstore for chunks similar to query,
+// with the Vectorsearch's own configuration (search type, k, score threshold, ...), and returns them,
+// best first. Each result must also match filter, unless it is empty, and the Vectorsearch's own
+// metadata filter, which wins where the two name the same key. Running it embeds the query, which
+// may be billable.
+//
+// The error matches [ErrBadRequest] if the Vectorsearch is disabled, the request is invalid or the
+// search failed, [ErrNotFound] if the user may not read it, and [ErrPaymentRequired] if a Budget has
+// locked the Vectorsearch, the user's profile or their account.
+func (s *VectorsearchesService) Run(ctx context.Context, id ID, query string, filter JSONObject) (*VectorsearchResults, error) {
+	path, err := s.path(id, "vectorsearch/")
+	if err != nil {
+		return nil, err
+	}
+	body := JSONObject{"query": query}
+	if len(filter) > 0 {
+		body["filter"] = filter
+	}
+	var results VectorsearchResults
+	if err := s.c.http.do(ctx, &request{method: http.MethodPost, path: path, body: body}, &results); err != nil {
+		return nil, err
+	}
+	return &results, nil
+}
+
 // PluginsService holds the operations of Plugins: /api/v1/plugins/, and the manifest api's plugin
 // kinds. A plugin's manifest kind is its class, e.g. ApiPlugin or SqlPlugin: Apply accepts any of
 // them, and Describe and Delete look the kind up by name.
