@@ -7,7 +7,7 @@ description: Use when you need to exercise the Smarter Project's REST api by han
 
 The SDK's structs must match what the platform really returns. Before you add
 or change one, look at a real response from the local platform, the one in
-`../smarter` (its dev server is `http://localhost:9357`, in the `smarter-app`
+`../smarter` (its dev server is `http://localhost:9357`, in the `smarter-api`
 container). Start it with `make run` in `../smarter` if `curl -s -o /dev/null -w
 '%{http_code}' localhost:9357/` doesn't answer 302. See the platform's own
 `smarter-docker-environment` skill.
@@ -18,7 +18,7 @@ hold a sanitized copy of the response you need.
 ## 1. Create a throwaway key
 
 ```console
-docker exec smarter-app bash -c 'cd /home/smarter_user/smarter && python manage.py shell -c "
+docker exec smarter-api bash -c 'cd /home/smarter_user/smarter && python manage.py shell -c "
 from smarter.lib.drf.models import SmarterAuthToken
 from smarter.apps.account.utils import smarter_cached_objects as s
 from smarter.apps.account.models import UserProfile
@@ -100,7 +100,7 @@ SDK lacks it. Grep the result before you finish.
 ## 4. Clean up
 
 ```console
-docker exec smarter-app bash -c 'cd /home/smarter_user/smarter && python manage.py shell -c "
+docker exec smarter-api bash -c 'cd /home/smarter_user/smarter && python manage.py shell -c "
 from smarter.lib.drf.models import SmarterAuthToken
 print(SmarterAuthToken.objects.filter(name=\"sdk_probe\", description=\"DELETE ME\").delete())
 "' 2>/dev/null
