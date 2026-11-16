@@ -36,6 +36,8 @@ type UserMetadata struct {
 
 // UserSpec: Smarter API User Manifest User.spec.
 type UserSpec struct {
+	// User.spec.accounts[list]. Optional. The accounts that the User belongs to, e.g. the departments of an organization, each with whether the user administers it. Omitted, the user belongs to the account of whoever applies the manifest. Apply adds each membership that is missing and updates the others, but never removes one, which would delete every resource that the user owns in that account. A superuser may list any account; anyone else only accounts that they administer.
+	Accounts []UserAccountMembership `json:"accounts,omitempty"`
 	// User.spec.config[object]. The configuration for the User.
 	Config UserSpecConfig `json:"config"`
 }
@@ -56,6 +58,14 @@ type UserStatus struct {
 	Username string `json:"username"`
 }
 
+// UserAccountMembership: Smarter API User Manifest User.spec.accounts[]: the user's membership of one account.
+type UserAccountMembership struct {
+	// User.spec.accounts.accountNumber[str]. The number of an account that the User belongs to.
+	AccountNumber string `json:"accountNumber"`
+	// User.spec.accounts.isAccountAdmin[bool]. Optional. Whether the User administers this account, and only this one: manages every resource in it. Default: false.
+	IsAccountAdmin *bool `json:"isAccountAdmin,omitempty"`
+}
+
 // UserSpecConfig: Smarter API User Manifest User.spec.config.
 type UserSpecConfig struct {
 	// User.spec.configuration.email[str]. The email address of the User.
@@ -68,6 +78,8 @@ type UserSpecConfig struct {
 	IsStaff *bool `json:"isStaff,omitempty"`
 	// User.spec.configuration.lastName[str]. Optional. The last name of the User.
 	LastName string `json:"lastName,omitempty"`
+	// User.spec.configuration.passwordSecret[str]. Optional. The name of a Secret whose value becomes the User's password, each time the manifest is applied, e.g. the published password of a demonstration user. A manifest never holds a password itself. Only a superuser may set it.
+	PasswordSecret string `json:"passwordSecret,omitempty"`
 }
 
 // SAMKind returns "User".
