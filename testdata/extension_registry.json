@@ -1,0 +1,72 @@
+{
+  "enabled": true,
+  "error": null,
+  "objects": [
+    {
+      "slug": "calculator",
+      "displayName": "Calculator",
+      "description": "Evaluates arithmetic and math-function expressions exactly, so that LLMs don't guess.",
+      "publisher": "The Smarter Project",
+      "publisherUrl": "https://smarter.sh",
+      "trustBadge": "official",
+      "trustBadgeLabel": "Official Smarter Extension",
+      "homepage": "https://github.com/smarter-sh/smarter-extension-calculator",
+      "license": "AGPL-3.0",
+      "docsHtml": "<section id=\"calculator\">\n<h3>Calculator</h3>\n</section>\n",
+      "latestVersion": "0.2.0",
+      "versions": [
+        {
+          "version": "0.2.0",
+          "requiresSmarter": ">=0.27",
+          "releasedAt": "2026-11-04T12:42:49.597685Z",
+          "compatible": true
+        },
+        {
+          "version": "0.1.0",
+          "requiresSmarter": ">=0.27",
+          "releasedAt": "2026-11-04T12:42:49.597615Z",
+          "compatible": true
+        }
+      ],
+      "installedVersion": "0.2.0",
+      "action": "installed",
+      "detailUrl": "/extensions/calculator/"
+    },
+    {
+      "slug": "weather",
+      "displayName": "Weather",
+      "description": "Current weather and a 24-hour forecast for any location.",
+      "publisher": "The Smarter Project",
+      "publisherUrl": "https://smarter.sh",
+      "trustBadge": "official",
+      "trustBadgeLabel": "Official Smarter Extension",
+      "homepage": "https://github.com/smarter-sh/smarter-extension-weather",
+      "license": "AGPL-3.0",
+      "docsHtml": "<section id=\"weather\">\n<h3>Weather</h3>\n</section>\n",
+      "latestVersion": "0.2.1",
+      "versions": [
+        {
+          "version": "0.2.1",
+          "requiresSmarter": ">=0.27",
+          "releasedAt": "2026-11-04T12:42:49.597929Z",
+          "compatible": true
+        },
+        {
+          "version": "0.2.0",
+          "requiresSmarter": ">=0.27",
+          "releasedAt": "2026-11-04T12:42:49.597929Z",
+          "compatible": true
+        },
+        {
+          "version": "0.1.0",
+          "requiresSmarter": ">=0.27",
+          "releasedAt": "2026-11-04T12:42:49.597685Z",
+          "compatible": true
+        }
+      ],
+      "installedVersion": "0.2.1",
+      "action": "installed",
+      "detailUrl": "/extensions/weather/"
+    }
+  ]
+}

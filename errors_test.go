@@ -13,6 +13,7 @@ func TestStatusErrors(t *testing.T) {
 	cases := map[int]error{
 		400: smarter.ErrBadRequest,
 		401: smarter.ErrAuthentication,
+		402: smarter.ErrPaymentRequired,
 		403: smarter.ErrPermissionDenied,
 		404: smarter.ErrNotFound,
 		409: smarter.ErrConflict,

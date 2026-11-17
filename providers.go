@@ -85,7 +85,8 @@ type ProxyRequestParams struct {
 
 // Request sends a request to a provider's api, through its proxy, and returns the provider's JSON
 // response, or nil for an empty one. The path, e.g. v1/chat/completions, must be one of the proxy's
-// AllowedPaths.
+// AllowedPaths. The error matches [ErrPaymentRequired] if a budget has locked the proxy, its provider,
+// the user or their account.
 func (s *ProxiesService) Request(ctx context.Context, name, path string, params *ProxyRequestParams) (JSONValue, error) {
 	segment, err := ID(name).segment()
 	if err != nil {

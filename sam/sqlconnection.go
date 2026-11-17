@@ -4,7 +4,7 @@ package sam
 
 // SQLConnection is a manifest of the SqlConnection kind.
 //
-// Smarter API Manifest - SqlConnection Model
+// Smarter API Manifest - SqlConnection Model.
 type SQLConnection struct {
 	// apiVersion[String]: Required. The API version of the AbstractSAMBase.
 	APIVersion string `json:"apiVersion"`

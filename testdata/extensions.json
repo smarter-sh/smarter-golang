@@ -1,0 +1,57 @@
+{
+  "objects": [
+    {
+      "id": 1,
+      "slug": "calculator",
+      "displayName": "Calculator",
+      "description": "Evaluates arithmetic and math-function expressions exactly, so that LLMs don't guess.",
+      "publisher": "smarter-sh",
+      "source": "registry",
+      "trustBadge": "official",
+      "trustBadgeLabel": "Official Smarter Extension",
+      "enabled": true,
+      "installedVersion": "0.2.0",
+      "latestVersion": "0.2.0",
+      "updateAvailable": false,
+      "latestCheckedAt": "2026-11-13T15:08:50.184919Z",
+      "error": "",
+      "detailUrl": "/extensions/calculator/"
+    },
+    {
+      "id": 2,
+      "slug": "date-calculator",
+      "displayName": "Date Calculator",
+      "description": "Date arithmetic for LLMs: differences, adding and subtracting days, oldest, newest, and formats.",
+      "publisher": "smarter-sh",
+      "source": "registry",
+      "trustBadge": "official",
+      "trustBadgeLabel": "Official Smarter Extension",
+      "enabled": true,
+      "installedVersion": "0.1.0",
+      "latestVersion": "0.1.0",
+      "updateAvailable": false,
+      "latestCheckedAt": "2026-11-13T15:08:50.186924Z",
+      "error": "",
+      "detailUrl": "/extensions/date-calculator/"
+    },
+    {
+      "id": 3,
+      "slug": "weather",
+      "displayName": "Weather",
+      "description": "Current weather and a 24-hour forecast for any location.",
+      "publisher": "smarter-sh",
+      "source": "registry",
+      "trustBadge": "official",
+      "trustBadgeLabel": "Official Smarter Extension",
+      "enabled": true,
+      "installedVersion": "0.2.1",
+      "latestVersion": "0.2.1",
+      "updateAvailable": false,
+      "latestCheckedAt": "2026-11-13T15:08:50.188137Z",
+      "error": "",
+      "detailUrl": "/extensions/weather/"
+    }
+  ],
+  "registryEnabled": true,
+  "updatesAvailable": 0
+}

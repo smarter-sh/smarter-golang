@@ -1,0 +1,108 @@
+{
+  "message": "Enabled Weather.",
+  "extension": {
+    "id": 3,
+    "slug": "weather",
+    "displayName": "Weather",
+    "description": "Current weather and a 24-hour forecast for any location.",
+    "publisher": "smarter-sh",
+    "source": "registry",
+    "trustBadge": "official",
+    "trustBadgeLabel": "Official Smarter Extension",
+    "enabled": true,
+    "installedVersion": "0.2.1",
+    "latestVersion": "0.2.1",
+    "updateAvailable": false,
+    "latestCheckedAt": "2026-11-13T15:08:50.188137Z",
+    "error": "",
+    "detailUrl": "/extensions/weather/",
+    "homepage": "https://github.com/smarter-sh/smarter-extension-weather",
+    "license": "AGPL-3.0",
+    "docsHtml": "<section id=\"weather\">\n<h3>Weather</h3>\n</section>\n",
+    "tools": [
+      {
+        "name": "get_weather",
+        "functionName": "ext_weather_get_weather",
+        "description": "Get the current weather, and the forecast for the next 24 hours, for a location.",
+        "parameters": {
+          "description": "The arguments of get_weather.",
+          "properties": {
+            "location": {
+              "description": "The city and state or country, e.g. San Francisco, CA",
+              "minLength": 1,
+              "title": "Location",
+              "type": "string"
+            },
+            "unit": {
+              "default": "METRIC",
+              "description": "Metric, or US customary, units.",
+              "enum": [
+                "METRIC",
+                "USCS"
+              ],
+              "title": "Unit",
+              "type": "string"
+            }
+          },
+          "required": [
+            "location"
+          ],
+          "type": "object"
+        }
+      }
+    ],
+    "loadError": null,
+    "settings": [
+      {
+        "name": "google_maps_api_key",
+        "type": "secret",
+        "description": "A Google Maps Geocoding API key, which finds the latitude and longitude of a location.",
+        "required": true,
+        "default": null,
+        "choices": null,
+        "value": null,
+        "secretId": 6,
+        "secretName": "google_maps_api_key",
+        "isSet": true
+      },
+      {
+        "name": "weather_api_url",
+        "type": "url",
+        "description": "The Open-Meteo forecast api.",
+        "required": false,
+        "default": "https://api.open-meteo.com/v1/forecast",
+        "choices": null,
+        "value": null,
+        "secretId": null,
+        "secretName": null,
+        "isSet": false
+      }
+    ],
+    "missingSettings": [],
+    "versions": [
+      {
+        "id": 3,
+        "version": "0.2.1",
+        "sha256": "35c73dda9636d1b0c03ce01ab615832fddbbe01932fdb515a7a7cc6cb31ce2b5",
+        "sourceUrl": "https://github.com/smarter-sh/smarter-extension-weather/releases/download/v0.2.1/weather-0.2.1.zip",
+        "installedBy": "admin",
+        "createdAt": "2026-10-19T16:03:42.162114Z",
+        "isInstalled": true
+      }
+    ],
+    "resources": [],
+    "switches": [],
+    "allAccounts": true,
+    "accounts": [],
+    "availableSecrets": [
+      {
+        "id": 1,
+        "name": "anthropic_api_key"
+      },
+      {
+        "id": 6,
+        "name": "google_maps_api_key"
+      }
+    ]
+  }
+}

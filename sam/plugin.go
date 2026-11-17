@@ -30,8 +30,8 @@ type PluginStaticSpec struct {
 
 // PluginStaticSpecData: Smarter API Plugin Manifest Plugin.spec.data.
 type PluginStaticSpecData struct {
-	// Plugin.spec.data.staticData[obj]: The static data returned by the Plugin when the class is 'static'. LLM's are adept at understanding the context of json data structures. Try to provide granular and specific data elements.
-	StaticData map[string]any `json:"staticData,omitempty"`
+	// Plugin.spec.data.staticData[obj]: Required. The static data returned by the Plugin when the class is 'static'. LLM's are adept at understanding the context of json data structures. Try to provide granular and specific data elements.
+	StaticData map[string]any `json:"staticData"`
 }
 
 // SAMKind returns "Plugin".

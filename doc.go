@@ -33,7 +33,13 @@
 // describes, deletes, deploys and undeploys manifests of any kind, exactly as the cli does: it is
 // the only way that the SDK writes resources. Each resource family, e.g. [Client.Guardrails], reads
 // its resources from the REST api (List, Retrieve, Find), applies, describes and deletes them through
-// the manifest api, and has its own actions, e.g. [GuardrailsService.Evaluate].
+// the manifest api, and has its own actions, e.g. [GuardrailsService.Evaluate] or
+// [VectorsearchesService.Run].
+//
+// [Client.Extensions] reads the platform's installed extensions and the Extension Registry, and lets
+// a superuser install, configure, enable and uninstall them. [AccountsService.Usage] returns the
+// tokens that the user's LLM requests used, and [AccountsService.DataExports] exports the user's own
+// data: the platform emails them a link to a zip file of their manifests.
 //
 // A [Manifest] is a resource's YAML document, whose Spec is a JSON object. [ToSAM] decodes one into
 // its kind's generated struct, in the [github.com/smarter-sh/smarter-golang/sam] package.

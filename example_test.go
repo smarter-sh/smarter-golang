@@ -19,15 +19,18 @@ import (
 // recorded responses of testdata/.
 func examplePlatform() *httptest.Server {
 	fixtures := map[string]string{
-		"POST /api/v1/cli/whoami/":                  "whoami.json",
-		"GET /api/v1/llm-clients/":                  "llmclients.json",
-		"POST /api/v1/llm-clients/5/prompt/":        "prompt.json",
-		"POST /api/v1/llm-clients/6/prompt/":        "prompt_sse.txt",
-		"POST /api/v1/cli/apply/":                   "delete.json",
-		"POST /api/v1/cli/describe/Guardrail/":      "example_guardrail.json",
-		"POST /api/v1/cli/describe/LLMClient/":      "describe_missing.json",
-		"POST /api/v1/guardrails/17/evaluate/":      "guardrail_eval.json",
-		"POST /api/v1/cli/example-manifest/Secret/": "example_guardrail.json",
+		"POST /api/v1/cli/whoami/":                    "whoami.json",
+		"GET /api/v1/llm-clients/":                    "llmclients.json",
+		"POST /api/v1/llm-clients/5/prompt/":          "prompt.json",
+		"POST /api/v1/llm-clients/6/prompt/":          "prompt_sse.txt",
+		"POST /api/v1/cli/apply/":                     "delete.json",
+		"POST /api/v1/cli/describe/Guardrail/":        "example_guardrail.json",
+		"POST /api/v1/cli/describe/LLMClient/":        "describe_missing.json",
+		"POST /api/v1/guardrails/17/evaluate/":        "guardrail_eval.json",
+		"POST /api/v1/cli/example-manifest/Secret/":   "example_guardrail.json",
+		"GET /api/v1/extensions/":                     "extensions.json",
+		"GET /api/v1/accounts/usage/":                 "token_usage.json",
+		"POST /api/v1/vectorsearches/4/vectorsearch/": "vectorsearch_run.json",
 	}
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		name, ok := fixtures[r.Method+" "+r.URL.Path]
@@ -181,4 +184,53 @@ func ExampleAPIStatusError() {
 	// Output:
 	// 503 SAMBrokerErrorNotReady
 	// true true
+}
+
+func ExampleExtensionsService_List() {
+	server := examplePlatform()
+	defer server.Close()
+	client := exampleClient(server)
+
+	extensions, err := client.Extensions.List(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, extension := range extensions.Objects {
+		fmt.Println(extension.Slug, extension.InstalledVersion, extension.Enabled)
+	}
+	// Output:
+	// calculator 0.2.0 true
+	// date-calculator 0.1.0 true
+	// weather 0.2.1 true
+}
+
+func ExampleAccountsService_Usage() {
+	server := examplePlatform()
+	defer server.Close()
+	client := exampleClient(server)
+
+	series, err := client.Accounts.Usage(context.Background(), smarter.UsagePeriodicity7Days)
+	if err != nil {
+		log.Fatal(err)
+	}
+	total := 0
+	for _, point := range series.Points {
+		total += point.TotalTokens
+	}
+	fmt.Println(len(series.Points), series.Period, total)
+	// Output: 7 day 103709
+}
+
+func ExampleVectorsearchesService_Run() {
+	server := examplePlatform()
+	defer server.Close()
+	client := exampleClient(server)
+
+	results, err := client.Vectorsearches.Run(context.Background(), smarter.IntID(4), "How long do refunds take?",
+		smarter.JSONObject{"topic": "refunds"})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(results.Results[0].Text)
+	// Output: Refunds are issued within 30 days of a return.
 }

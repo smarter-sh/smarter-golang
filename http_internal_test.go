@@ -51,7 +51,7 @@ func TestIsRetryable(t *testing.T) {
 	}{
 		{502, "", true}, {429, "", true}, {408, "", true}, {504, "", true},
 		{503, "Service Unavailable", true}, {503, string(journaled), false},
-		{500, "", false}, {404, "", false},
+		{500, "", false}, {404, "", false}, {402, "", false},
 	}
 	for _, c := range cases {
 		if got := isRetryable(c.status, []byte(c.body)); got != c.want {
