@@ -1,3 +1,17 @@
+# [1.1.0](https://github.com/smarter-sh/smarter-golang/compare/v1.0.1...v1.1.0) (2026-11-17)
+
+
+### Bug Fixes
+
+* **contracts:** sync with smarter v0.46.5 ([60150a3](https://github.com/smarter-sh/smarter-golang/commit/60150a304a8ac41e20087211f86d612fada5dd44))
+* **sam:** require staticData in a static plugin manifest ([1a61da9](https://github.com/smarter-sh/smarter-golang/commit/1a61da98c1946ca19deccc0bae73d2e9b18c74fc))
+
+
+### Features
+
+* **orchestrators:** start, list and poll the runs of an orchestrator ([db1835a](https://github.com/smarter-sh/smarter-golang/commit/db1835a7b24df8d7fd159c1df183ccb32f4499ee))
+* **resources:** add extensions, usage, data exports, vectorsearch run ([7ea4574](https://github.com/smarter-sh/smarter-golang/commit/7ea457479a18756ccf8f7aae646faf3f0a8fe18b))
+
 ## [1.0.1](https://github.com/smarter-sh/smarter-golang/compare/v1.0.0...v1.0.1) (2026-11-10)
 
 
