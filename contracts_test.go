@@ -285,6 +285,9 @@ func TestEveryRequestIsPublished(t *testing.T) {
 		func() error { _, err := c.Proxies.List(ctx); return err },
 		func() error { _, err := c.Orchestrators.List(ctx); return err },
 		func() error { _, err := c.Orchestrators.Retrieve(ctx, hashed); return err },
+		func() error { _, err := c.Orchestrators.Run(ctx, hashed, "Summarize the refund policy."); return err },
+		func() error { _, err := c.Orchestrators.Runs(ctx, id); return err },
+		func() error { _, err := c.Orchestrators.RunStatus(ctx, id, 3); return err },
 		func() error { _, err := c.Vectorsearches.List(ctx); return err },
 		func() error { _, err := c.Vectorsearches.Retrieve(ctx, id); return err },
 		func() error { _, err := c.Accounts.List(ctx); return err },
@@ -411,6 +414,7 @@ var recordedResponses = map[string]recordedResponse{
 	"vectorsearch_run":     {"/vectorsearches/{id}/vectorsearch/", "post", ""},
 	"vectorsearch_budget":  {"/vectorsearches/{id}/vectorsearch/", "post", "402"},
 	"data_export_refused":  {"/accounts/data-exports/", "post", "429"},
+	"orchestration_run":    {"/orchestrators/{id}/runs/{run_id}/", "get", ""},
 }
 
 // schemaErrors returns where a JSON value breaks a JSON Schema of the OpenAPI document. It checks the

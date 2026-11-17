@@ -692,3 +692,74 @@ func TestVectorsearchesRun(t *testing.T) {
 		t.Errorf("got %v", err)
 	}
 }
+
+func TestOrchestratorsRun(t *testing.T) {
+	p := newMockPlatform(t)
+	ctx := context.Background()
+	objective := "Summarize the refund policy in one sentence."
+	pending := map[string]any{"id": 3, "orchestrator": 1, "objective": objective, "status": "pending", "iterationCount": 0, "steps": []any{}}
+	p.route("POST", "orchestrators/rMTAwMDAwMQx/runs/", reply{status: 202, json: pending})
+	p.route("GET", "orchestrators/rMTAwMDAwMQx/runs/3/", reply{fixture: "orchestration_run"})
+	p.route("GET", "orchestrators/1/runs/", reply{json: []any{pending}})
+	started, err := p.client.Orchestrators.Run(ctx, smarter.ID("rMTAwMDAwMQx"), objective)
+	check(t, err)
+	jsonEqual(t, p.lastJSON(), map[string]any{"objective": objective})
+	equal(t, started.ID, 3)
+	equal(t, started.Status, "pending")
+	equal(t, started.Done(), false)
+	finished, err := p.client.Orchestrators.RunStatus(ctx, smarter.ID("rMTAwMDAwMQx"), started.ID)
+	check(t, err)
+	equal(t, finished.Done(), true)
+	equal(t, finished.Result, "Customers may return any item within 30 days for a full refund.")
+	equal(t, finished.IterationCount, 1)
+	equal(t, finished.Steps[0].Sequence, 1)
+	equal(t, finished.Steps[0].Role, "executor")
+	equal(t, finished.Steps[0].LLMClient, "example_llmclient")
+	equal(t, finished.StartedBy.Account.AccountNumber, "1234-5678-9012")
+	equal(t, finished.CompletedAt, "2026-11-17T12:00:04Z")
+	runs, err := p.client.Orchestrators.Runs(ctx, smarter.IntID(1))
+	check(t, err)
+	equal(t, len(runs), 1)
+	equal(t, runs[0].ID, 3)
+
+	if _, err := p.client.Orchestrators.Run(ctx, smarter.ID(""), objective); !errors.Is(err, smarter.ErrSmarter) {
+		t.Errorf("Run: got %v", err)
+	}
+	if _, err := p.client.Orchestrators.Runs(ctx, smarter.ID("")); !errors.Is(err, smarter.ErrSmarter) {
+		t.Errorf("Runs: got %v", err)
+	}
+	if _, err := p.client.Orchestrators.RunStatus(ctx, smarter.ID(""), 3); !errors.Is(err, smarter.ErrSmarter) {
+		t.Errorf("RunStatus: got %v", err)
+	}
+	if _, err := p.client.Orchestrators.Runs(ctx, smarter.IntID(9)); !errors.Is(err, smarter.ErrNotFound) {
+		t.Errorf("got %v", err)
+	}
+	if _, err := p.client.Orchestrators.RunStatus(ctx, smarter.IntID(9), 3); !errors.Is(err, smarter.ErrNotFound) {
+		t.Errorf("got %v", err)
+	}
+}
+
+func TestOrchestratorsRunIsNotRetried(t *testing.T) {
+	p := newMockPlatform(t)
+	ctx := context.Background()
+	// a retry after a lost response would start a second run: never retried, even by a client that retries.
+	p.route("POST", "orchestrators/1/runs/", reply{status: 502, json: map[string]any{"detail": "bad gateway"}, header: map[string]string{"Retry-After": "0"}})
+	before := p.count()
+	if _, err := p.makeClient(t, smarter.WithMaxRetries(3)).Orchestrators.Run(ctx, smarter.IntID(1), "Do it."); !errors.Is(err, smarter.ErrSmarter) {
+		t.Errorf("got %v", err)
+	}
+	equal(t, p.count(), before+1)
+	p.route("POST", "orchestrators/2/runs/", reply{status: 400, json: map[string]any{"detail": "Strategy debate can't run yet."}})
+	if _, err := p.client.Orchestrators.Run(ctx, smarter.IntID(2), "Do it."); !errors.Is(err, smarter.ErrBadRequest) {
+		t.Errorf("got %v", err)
+	}
+	p.route("POST", "orchestrators/3/runs/", reply{status: 403, json: map[string]any{"detail": "You may not use example_llmclient."}})
+	if _, err := p.client.Orchestrators.Run(ctx, smarter.IntID(3), "Do it."); !errors.Is(err, smarter.ErrPermissionDenied) {
+		t.Errorf("got %v", err)
+	}
+	// a request that may be retried still is.
+	p.route("GET", "orchestrators/1/runs/", reply{status: 502, json: map[string]any{"detail": "bad gateway"}, header: map[string]string{"Retry-After": "0"}})
+	before = p.count()
+	_, _ = p.makeClient(t, smarter.WithMaxRetries(2)).Orchestrators.Runs(ctx, smarter.IntID(1))
+	equal(t, p.count(), before+3)
+}

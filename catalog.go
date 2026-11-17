@@ -17,9 +17,62 @@ type SecretsService struct {
 }
 
 // OrchestratorsService holds the operations of Orchestrators: /api/v1/orchestrators/, and the
-// manifest api's Orchestrator kind.
+// manifest api's Orchestrator kind. Run starts a run of an Orchestrator toward an objective, which
+// the platform executes in the background: poll it with RunStatus until it is
+// [OrchestrationRun.Done].
 type OrchestratorsService struct {
 	*KindService[Orchestrator]
+}
+
+// Run starts a run of an Orchestrator toward objective, e.g. "Prepare the board pack for Q4 2025",
+// which every step receives. The platform answers at once with the run, pending, then executes it
+// one step at a time. Each step calls a harness LLMClient as its owner, and is charged to it. The
+// request is never retried, whatever the client's max retries: a retry would start a second run.
+//
+// The error matches [ErrBadRequest] if the objective is empty or the Orchestrator's strategy can't
+// run yet, [ErrPermissionDenied] if the user may not use every LLMClient of the Orchestrator, and
+// [ErrNotFound] if the user may not read the Orchestrator.
+func (s *OrchestratorsService) Run(ctx context.Context, id ID, objective string) (*OrchestrationRun, error) {
+	path, err := s.path(id, "runs/")
+	if err != nil {
+		return nil, err
+	}
+	var run OrchestrationRun
+	r := &request{method: http.MethodPost, path: path, body: JSONObject{"objective": objective}, noRetry: true}
+	if err := s.c.http.do(ctx, r, &run); err != nil {
+		return nil, err
+	}
+	return &run, nil
+}
+
+// Runs returns the newest runs of an Orchestrator that the user started, up to 20, newest first,
+// each with its steps. A superuser gets every user's. The error matches [ErrNotFound] if the user
+// may not read the Orchestrator.
+func (s *OrchestratorsService) Runs(ctx context.Context, id ID) ([]OrchestrationRun, error) {
+	path, err := s.path(id, "runs/")
+	if err != nil {
+		return nil, err
+	}
+	var runs []OrchestrationRun
+	if err := s.c.http.do(ctx, &request{method: http.MethodGet, path: path}, &runs); err != nil {
+		return nil, err
+	}
+	return runs, nil
+}
+
+// RunStatus returns a run of an Orchestrator, with its steps and, once it succeeded, its result.
+// The error matches [ErrNotFound] if there is no such run, or the user neither started it nor is a
+// superuser.
+func (s *OrchestratorsService) RunStatus(ctx context.Context, id ID, runID int) (*OrchestrationRun, error) {
+	path, err := s.path(id, "runs/"+IntID(runID).String()+"/")
+	if err != nil {
+		return nil, err
+	}
+	var run OrchestrationRun
+	if err := s.c.http.do(ctx, &request{method: http.MethodGet, path: path}, &run); err != nil {
+		return nil, err
+	}
+	return &run, nil
 }
 
 // VectorsearchesService holds the operations of Vectorsearches: /api/v1/vectorsearches/, and the

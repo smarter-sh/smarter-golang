@@ -1,0 +1,27 @@
+{
+  "id": 3,
+  "orchestrator": 1,
+  "objective": "Summarize the refund policy in one sentence.",
+  "status": "succeeded",
+  "iterationCount": 1,
+  "result": "Customers may return any item within 30 days for a full refund.",
+  "errorMessage": null,
+  "startedBy": {
+    "user": { "username": "example_user", "email": "user@example.com" },
+    "account": { "accountNumber": "1234-5678-9012" }
+  },
+  "steps": [
+    {
+      "sequence": 1,
+      "llmclient": "example_llmclient",
+      "accountNumber": "1234-5678-9012",
+      "role": "executor",
+      "status": "succeeded",
+      "errorMessage": null,
+      "createdAt": "2026-11-17T12:00:04Z"
+    }
+  ],
+  "createdAt": "2026-11-17T12:00:00Z",
+  "startedAt": "2026-11-17T12:00:01Z",
+  "completedAt": "2026-11-17T12:00:04Z"
+}

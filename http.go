@@ -57,6 +57,9 @@ type request struct {
 	final []int
 	// status, unless nil, receives the status of the successful response, e.g. 202 or 200.
 	status *int
+	// noRetry sends the request once, whatever the client's max retries, e.g. the request that
+	// starts an Orchestrator's run, which a retry after a lost response would start a second time.
+	noRetry bool
 }
 
 // formFile is one file of a multipart body.
@@ -118,6 +121,15 @@ func (r *request) encodeBody() ([]byte, string, error) {
 	return data, "application/json", err
 }
 
+// retries is how many times the request may be sent again after the first attempt: the client's
+// max retries, or 0 if the request is never retried.
+func (r *request) retries(maxRetries int) int {
+	if r.noRetry {
+		return 0
+	}
+	return maxRetries
+}
+
 // send sends a request, with retries, and returns the successful response, which the caller must
 // close. For a stream, the timeout applies to each read instead of to the whole response.
 func (h *httpClient) send(ctx context.Context, r *request, stream bool) (*http.Response, context.CancelFunc, error) {
@@ -135,6 +147,7 @@ func (h *httpClient) send(ctx context.Context, r *request, stream bool) (*http.R
 		}
 		h.logger.DebugContext(ctx, "request", "source", "http", "method", r.method, "url", target, "api_key", MaskSecret(h.cfg.apiKey), "body", shown)
 	}
+	retries := r.retries(h.cfg.maxRetries)
 	for attempt := 0; ; attempt++ {
 		attemptCtx, cancel := context.WithCancel(ctx)
 		timer := time.AfterFunc(h.cfg.timeout, cancel)
@@ -154,7 +167,7 @@ func (h *httpClient) send(ctx context.Context, r *request, stream bool) (*http.R
 			if ctx.Err() != nil {
 				return nil, nil, &APIConnectionError{Method: r.method, URL: target, Err: ctx.Err()}
 			}
-			if attempt < h.cfg.maxRetries {
+			if attempt < retries {
 				reason := "connection error"
 				if expired {
 					reason = "timeout"
@@ -188,7 +201,7 @@ func (h *httpClient) send(ctx context.Context, r *request, stream bool) (*http.R
 		if readErr != nil {
 			return nil, nil, &APIConnectionError{Method: r.method, URL: target, Err: readErr, timeout: expired}
 		}
-		if attempt < h.cfg.maxRetries && isRetryable(response.StatusCode, data) && !slices.Contains(r.final, response.StatusCode) {
+		if attempt < retries && isRetryable(response.StatusCode, data) && !slices.Contains(r.final, response.StatusCode) {
 			if err := h.wait(ctx, attempt, r.method, target, strconv.Itoa(response.StatusCode), response.Header); err != nil {
 				return nil, nil, err
 			}

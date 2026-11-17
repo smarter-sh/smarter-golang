@@ -1,6 +1,9 @@
 package smarter
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"slices"
+)
 
 // The structs of the REST api's responses. They are the Python SDK's models (smarter/models/), with
 // Go field names and the api's own JSON names (ADR-021). Unknown fields are ignored when a response is
@@ -512,6 +515,64 @@ type Orchestrator struct {
 	IsActive      *bool  `json:"isActive,omitempty"`
 	// LLMClients are the ids of its LLMClients.
 	LLMClients []int `json:"llmclients,omitempty"`
+}
+
+// OrchestrationRunFinalStatuses are the statuses of an Orchestrator's run that has ended.
+var OrchestrationRunFinalStatuses = []string{"succeeded", "failed", "cancelled", "max_iterations_exceeded"}
+
+// OrchestrationRun is a run of an Orchestrator: an attempt at an objective, its status, its steps
+// and its result. A run starts pending, and the platform executes it in the background, one step at
+// a time. Poll it with [OrchestratorsService.RunStatus] until it is [OrchestrationRun.Done].
+type OrchestrationRun struct {
+	ID int `json:"id"`
+	// Orchestrator is the Orchestrator's id.
+	Orchestrator int `json:"orchestrator"`
+	// Objective is what the run is to achieve.
+	Objective string `json:"objective"`
+	// Status is pending, running, succeeded, failed, cancelled or max_iterations_exceeded.
+	Status string `json:"status"`
+	// IterationCount is how many steps the run has taken.
+	IterationCount int `json:"iterationCount"`
+	// Result is the run's result: its last step's text, once it succeeded.
+	Result string `json:"result,omitempty"`
+	// ErrorMessage is why the run failed, or stopped, if it did.
+	ErrorMessage string `json:"errorMessage,omitempty"`
+	// StartedBy is who started the run.
+	StartedBy *Owner `json:"startedBy,omitempty"`
+	// Steps are its steps, in order.
+	Steps []OrchestrationStep `json:"steps,omitempty"`
+	// CreatedAt is when the run was requested.
+	CreatedAt string `json:"createdAt,omitempty"`
+	// StartedAt is when its execution began.
+	StartedAt string `json:"startedAt,omitempty"`
+	// CompletedAt is when it ended.
+	CompletedAt string `json:"completedAt,omitempty"`
+}
+
+// Done reports whether the run has ended, and its status will not change again: its status is one
+// of [OrchestrationRunFinalStatuses].
+func (r *OrchestrationRun) Done() bool {
+	return slices.Contains(OrchestrationRunFinalStatuses, r.Status)
+}
+
+// OrchestrationStep is one step of a run of an Orchestrator: one call of a harness LLMClient, as its
+// owner. Its messages, tokens and charges are those of its prompt session, which the LLMClient's
+// owner may read.
+type OrchestrationStep struct {
+	// Sequence is the step's position in the run, from 1.
+	Sequence int `json:"sequence"`
+	// LLMClient is the harness LLMClient's name.
+	LLMClient string `json:"llmclient"`
+	// AccountNumber is the account that the LLMClient belongs to.
+	AccountNumber string `json:"accountNumber"`
+	// Role is the harness's role: planner, executor, critic, router, summarizer or tool_caller.
+	Role string `json:"role"`
+	// Status is succeeded, failed or skipped.
+	Status string `json:"status"`
+	// ErrorMessage is why the step failed, if it did.
+	ErrorMessage string `json:"errorMessage,omitempty"`
+	// CreatedAt is when the step ended.
+	CreatedAt string `json:"createdAt,omitempty"`
 }
 
 // Vectorsearch is a retrieval pipeline over a vectorstore.
