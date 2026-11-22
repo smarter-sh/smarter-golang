@@ -50,7 +50,7 @@ func (s *ProvidersService) Models(ctx context.Context, name string) ([]ProviderM
 
 // ProxiesService gives authenticated passthrough access to LLM providers' own apis: /api/v1/proxy/.
 // The platform holds the provider's api key, and callers use their Smarter api key instead. The
-// platform serves these endpoints only when SMARTER_ENABLE_PROXY is true. The easiest way to call a
+// platform serves these endpoints only when SMARTER_APP_PROXY_ENABLE is true. The easiest way to call a
 // proxy is with the provider's own SDK, with BaseURL and the client's APIKey.
 type ProxiesService struct {
 	c *Client

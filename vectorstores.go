@@ -9,7 +9,7 @@ import (
 )
 
 // VectorstoresService holds the operations of Vectorstores: /api/v1/vectorstores/, and the manifest
-// api's Vectorstore kind. The platform serves these endpoints only when SMARTER_ENABLE_VECTORSTORE is
+// api's Vectorstore kind. The platform serves these endpoints only when SMARTER_APP_VECTORSTORE_ENABLE is
 // true.
 type VectorstoresService struct {
 	*KindService[Vectorstore]
