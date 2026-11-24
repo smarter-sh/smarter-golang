@@ -62,6 +62,10 @@ type VectorstoreStatus struct {
 	AccountNumber string `json:"accountNumber"`
 	// Vectorstore.status.apiKeySecret: the Secret with a self-hosted database's API key.
 	APIKeySecret string `json:"apiKeySecret,omitempty"`
+	// Vectorstore.status.attempt: the number of checks that its last deploy has made.
+	Attempt *int `json:"attempt,omitempty"`
+	// Vectorstore.status.conditions: what its database needs to be ready, as of its last deploy or check.
+	Conditions []VectorstoreCondition `json:"conditions,omitempty"`
 	// The date in which this resource was created. Read only.
 	Created string `json:"created"`
 	// dependencies[List]: The resources that depend on this resource, and that must be deleted, or stop referring to it, before it can be deleted. Lists only the resources that you can read. Read only.
@@ -76,14 +80,20 @@ type VectorstoreStatus struct {
 	IndexName string `json:"indexName,omitempty"`
 	// Vectorstore.status.lastCheckedAt: when its status was last checked. Read only.
 	LastCheckedAt string `json:"lastCheckedAt,omitempty"`
+	// Vectorstore.status.lastError: the last error of its last deploy, which may have been retried since.
+	LastError string `json:"lastError,omitempty"`
 	// Vectorstore.status.lastMaintenanceAt: when its maintenance last ran. Read only.
 	LastMaintenanceAt string `json:"lastMaintenanceAt,omitempty"`
 	// Vectorstore.status.lastSnapshotAt: when its last snapshot was taken. Read only.
 	LastSnapshotAt string `json:"lastSnapshotAt,omitempty"`
-	// Vectorstore.status.message: why, if it failed.
+	// Vectorstore.status.maxAttempts: the checks that a deploy makes before it fails.
+	MaxAttempts *int `json:"maxAttempts,omitempty"`
+	// Vectorstore.status.message: what is happening, e.g. what a deploy waits for, or why it failed.
 	Message string `json:"message,omitempty"`
 	// The date in which this resource was most recently changed. Read only.
 	Modified string `json:"modified"`
+	// Vectorstore.status.nextRetryAt: when a deploy in progress checks again.
+	NextRetryAt string `json:"nextRetryAt,omitempty"`
 	// recordLocator[String]: An optional identifier used to locate the resource record associated with this manifest. Read only.
 	RecordLocator string `json:"recordLocator"`
 	// Vectorstore.status.snapshotCount: its snapshots, or backups.
@@ -154,6 +164,28 @@ type VectorstoreSelfHosted struct {
 	Storage string `json:"storage,omitempty"`
 	// Vectorstore.__init__.selfHosted.storageClass: of its volume. Defaults to the cluster's.
 	StorageClass string `json:"storageClass,omitempty"`
+}
+
+// VectorstoreCondition: One of the things that a Vectorstore's database needs before it is ready, and whether it has it.
+//
+// A deploy has several independent points of failure, e.g. a refused api key, a volume that isn't
+// bound, or a server whose image can't be pulled. Each is a condition, as in Kubernetes: its
+// “status“ is “True“ when it is met, “False“ when it isn't, and “Unknown“ before it is
+// checked. A Pinecone or Qdrant Cloud Vectorstore has the conditions “Credentials“ and “Index“,
+// and a self-hosted one also “Volume“ and “Server“.
+//
+// Read only.
+type VectorstoreCondition struct {
+	// Vectorstore.status.condition.lastTransitionTime: when its status last changed.
+	LastTransitionTime string `json:"lastTransitionTime,omitempty"`
+	// Vectorstore.status.condition.message: what was found, for a person.
+	Message string `json:"message,omitempty"`
+	// Vectorstore.status.condition.reason: one word, e.g. Bound or ImagePullBackOff.
+	Reason string `json:"reason,omitempty"`
+	// Vectorstore.status.condition.status: True if it is met, False if it isn't, Unknown before it is checked.
+	Status string `json:"status"`
+	// Vectorstore.status.condition.type: Credentials, Volume, Server or Index.
+	Type string `json:"type"`
 }
 
 // SAMKind returns "Vectorstore".
