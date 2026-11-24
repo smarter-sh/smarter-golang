@@ -159,8 +159,10 @@ func TestContractExamplesDecode(t *testing.T) {
 
 // notCalled are the operations that the SDK doesn't call: the cli's prompt commands, which it
 // replaces with the chat api, and the reads of one related row of an LLMClient, or of one model of a
-// Provider, whose lists it reads instead. The same as the Python SDK's.
+// Provider, whose lists it reads instead. And the cli's documents command, which lists, adds or
+// removes the documents of a Vectorstore: the SDK doesn't cover it yet. The same as the Python SDK's.
 var notCalled = []string{
+	"documents",
 	"llmclient_apikey_retrieve",
 	"llmclient_customdomain_retrieve",
 	"llmclient_extension_retrieve",
