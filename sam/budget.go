@@ -58,7 +58,7 @@ type BudgetStatus struct {
 
 // BudgetSpecConfig: Smarter API Budget Manifest Budget.spec.config: the budget's limits.
 type BudgetSpecConfig struct {
-	// Budget.spec.config.absoluteLimit: the most that may be spent in total, from when the budget is attached. 0 means no limit.
+	// Budget.spec.config.absoluteLimit: the most that may be spent in total, from when the budget is attached, in USD to the cent, or in tokens. 0 means no limit.
 	AbsoluteLimit any `json:"absoluteLimit,omitempty"`
 	// Budget.spec.config.action: block further charges when a limit is reached, or only warn.
 	Action string `json:"action,omitempty"`
@@ -68,7 +68,7 @@ type BudgetSpecConfig struct {
 	Message string `json:"message,omitempty"`
 	// Budget.spec.config.period: the billing period of periodicLimit and duration.
 	Period string `json:"period,omitempty"`
-	// Budget.spec.config.periodicLimit: the most that may be spent in a billing period. 0 means no limit.
+	// Budget.spec.config.periodicLimit: the most that may be spent in a billing period, in USD to the cent, or in tokens. 0 means no limit.
 	PeriodicLimit any `json:"periodicLimit,omitempty"`
 	// Budget.spec.config.unit: what the limits measure: cost in USD, or total tokens.
 	Unit string `json:"unit,omitempty"`

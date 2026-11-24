@@ -1026,6 +1026,95 @@
         ],
         "description": "The response of apply."
       },
+      "CliApiDocuments": {
+        "additionalProperties": true,
+        "description": "The ``data`` of a ``documents`` response: a Vectorstore's documents after the command, and what it changed.\n\nWithout files, text or a url, the command lists the documents. With them, it adds them, and with\n``remove``, it removes one. Each document is the REST api's\n:class:`~smarter.apps.vectorstore.contract.models.VectorstoreApiDocument`.",
+        "properties": {
+          "added": {
+            "description": "The documents that were added.",
+            "items": {
+              "$ref": "#/components/schemas/VectorstoreApiDocument"
+            },
+            "title": "Added",
+            "type": "array"
+          },
+          "documents": {
+            "description": "The Vectorstore's documents, newest first, after the command.",
+            "items": {
+              "$ref": "#/components/schemas/VectorstoreApiDocument"
+            },
+            "title": "Documents",
+            "type": "array"
+          },
+          "duplicates": {
+            "description": "The documents that weren't added, because the Vectorstore has one with the same content.",
+            "items": {
+              "$ref": "#/components/schemas/VectorstoreApiDocument"
+            },
+            "title": "Duplicates",
+            "type": "array"
+          },
+          "queued": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Whether the added documents are queued to be loaded. A Vectorstore that isn't ready loads them once its deploy is ready.",
+            "title": "Queued"
+          },
+          "removed": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VectorstoreApiDocument"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The document that is being removed, with its chunks, in the background."
+          },
+          "vectorstore": {
+            "description": "The Vectorstore's name.",
+            "title": "Vectorstore",
+            "type": "string"
+          }
+        },
+        "required": [
+          "vectorstore",
+          "documents"
+        ],
+        "title": "CliApiDocuments",
+        "type": "object"
+      },
+      "CliApiDocumentsResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SAMJournalApiEnvelope"
+          },
+          {
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/CliApiDocuments"
+              },
+              "message": {
+                "description": "A human-readable summary of the result.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "data"
+            ],
+            "type": "object"
+          }
+        ],
+        "description": "The response of documents."
+      },
       "CliApiErrorResponse": {
         "allOf": [
           {
@@ -5132,7 +5221,7 @@
             "title": "Tlscertificateissuancestatus"
           },
           "tools": {
-            "description": "Everything that the LLMClient adds to a prompt: its extensions, plugins, MCPClients and guardrails, in that order.",
+            "description": "Everything that the LLMClient adds to a prompt: its extensions, plugins, MCPClients, Vectorsearches and guardrails, in that order.",
             "items": {
               "$ref": "#/components/schemas/LLMClientApiTool"
             },
@@ -5209,6 +5298,14 @@
             "$ref": "#/components/schemas/AccountApiUserProfile",
             "description": "The LLMClient's owner."
           },
+          "vectorsearches": {
+            "description": "The LLMClient's Vectorsearches.",
+            "items": {
+              "$ref": "#/components/schemas/LLMClientApiVectorsearchRef"
+            },
+            "title": "Vectorsearches",
+            "type": "array"
+          },
           "version": {
             "anyOf": [
               {
@@ -5232,6 +5329,7 @@
           "extensions",
           "plugins",
           "mcpclients",
+          "vectorsearches",
           "guardrails",
           "tools",
           "customDomains",
@@ -5345,7 +5443,7 @@
       },
       "LLMClientApiTool": {
         "additionalProperties": false,
-        "description": "Something that an LLMClient adds to a prompt: an extension, plugin, MCPClient or guardrail.",
+        "description": "Something that an LLMClient adds to a prompt: an extension, plugin, MCPClient, Vectorsearch or guardrail.",
         "properties": {
           "id": {
             "description": "The link row's id: LLMClientExtensions, LLMClientPlugin, ... .id.",
@@ -5358,6 +5456,7 @@
               "Extension",
               "Plugin",
               "MCPClient",
+              "Vectorsearch",
               "Guardrail"
             ],
             "title": "Kind",
@@ -5375,6 +5474,28 @@
           "kind"
         ],
         "title": "LLMClientApiTool",
+        "type": "object"
+      },
+      "LLMClientApiVectorsearchRef": {
+        "additionalProperties": false,
+        "description": "A Vectorsearch of an LLMClient, in the LLMClient's own response: the LLMClientVectorsearches' id, and the Vectorsearch's name.",
+        "properties": {
+          "id": {
+            "description": "LLMClientVectorsearches.id.",
+            "title": "Id",
+            "type": "integer"
+          },
+          "name": {
+            "description": "The Vectorsearch's name, Vectorsearch.name.",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "LLMClientApiVectorsearchRef",
         "type": "object"
       },
       "LLMClientPromptErrorResponse": {
@@ -12640,7 +12761,7 @@
               }
             ],
             "default": "0",
-            "description": "Budget.spec.config.absoluteLimit: the most that may be spent in total, from when the budget is attached. 0 means no limit.",
+            "description": "Budget.spec.config.absoluteLimit: the most that may be spent in total, from when the budget is attached, in USD to the cent, or in tokens. 0 means no limit.",
             "title": "Absolutelimit"
           },
           "action": {
@@ -12697,7 +12818,7 @@
               }
             ],
             "default": "0",
-            "description": "Budget.spec.config.periodicLimit: the most that may be spent in a billing period. 0 means no limit.",
+            "description": "Budget.spec.config.periodicLimit: the most that may be spent in a billing period, in USD to the cent, or in tokens. 0 means no limit.",
             "title": "Periodiclimit"
           },
           "unit": {
@@ -14002,7 +14123,8 @@
               "undeploy",
               "validate",
               "whoami",
-              "resources"
+              "resources",
+              "documents"
             ],
             "title": "Command",
             "type": "string"
@@ -14121,7 +14243,8 @@
               "undeploy",
               "validate",
               "whoami",
-              "resources"
+              "resources",
+              "documents"
             ],
             "title": "Command",
             "type": "string"
@@ -14635,6 +14758,22 @@
             "default": null,
             "description": "LLMClient.spec.searchTerms[list]. Optional. The Plugins to add to the LLMClient. Plugins are a proprietary extensibility model for tool calling and are not the same as OpenAI plugins. See https://docs.smarter.sh/smarter-resources/smarter-llmtool.html for more information.",
             "title": "Plugins"
+          },
+          "vectorsearches": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "LLMClient.spec.vectorsearches[list]. Optional. The names of the Vectorsearches that the LLMClient offers the LLM, each as a tool that searches the documents of its Vectorstore. Example: ['stackademy_handbook']. Each must be a Vectorsearch that you own, or that is shared with you. The LLM calls one with a search query of its own, and answers from the passages that it returns.",
+            "title": "Vectorsearches"
           }
         },
         "required": [
@@ -14871,10 +15010,17 @@
             "title": "Defaulttemperature"
           },
           "deployed": {
-            "default": false,
-            "description": "LLMClient.spec.configuration.prompt.deployed[bool]. Required. Whether the llmclient is deployed. Deployed means that the llmclient is available for use outside the Smarter Prompt Engineer Workbench. Published llmclients have their own subdomain, Kubernetes ingress, and TLS/SSL certificate.",
-            "title": "Deployed",
-            "type": "boolean"
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "LLMClient.spec.configuration.prompt.deployed[bool]. Optional. Whether the llmclient is deployed. Deployed means that the llmclient is available for use outside the Smarter Prompt Engineer Workbench, at its own url. true deploys it and false undeploys it, as smarter deploy and smarter undeploy do. Leave it out to keep the llmclient's deployed state as it is, e.g. when a deployed llmclient's manifest is applied again.",
+            "title": "Deployed"
           },
           "provider": {
             "anyOf": [
@@ -20499,6 +20645,64 @@
         "title": "SAMVectorstore",
         "type": "object"
       },
+      "SAMVectorstoreCondition": {
+        "description": "One of the things that a Vectorstore's database needs before it is ready, and whether it has it.\n\nA deploy has several independent points of failure, e.g. a refused api key, a volume that isn't\nbound, or a server whose image can't be pulled. Each is a condition, as in Kubernetes: its\n``status`` is ``True`` when it is met, ``False`` when it isn't, and ``Unknown`` before it is\nchecked. A Pinecone or Qdrant Cloud Vectorstore has the conditions ``Credentials`` and ``Index``,\nand a self-hosted one also ``Volume`` and ``Server``.\n\nRead only.",
+        "properties": {
+          "lastTransitionTime": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Vectorstore.status.condition.lastTransitionTime: when its status last changed.",
+            "title": "Lasttransitiontime"
+          },
+          "message": {
+            "default": "",
+            "description": "Vectorstore.status.condition.message: what was found, for a person.",
+            "title": "Message",
+            "type": "string"
+          },
+          "reason": {
+            "default": "",
+            "description": "Vectorstore.status.condition.reason: one word, e.g. Bound or ImagePullBackOff.",
+            "title": "Reason",
+            "type": "string"
+          },
+          "status": {
+            "description": "Vectorstore.status.condition.status: True if it is met, False if it isn't, Unknown before it is checked.",
+            "enum": [
+              "True",
+              "False",
+              "Unknown"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "type": {
+            "description": "Vectorstore.status.condition.type: Credentials, Volume, Server or Index.",
+            "enum": [
+              "Credentials",
+              "Volume",
+              "Server",
+              "Index"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "status"
+        ],
+        "title": "SAMVectorstoreCondition",
+        "type": "object"
+      },
       "SAMVectorstoreEmbeddings": {
         "description": "Vectorstore.spec.embeddings: how documents and queries are turned into vectors.",
         "properties": {
@@ -20891,6 +21095,27 @@
             "description": "Vectorstore.status.apiKeySecret: the Secret with a self-hosted database's API key.",
             "title": "Apikeysecret"
           },
+          "attempt": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Vectorstore.status.attempt: the number of checks that its last deploy has made.",
+            "title": "Attempt"
+          },
+          "conditions": {
+            "description": "Vectorstore.status.conditions: what its database needs to be ready, as of its last deploy or check.",
+            "items": {
+              "$ref": "#/components/schemas/SAMVectorstoreCondition"
+            },
+            "title": "Conditions",
+            "type": "array"
+          },
           "created": {
             "description": "The date in which this resource was created. Read only.",
             "format": "date-time",
@@ -20973,6 +21198,19 @@
             "description": "Vectorstore.status.lastCheckedAt: when its status was last checked. Read only.",
             "title": "Lastcheckedat"
           },
+          "lastError": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Vectorstore.status.lastError: the last error of its last deploy, which may have been retried since.",
+            "title": "Lasterror"
+          },
           "lastMaintenanceAt": {
             "anyOf": [
               {
@@ -21001,6 +21239,19 @@
             "description": "Vectorstore.status.lastSnapshotAt: when its last snapshot was taken. Read only.",
             "title": "Lastsnapshotat"
           },
+          "maxAttempts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Vectorstore.status.maxAttempts: the checks that a deploy makes before it fails.",
+            "title": "Maxattempts"
+          },
           "message": {
             "anyOf": [
               {
@@ -21011,7 +21262,7 @@
               }
             ],
             "default": null,
-            "description": "Vectorstore.status.message: why, if it failed.",
+            "description": "Vectorstore.status.message: what is happening, e.g. what a deploy waits for, or why it failed.",
             "title": "Message"
           },
           "modified": {
@@ -21019,6 +21270,20 @@
             "format": "date-time",
             "title": "Modified",
             "type": "string"
+          },
+          "nextRetryAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Vectorstore.status.nextRetryAt: when a deploy in progress checks again.",
+            "title": "Nextretryat"
           },
           "recordLocator": {
             "description": "recordLocator[String]: An optional identifier used to locate the resource record associated with this manifest. Read only.",
@@ -22046,6 +22311,65 @@
         "title": "VectorstoreApiAddText",
         "type": "object"
       },
+      "VectorstoreApiCondition": {
+        "additionalProperties": false,
+        "description": "One of the things that a vectorstore's database needs before it is ready, and whether it has it.\n\nThe same as the Vectorstore manifest's ``status.conditions``: see\n:class:`smarter.apps.vectorstore.manifest.models.vectorstore.status.SAMVectorstoreCondition`.",
+        "properties": {
+          "lastTransitionTime": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "When its status last changed.",
+            "title": "Lasttransitiontime"
+          },
+          "message": {
+            "description": "What was found, for a person.",
+            "title": "Message",
+            "type": "string"
+          },
+          "reason": {
+            "description": "One word, e.g. Bound or ImagePullBackOff.",
+            "title": "Reason",
+            "type": "string"
+          },
+          "status": {
+            "description": "True if it is met, False if it isn't, Unknown before it is checked.",
+            "enum": [
+              "True",
+              "False",
+              "Unknown"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "type": {
+            "description": "Credentials, Volume, Server or Index.",
+            "enum": [
+              "Credentials",
+              "Volume",
+              "Server",
+              "Index"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "status",
+          "reason",
+          "message"
+        ],
+        "title": "VectorstoreApiCondition",
+        "type": "object"
+      },
       "VectorstoreApiDocument": {
         "additionalProperties": false,
         "description": "A document of a vectorstore: a :class:`smarter.apps.vectorstore.models.VectorstoreDocument`, without its content.",
@@ -22668,6 +22992,19 @@
             "description": "The name of the Secret of its api key, never the key.",
             "title": "Apikeysecret"
           },
+          "attempt": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The number of checks that its last deploy has made.",
+            "title": "Attempt"
+          },
           "backend": {
             "description": "The vector database.",
             "enum": [
@@ -22681,6 +23018,14 @@
             "description": "Whether the requesting user may delete the vectorstore now: they own it, and nothing uses it.",
             "title": "Candelete",
             "type": "boolean"
+          },
+          "conditions": {
+            "description": "What its database needs to be ready, as of its last deploy or check.",
+            "items": {
+              "$ref": "#/components/schemas/VectorstoreApiCondition"
+            },
+            "title": "Conditions",
+            "type": "array"
           },
           "connection": {
             "anyOf": [
@@ -22832,6 +23177,19 @@
             "description": "When its status was last checked.",
             "title": "Lastcheckedat"
           },
+          "lastError": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The last error of its last deploy, which may have been retried since.",
+            "title": "Lasterror"
+          },
           "lastMaintenanceAt": {
             "anyOf": [
               {
@@ -22865,6 +23223,19 @@
             "title": "Manifesturl",
             "type": "string"
           },
+          "maxAttempts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The checks that a deploy makes before it fails.",
+            "title": "Maxattempts"
+          },
           "metric": {
             "description": "The distance metric of its index.",
             "enum": [
@@ -22879,6 +23250,20 @@
             "description": "MetaDataModel.name, in snake_case.",
             "title": "Name",
             "type": "string"
+          },
+          "nextRetryAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "When a deploy in progress checks again.",
+            "title": "Nextretryat"
           },
           "snapshotCount": {
             "description": "The number of its snapshots.",
@@ -23902,6 +24287,104 @@
           }
         },
         "summary": "Describe a resource",
+        "tags": [
+          "manifests"
+        ]
+      }
+    },
+    "/cli/documents/{kind}/": {
+      "post": {
+        "description": "List, add or remove the documents of a resource that has them, a Vectorstore. Without a body or remove, it lists them, for anyone who may read the Vectorstore. With files, text or a url, it adds them: their text is extracted now, and they are loaded in the background, once the Vectorstore is ready. With remove, it removes one, in the background. Only the Vectorstore's owner, an account admin, may add or remove documents. Other kinds answer 501.",
+        "operationId": "documents",
+        "parameters": [
+          {
+            "description": "The resource's kind, as it is written in a manifest, e.g. Guardrail. Case-insensitive.",
+            "in": "path",
+            "name": "kind",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/SAMKind"
+            }
+          },
+          {
+            "description": "The resource's name, its manifest's metadata.name.",
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Remove this document, and its chunks: its id, or its name, e.g. its file name or url.",
+            "in": "query",
+            "name": "remove",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "files": {
+                    "description": "Files to add, up to 50 MiB each: PDF, text, Markdown, CSV, JSON, YAML or HTML.",
+                    "items": {
+                      "format": "binary",
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "metadata": {
+                    "description": "A JSON object, stored with every chunk of every document that is added.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "The name of the text's document. By default, text.",
+                    "type": "string"
+                  },
+                  "text": {
+                    "description": "Text to add, as a document.",
+                    "type": "string"
+                  },
+                  "url": {
+                    "description": "A public http or https url of a page or file to add.",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "description": "Documents to add. Without them, and without remove, the command lists the documents.",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CliApiDocumentsResponse"
+                }
+              }
+            },
+            "description": "Success."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CliApiErrorResponse"
+                }
+              }
+            },
+            "description": "An error, e.g. 400 for an invalid manifest, 401 or 403 without a valid api key, 404 for a resource that does not exist."
+          }
+        },
+        "summary": "A resource's documents",
         "tags": [
           "manifests"
         ]
@@ -28461,7 +28944,7 @@
       "name": "mcpclients"
     },
     {
-      "description": "The vectorstores' REST reads, search, documents and maintenance. Served only when the platform enables vectorstores (SMARTER_ENABLE_VECTORSTORE).",
+      "description": "The vectorstores' REST reads, search, documents and maintenance. Served only when the platform enables vectorstores (SMARTER_APP_VECTORSTORE_ENABLE).",
       "name": "vectorstores"
     },
     {
@@ -28477,7 +28960,7 @@
       "name": "providers"
     },
     {
-      "description": "The Proxies that the user may use. Served only when the platform enables Proxies (SMARTER_ENABLE_PROXY).",
+      "description": "The Proxies that the user may use. Served only when the platform enables Proxies (SMARTER_APP_PROXY_ENABLE).",
       "name": "proxies"
     },
     {
