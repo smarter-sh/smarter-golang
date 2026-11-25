@@ -46,6 +46,8 @@ type LLMClientSpec struct {
 	MCPClients []string `json:"mcpClients,omitempty"`
 	// LLMClient.spec.searchTerms[list]. Optional. The Plugins to add to the LLMClient. Plugins are a proprietary extensibility model for tool calling and are not the same as OpenAI plugins. See https://docs.smarter.sh/smarter-resources/smarter-llmtool.html for more information.
 	Plugins []string `json:"plugins,omitempty"`
+	// LLMClient.spec.vectorsearches[list]. Optional. The names of the Vectorsearches that the LLMClient offers the LLM, each as a tool that searches the documents of its Vectorstore. Example: ['stackademy_handbook']. Each must be a Vectorsearch that you own, or that is shared with you. The LLM calls one with a search query of its own, and answers from the passages that it returns.
+	Vectorsearches []string `json:"vectorsearches,omitempty"`
 }
 
 // LLMClientStatus: Smarter API LLMClient Manifest - Status class.
@@ -140,7 +142,7 @@ type LLMClientSpecConfigPrompt struct {
 	// LLMClient.spec.configuration.prompt.default_temperature[float]. Optional. The default temperature to use for the llmclient. This defaults to 1.0.
 	// The temperature is a floating point value between 0 and 1 that controls the randomness of the llmclient's responses. A value of 0 means that the llmclient will always choose the most likely response, while a value of 1 means that the llmclient will choose a random response. Low values work better for information retrieval tasks, while high values work better for creative tasks.
 	DefaultTemperature *float64 `json:"defaultTemperature,omitempty"`
-	// LLMClient.spec.configuration.prompt.deployed[bool]. Required. Whether the llmclient is deployed. Deployed means that the llmclient is available for use outside the Smarter Prompt Engineer Workbench. Published llmclients have their own subdomain, Kubernetes ingress, and TLS/SSL certificate.
+	// LLMClient.spec.configuration.prompt.deployed[bool]. Optional. Whether the llmclient is deployed. Deployed means that the llmclient is available for use outside the Smarter Prompt Engineer Workbench, at its own url. true deploys it and false undeploys it, as smarter deploy and smarter undeploy do. Leave it out to keep the llmclient's deployed state as it is, e.g. when a deployed llmclient's manifest is applied again.
 	Deployed *bool `json:"deployed,omitempty"`
 	// LLMClient.spec.configuration.prompt.provider[str]. Optional. The provider to use for the llmclient.
 	Provider string `json:"provider,omitempty"`

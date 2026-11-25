@@ -37,6 +37,7 @@
       }
     ],
     "mcpclients": [],
+    "vectorsearches": [],
     "guardrails": [],
     "tools": [
       {
@@ -159,6 +160,7 @@
       }
     ],
     "mcpclients": [],
+    "vectorsearches": [],
     "guardrails": [],
     "tools": [
       {
