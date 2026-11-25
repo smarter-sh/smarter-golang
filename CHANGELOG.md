@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/smarter-sh/smarter-golang/compare/v1.1.0...v1.1.1) (2026-11-25)
+
+
+### Bug Fixes
+
+* **contracts:** add vectorsearches to fixtures, ignore documents op ([1442b4d](https://github.com/smarter-sh/smarter-golang/commit/1442b4d47953397f8b52f218e4c462c57719e2df))
+* **contracts:** sync with smarter v0.48.0 ([4e6704b](https://github.com/smarter-sh/smarter-golang/commit/4e6704bdf3d47c20f95a0f2af2f7de9fa75d1aed))
+
 # [1.1.0](https://github.com/smarter-sh/smarter-golang/compare/v1.0.1...v1.1.0) (2026-11-17)
 
 
